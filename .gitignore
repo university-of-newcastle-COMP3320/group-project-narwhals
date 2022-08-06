@@ -1,1 +1,5 @@
-/ProjectNarwhal/out/
+/ProjectNarwhal/out
+
+#This one doesnt work for some reason
+/ProjectNarwhal/.idea
+

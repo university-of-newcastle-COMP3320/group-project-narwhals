@@ -106,10 +106,10 @@ public class ProjectNarwhal {
         StaticShader shader = new StaticShader();
 
         float[] vertices = {
-                -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
-                -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-                 0.5f,  0.5f, 1.0f, 1.0f, 1.0f
+                -0.5f,  0.5f, 1.0f,
+                -0.5f, -0.5f, 0.0f,
+                 0.5f, -0.5f, 0.0f,
+                 0.5f,  0.5f, 1.0f
         };
 
         int[] indicies = {
@@ -124,11 +124,11 @@ public class ProjectNarwhal {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-            shader.start();
+            shader.start(); //start the shaders
 
             render.render(model);
 
-            shader.stop();
+            shader.stop(); //stop the shaders
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be
