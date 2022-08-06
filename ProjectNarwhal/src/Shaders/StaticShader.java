@@ -13,5 +13,6 @@ public class StaticShader extends ShaderProgram{
     protected void bindAttributes() {
         //this implementation needs some work otherwise it will require heaps of custom shaders
         super.bindAttribute(0, "position");
+        super.bindAttribute(0, "color");
     }
 }

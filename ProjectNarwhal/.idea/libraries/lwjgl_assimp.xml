@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="lwjgl-assimp">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../lwjgl/lwjgl-assimp" />
+      <root url="file://$PROJECT_DIR$/../ExternalLWIGLLibraries/lwjgl-assimp" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../lwjgl/lwjgl-assimp" />
+      <root url="file://$PROJECT_DIR$/../ExternalLWIGLLibraries/lwjgl-assimp" />
     </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../lwjgl/lwjgl-assimp" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../lwjgl/lwjgl-assimp" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../ExternalLWIGLLibraries/lwjgl-assimp" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../ExternalLWIGLLibraries/lwjgl-assimp" recursive="false" type="SOURCES" />
   </library>
 </component>
