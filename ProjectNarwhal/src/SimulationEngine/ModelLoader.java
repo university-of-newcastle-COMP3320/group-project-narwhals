@@ -1,9 +1,11 @@
 package SimulationEngine;
 
+import models.Model;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -17,13 +19,24 @@ public class ModelLoader {
 
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
+    private List<Integer> textures = new ArrayList<Integer>();
 
-    public Model loadToVAO(float[] positions, int[] indicies) {
+
+    public Model loadToVAO(float[] positions,float[] textureCoords, int[] indicies) {
         int vaoID = createVAO();
         bindIndicesBuffer(indicies);
-        storeDataInAttributeList(0, positions);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1,2, textureCoords);
         unbindVAO();
         return new Model(vaoID, indicies.length);
+    }
+
+    public int loadTexture(String filename){
+        int textureID;
+        BufferedImage image = TextureLoader.loadImage(filename);
+        textureID = TextureLoader.loadTexture(image);
+        textures.add(textureID);
+        return textureID;
     }
 
     public void cleanUp() {
@@ -32,6 +45,9 @@ public class ModelLoader {
         }
         for (int vbo : vbos) {
             GL15.glDeleteBuffers(vbo);
+        }
+        for(int texture: textures){
+            GL11.glDeleteTextures(texture);
         }
     }
 
@@ -50,13 +66,14 @@ public class ModelLoader {
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
     }
 
-    private void storeDataInAttributeList(int attributeNumber, float[] data) {
+    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
+        //coordinate size determines the size of the list being stored, e.g vectors are generally 3 coords, textures are 2 etc
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
         FloatBuffer buffer = storeDataInFloatBuffer(data);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(attributeNumber, 3, GL11.GL_FLOAT, false, 0, 0);
+        GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 

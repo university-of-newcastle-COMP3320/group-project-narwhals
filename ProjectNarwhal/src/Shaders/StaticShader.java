@@ -12,7 +12,8 @@ public class StaticShader extends ShaderProgram{
     @Override
     protected void bindAttributes() {
         //this implementation needs some work otherwise it will require heaps of custom shaders
+        //the shader attribute number references the number in the vbo, so to define color separately, create new vbo with color information
         super.bindAttribute(0, "position");
-        super.bindAttribute(0, "color");
+        super.bindAttribute(1, "textureCoords");
     }
 }

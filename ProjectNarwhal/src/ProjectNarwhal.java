@@ -1,5 +1,6 @@
 import Shaders.StaticShader;
-import SimulationEngine.Shader;
+import Textures.ModelTexture;
+import models.TexturedModel;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -15,7 +16,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import SimulationEngine.Renderer;
 import SimulationEngine.ModelLoader;
-import SimulationEngine.Model;
+import models.Model;
 
 public class ProjectNarwhal {
 
@@ -105,11 +106,13 @@ public class ProjectNarwhal {
         Renderer render = new Renderer();
         StaticShader shader = new StaticShader();
 
+        //uv mapping needs to occur for textures, reminder: origin is the top left hand corner, not the bottom left for textures
+
         float[] vertices = {
                 -0.5f,  0.5f, 1.0f,
                 -0.5f, -0.5f, 0.0f,
                  0.5f, -0.5f, 0.0f,
-                 0.5f,  0.5f, 1.0f
+                 0.5f,  0.5f, 1.0f,
         };
 
         int[] indicies = {
@@ -117,7 +120,16 @@ public class ProjectNarwhal {
            3,1,2
         };
 
-        Model model = loader.loadToVAO(vertices, indicies);
+        float[] textureCoords = {
+                0,0,
+                0,1,
+                1,1,
+                1,0
+        };
+
+        Model model = loader.loadToVAO(vertices,textureCoords, indicies);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("Test"));
+        TexturedModel tModel = new TexturedModel(model, texture);
 
 
         // Run the rendering loop until the user has attempted to close
@@ -126,7 +138,7 @@ public class ProjectNarwhal {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             shader.start(); //start the shaders
 
-            render.render(model);
+            render.render(tModel);
 
             shader.stop(); //stop the shaders
             glfwSwapBuffers(window); // swap the color buffers

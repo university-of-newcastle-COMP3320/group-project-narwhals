@@ -1,4 +1,4 @@
-package SimulationEngine;
+package models;
 
 public class Model {
 
