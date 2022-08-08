@@ -1,6 +1,9 @@
 import Shaders.StaticShader;
 import Textures.ModelTexture;
+import Tools.Maths;
 import models.TexturedModel;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -24,8 +27,6 @@ public class ProjectNarwhal {
     private long window;
 
     public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
         init();
         loop();
 
@@ -106,8 +107,6 @@ public class ProjectNarwhal {
         Renderer render = new Renderer();
         StaticShader shader = new StaticShader();
 
-        //uv mapping needs to occur for textures, reminder: origin is the top left hand corner, not the bottom left for textures
-
         float[] vertices = {
                 -0.5f,  0.5f, 1.0f,
                 -0.5f, -0.5f, 0.0f,
@@ -120,6 +119,7 @@ public class ProjectNarwhal {
            3,1,2
         };
 
+        //reminder: origin is the top left hand corner, not the bottom left for textures
         float[] textureCoords = {
                 0,0,
                 0,1,
