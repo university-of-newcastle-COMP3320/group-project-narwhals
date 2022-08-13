@@ -6,10 +6,11 @@ public class StaticShader extends ShaderProgram{
 
     private static final String VERTEX_FILE = "src/Shaders/VertexShader.txt";
     private static final String FRAGMENT_FILE = "src/Shaders/FragmentShader.txt";
-    private int locTransMat;
+    private int location_transformationMatrix;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
+        getAllUniformLocations();
     }
 
     @Override
@@ -23,11 +24,11 @@ public class StaticShader extends ShaderProgram{
     //This needs to be implemented for each uniform provided in the shaders and will have the name of the shader as the param in getUniformLocation
     //This location will need to be stored as an int somewhere, here it is stored globally.
     protected void getAllUniformLocations(){
-        locTransMat = super.getUniformLocation("transformationMatrix");
+        location_transformationMatrix = super.getUniformLocation("transformationMatrix");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix){
-        super.loadMatrix(locTransMat, matrix);
+        super.loadMatrix(location_transformationMatrix, matrix);
     }
 
 }

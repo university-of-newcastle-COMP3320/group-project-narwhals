@@ -1,10 +1,8 @@
+import ProjectEntities.ModeledEntity;
 import Shaders.StaticShader;
 import Textures.ModelTexture;
-import Tools.Maths;
 import models.TexturedModel;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -130,7 +128,7 @@ public class ProjectNarwhal {
         Model model = loader.loadToVAO(vertices,textureCoords, indicies);
         ModelTexture texture = new ModelTexture(loader.loadTexture("Test"));
         TexturedModel tModel = new TexturedModel(model, texture);
-
+        ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,0,0), 0, 0, 0, 1);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -138,7 +136,9 @@ public class ProjectNarwhal {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             shader.start(); //start the shaders
 
-            render.render(tModel);
+            //game logic start
+            entity.increaseRotation(0.5f,0,0.3f);
+            render.render(entity, shader);
 
             shader.stop(); //stop the shaders
             glfwSwapBuffers(window); // swap the color buffers
