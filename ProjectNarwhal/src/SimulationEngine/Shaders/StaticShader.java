@@ -1,22 +1,25 @@
-package Shaders;
+package SimulationEngine.Shaders;
 
 import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "src/Shaders/VertexShader.txt";
-    private static final String FRAGMENT_FILE = "src/Shaders/FragmentShader.txt";
+    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.txt";
+    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.txt";
     private int location_transformationMatrix;
+    private int location_projectionMatrix;
 
+    //Constructor
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
+        //uniforms will not work if this is not called
         getAllUniformLocations();
     }
 
+    //Abstract implementation of bind attributes
     @Override
     protected void bindAttributes() {
-        //this implementation needs some work otherwise it will require heaps of custom shaders
-        //the shader attribute number references the number in the vbo, so to define color separately, create new vbo with color information
+        //the shader attribute number references the number in the vbo, so to define color separately, create new v with color information
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
     }
@@ -25,10 +28,16 @@ public class StaticShader extends ShaderProgram{
     //This location will need to be stored as an int somewhere, here it is stored globally.
     protected void getAllUniformLocations(){
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+        location_projectionMatrix = super.getUniformLocation("projectionMatrix");
     }
 
+    //Loads a provided transformation matrix to the shader
     public void loadTransformationMatrix(Matrix4f matrix){
         super.loadMatrix(location_transformationMatrix, matrix);
+    }
+
+    public void loadProjectionMatrix(Matrix4f matrix){
+        super.loadMatrix(location_projectionMatrix, matrix);
     }
 
 }

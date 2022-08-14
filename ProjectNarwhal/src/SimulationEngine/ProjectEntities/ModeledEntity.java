@@ -1,6 +1,6 @@
-package ProjectEntities;
+package SimulationEngine.ProjectEntities;
 
-import models.TexturedModel;
+import SimulationEngine.Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class ModeledEntity {
@@ -9,6 +9,7 @@ public class ModeledEntity {
     private Vector3f position;
     private float rX, rY, rZ, scale;
 
+    //Creates a modeled entity with a position, rotation and scale
     public ModeledEntity(TexturedModel model, Vector3f position, float rX, float rY, float rZ, float scale){
         this.model = model;
         this.position = position;
@@ -18,22 +19,26 @@ public class ModeledEntity {
         this.scale = scale;
     }
 
+    //increases a models postion on one of the axes
     public void increasePosition(float dx, float dy, float dz){
         this.position.x += dx;
         this.position.y += dy;
         this.position.z += dz;
     }
 
+    //increases a models rotation on one of the axes
     public void increaseRotation(float rx, float ry, float rz){
         this.rX += rx;
         this.rY += ry;
         this.rZ += rz;
     }
 
+    //returns the stored textured model
     public TexturedModel getModel() {
         return model;
     }
 
+    //getters and setters
     public Vector3f getPosition() {
         return position;
     }
@@ -46,15 +51,32 @@ public class ModeledEntity {
         return rX;
     }
 
+    public void setRX(float rX) {
+        this.rX = rX;
+    }
+
     public float getRY() {
         return rY;
+    }
+
+    public void setRY(float rY) {
+        this.rY = rY;
     }
 
     public float getRZ() {
         return rZ;
     }
 
+    public void setRZ(float rZ) {
+        this.rZ = rZ;
+    }
+
     public float getScale() {
         return scale;
     }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
 }

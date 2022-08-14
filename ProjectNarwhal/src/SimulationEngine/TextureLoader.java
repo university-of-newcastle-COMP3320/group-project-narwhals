@@ -36,7 +36,7 @@ public class TextureLoader {
             }
         }
 
-        buffer.flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+        buffer.flip();
 
         // You now have a ByteBuffer filled with the color data of each pixel.
         // Now just create a texture ID and bind it. Then you can load it using
