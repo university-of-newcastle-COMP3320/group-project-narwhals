@@ -1,4 +1,4 @@
-package SimulationEngine;
+package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Model;
 import org.lwjgl.opengl.GL15;

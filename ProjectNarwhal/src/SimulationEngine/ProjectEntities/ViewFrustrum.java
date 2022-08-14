@@ -12,11 +12,24 @@ public class ViewFrustrum {
     private float roll;
 
     //default constructor
-//    public ViewFrustrum{
-//        Keyboard keyboard = new Keyboard();
-//    };
+    public ViewFrustrum(long window){
+        Keyboard keyboard = new Keyboard();
+        GLFW.glfwSetKeyCallback(window, keyboard::invoke);
+    };
 
     public void move(){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W)){
+            location.z -=0.02f;
+        }
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_A)){
+            location.x -=0.02f;
+        }
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S)){
+            location.z +=0.02f;
+        }
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_D)){
+            location.x +=0.02f;
+        }
     }
 
     //getters

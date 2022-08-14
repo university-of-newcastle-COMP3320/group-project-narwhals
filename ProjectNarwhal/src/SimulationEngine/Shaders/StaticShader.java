@@ -1,5 +1,7 @@
 package SimulationEngine.Shaders;
 
+import SimulationEngine.ProjectEntities.ViewFrustrum;
+import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram{
@@ -8,6 +10,7 @@ public class StaticShader extends ShaderProgram{
     private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.txt";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
+    private int location_viewMatrix;
 
     //Constructor
     public StaticShader() {
@@ -29,6 +32,7 @@ public class StaticShader extends ShaderProgram{
     protected void getAllUniformLocations(){
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
+        location_viewMatrix = super.getUniformLocation("viewMatrix");
     }
 
     //Loads a provided transformation matrix to the shader
@@ -38,6 +42,11 @@ public class StaticShader extends ShaderProgram{
 
     public void loadProjectionMatrix(Matrix4f matrix){
         super.loadMatrix(location_projectionMatrix, matrix);
+    }
+
+    public void loadViewMatrix(ViewFrustrum camera){
+        Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+        super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
 }

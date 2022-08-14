@@ -1,14 +1,18 @@
 package SimulationEngine;
 
+import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Loaders.OBJLoader;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.TexturedModel;
 import SimulationEngine.ProjectEntities.ModeledEntity;
+import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Textures.ModelTexture;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -102,44 +106,34 @@ public class Display {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+        ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         Renderer render = new Renderer(shader);
 
-        float[] vertices = {
-                -0.5f,  0.5f, 0.0f,
-                -0.5f, -0.5f, 1.0f,
-                0.5f, -0.5f, 1.0f,
-                0.5f,  0.5f, 0.0f,
-        };
-
-        int[] indicies = {
-                0,1,3,
-                3,1,2
-        };
-
-        //reminder: origin is the top left hand corner, not the bottom left for textures
-        float[] textureCoords = {
-                0,0,
-                0,1,
-                1,1,
-                1,0
-        };
-
-        Model model = loader.loadToVAO(vertices,textureCoords, indicies);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("Test"));
-        TexturedModel tModel = new TexturedModel(model, texture);
-        ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,0,-1), 0, 0, 0, 1);
+        Model model = OBJLoader.loadObjModel("stall", loader);
+        TexturedModel tModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
+        ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,-2,-20), 0, 0, 0, 1);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
-            entity.increasePosition(0,0.001f,-0.002f);
-            glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
+            camera.move();
+
+            //manual object translation options
+            entity.increaseRotation(0,0.02f,0f);
+//            entity.increasePosition(0, 0, -0.0002f);
+
+            GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
+
             shader.start(); //start the shaders
+            shader.loadViewMatrix(camera);
 
             //game logic start
             render.render(entity, shader);
+
+            //game logic stop
 
             shader.stop(); //stop the shaders
             glfwSwapBuffers(window); // swap the buffers

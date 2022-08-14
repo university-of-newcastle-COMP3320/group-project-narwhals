@@ -1,4 +1,4 @@
-package SimulationEngine;
+package SimulationEngine.Loaders;
 
 //Based on code by:
 //Author: Krythic
