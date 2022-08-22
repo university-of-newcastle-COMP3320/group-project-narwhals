@@ -87,7 +87,7 @@ public class AssimpLoader {
             specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
         }
 
-        Material material = new Material(ambient, diffuse, specular, 1.0f);
+        Material material = new Material(ambient, diffuse, specular, 1.0f, 10f);
         materials.add(material);
     }
 

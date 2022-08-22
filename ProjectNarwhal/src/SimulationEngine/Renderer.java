@@ -2,6 +2,7 @@ package SimulationEngine;
 
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.Shaders.StaticShader;
+import SimulationEngine.Textures.ModelTexture;
 import SimulationEngine.Tools.ProjectMaths;
 import SimulationEngine.Models.Model;
 
@@ -44,6 +45,7 @@ public class Renderer {
         GL20.glEnableVertexAttribArray(2);
         Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(entity.getPosition(), entity.getRX(), entity.getRY(), entity.getRZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
+        shader.loadShineVariables(tModel.getMaterial().getShineDamper(), tModel.getMaterial().getReflectance());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, tModel.getTexture().getID());
         GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);

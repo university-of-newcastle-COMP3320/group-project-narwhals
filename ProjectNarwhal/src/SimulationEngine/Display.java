@@ -2,6 +2,7 @@ package SimulationEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.Loaders.AssimpLoader;
+import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.TexturedModel;
 import SimulationEngine.ProjectEntities.LightSource;
@@ -10,6 +11,7 @@ import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Textures.ModelTexture;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -114,9 +116,11 @@ public class Display {
 
         Model[] models = AssimpLoader.loadObjModel("ProjectResources/dragon.obj", loader);
         TexturedModel tModel = new TexturedModel(models[0], new ModelTexture(loader.loadTexture("whiteColor")));
+        //this will be changed in the future to be done automatically when loading a model
+        tModel.setMaterial(new Material(new Vector4f(0,0,0,0), new Vector4f(0,0,0,0),new Vector4f(0,0,0,0), 1, 10));
         ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,-2,-20), 0, 0, 0, 1);
 
-        LightSource light = new LightSource(new Vector3f(0,100,0), new Vector3f(1,1,1));
+        LightSource light = new LightSource(new Vector3f(200,200,100), new Vector3f(1,1,1));
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -124,8 +128,7 @@ public class Display {
             camera.move();
 
             //manual object translation options
-            entity.increaseRotation(0,0.02f,0f);
-            entity.increasePosition(0, -0.0002f, -0.0002f);
+            entity.increaseRotation(0,0.2f,0f);
 
             GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer

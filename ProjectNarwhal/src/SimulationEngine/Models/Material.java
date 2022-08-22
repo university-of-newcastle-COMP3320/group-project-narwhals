@@ -11,7 +11,8 @@ public class Material {
     private Vector4f ambientColor;
     private Vector4f diffuseColor;
     private Vector4f specularColor;
-    private float reflectance;
+    private float reflectance = 0;
+    private float shineDamper = 1;
     private ModelTexture texture;
     private ModelTexture normalMap;
 
@@ -22,11 +23,12 @@ public class Material {
     public Material(){}
 
 
-    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance) {
+    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance, float shineDamper) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
         this.reflectance = reflectance;
+        this.shineDamper = shineDamper;
     }
 
     public Vector4f getAmbientColor() {
@@ -77,21 +79,11 @@ public class Material {
         this.normalMap = normalMap;
     }
 
-    public String getTexturePath() {
-        return texturePath;
+    public float getShineDamper() {
+        return shineDamper;
     }
 
-    public void setTexturePath(String texturePath) {
-        texturePath = texturePath;
+    public void setShineDamper(float shineDamper) {
+        this.shineDamper = shineDamper;
     }
-
-    public String getNormalsMapPath() {
-        return normalMapPath;
-    }
-
-    public void setNormalMapPath(String normalsMapPath) {
-        this.normalMapPath = normalsMapPath;
-    }
-
-
 }
