@@ -11,10 +11,17 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.assimp.Assimp.*;
+
 //returns a model that the main game loop can use
 public class OBJLoader {
+    //import a scene using assimp and then use that scene to get the relevant information about the meshes etc.
 
-    public static Model loadObjModel (String fileName, ModelLoader loader){
+    public static Model loadObjModel(String fileName, ModelLoader loader) {
+        return loadObjModel(fileName, loader, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
+    }
+
+    public static Model loadObjModel (String fileName, ModelLoader loader, int flags){
         FileReader reader = null;
         try {
             reader = new FileReader(new File("ProjectResources/" +fileName+".obj"));
@@ -109,4 +116,6 @@ public class OBJLoader {
         normalsArray[currentVertexPointer*3+1] = currentNorm.y;
         normalsArray[currentVertexPointer*3+2] = currentNorm.z;
     }
+
+    //functions to convert assimp data into the arrays I need.
 }
