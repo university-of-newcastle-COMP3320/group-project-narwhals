@@ -1,5 +1,6 @@
 package SimulationEngine.Shaders;
 
+import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
@@ -11,6 +12,8 @@ public class StaticShader extends ShaderProgram{
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
+    private int location_lightPosition;
+    private int location_lightColor;
 
     //Constructor
     public StaticShader() {
@@ -19,12 +22,13 @@ public class StaticShader extends ShaderProgram{
         getAllUniformLocations();
     }
 
-    //Abstract implementation of bind attributes
+    //binds the attributes declared in vbo to shader in's
     @Override
     protected void bindAttributes() {
         //the shader attribute number references the number in the vbo, so to define color separately, create new v with color information
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
+        super.bindAttribute(2,"normal");
     }
 
     //This needs to be implemented for each uniform provided in the shaders and will have the name of the shader as the param in getUniformLocation
@@ -33,6 +37,9 @@ public class StaticShader extends ShaderProgram{
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
+        location_lightColor = super.getUniformLocation("lightColor");
+        location_lightPosition = super.getUniformLocation("lightPosition");
+
     }
 
     //Loads a provided transformation matrix to the shader
@@ -47,6 +54,11 @@ public class StaticShader extends ShaderProgram{
     public void loadViewMatrix(ViewFrustrum camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
+    }
+
+    public void loadLight(LightSource light){
+        super.loadVec3(location_lightPosition, light.getPosition());
+        super.loadVec3(location_lightColor, light.getColour());
     }
 
 }

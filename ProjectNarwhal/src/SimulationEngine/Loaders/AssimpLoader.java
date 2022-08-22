@@ -97,7 +97,7 @@ public class AssimpLoader {
         float[] normals = processNormals(aiMesh);
         int[] indices = processIndices(aiMesh);
 
-        return loader.loadToVAO(vertices,textures,indices);
+        return loader.loadToVAO(vertices,textures,normals,indices);
     }
 
     //functions to convert assimp data into the arrays I need.

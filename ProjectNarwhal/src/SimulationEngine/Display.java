@@ -4,6 +4,7 @@ import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.TexturedModel;
+import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
@@ -112,8 +113,10 @@ public class Display {
         Renderer render = new Renderer(shader);
 
         Model[] models = AssimpLoader.loadObjModel("ProjectResources/dragon.obj", loader);
-        TexturedModel tModel = new TexturedModel(models[0], new ModelTexture(loader.loadTexture("test")));
+        TexturedModel tModel = new TexturedModel(models[0], new ModelTexture(loader.loadTexture("whiteColor")));
         ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,-2,-20), 0, 0, 0, 1);
+
+        LightSource light = new LightSource(new Vector3f(0,100,0), new Vector3f(1,1,1));
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -128,7 +131,9 @@ public class Display {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
 
             shader.start(); //start the shaders
+            shader.loadLight(light);
             shader.loadViewMatrix(camera);
+
 
             //game logic start
             render.render(entity, shader);
