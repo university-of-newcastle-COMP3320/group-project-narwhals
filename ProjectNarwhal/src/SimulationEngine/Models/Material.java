@@ -15,6 +15,12 @@ public class Material {
     private ModelTexture texture;
     private ModelTexture normalMap;
 
+    private String texturePath;
+
+    private String normalMapPath;
+
+    public Material(){}
+
 
     public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance) {
         this.ambientColor = ambientColor;
@@ -69,6 +75,22 @@ public class Material {
 
     public void setNormalMap(ModelTexture normalMap) {
         this.normalMap = normalMap;
+    }
+
+    public String getTexturePath() {
+        return texturePath;
+    }
+
+    public void setTexturePath(String texturePath) {
+        texturePath = texturePath;
+    }
+
+    public String getNormalsMapPath() {
+        return normalMapPath;
+    }
+
+    public void setNormalMapPath(String normalsMapPath) {
+        this.normalMapPath = normalsMapPath;
     }
 
 

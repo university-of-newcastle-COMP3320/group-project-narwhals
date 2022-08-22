@@ -30,6 +30,12 @@ public class ViewFrustrum {
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_D)){
             location.x +=0.02f;
         }
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
+            location.y -= 0.02f;
+        }
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
+            location.y += 0.02f;
+        }
     }
 
     //getters

@@ -23,7 +23,7 @@ public class Renderer {
     //Can be later made dynamic or changed if performance is an issue
     private static final float FOV_ANGLE = 90.0f;
     private static final float NEAR_PLANE = 0.1f;
-    private static final float FAR_PLANE = 1000;
+    private static final float FAR_PLANE = 1000f;
     private Matrix4f projectionMatrix;
 
     //Constructor, creates the view frustrum matrix and loads it

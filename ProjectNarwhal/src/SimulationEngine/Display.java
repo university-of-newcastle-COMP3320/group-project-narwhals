@@ -1,7 +1,7 @@
 package SimulationEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Loaders.OBJLoader;
+import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.TexturedModel;
 import SimulationEngine.ProjectEntities.ModeledEntity;
@@ -111,8 +111,8 @@ public class Display {
         StaticShader shader = new StaticShader();
         Renderer render = new Renderer(shader);
 
-        Model model = OBJLoader.loadObjModel("stall", loader);
-        TexturedModel tModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
+        Model[] models = AssimpLoader.loadObjModel("ProjectResources/dragon.obj", loader);
+        TexturedModel tModel = new TexturedModel(models[0], new ModelTexture(loader.loadTexture("test")));
         ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,-2,-20), 0, 0, 0, 1);
 
         // Run the rendering loop until the user has attempted to close
@@ -122,7 +122,7 @@ public class Display {
 
             //manual object translation options
             entity.increaseRotation(0,0.02f,0f);
-//            entity.increasePosition(0, 0, -0.0002f);
+            entity.increasePosition(0, -0.0002f, -0.0002f);
 
             GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
