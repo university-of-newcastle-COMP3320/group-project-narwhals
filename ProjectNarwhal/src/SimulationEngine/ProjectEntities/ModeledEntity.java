@@ -11,6 +11,16 @@ public class ModeledEntity {
     private Vector3f position;
     private float rX, rY, rZ, scale;
 
+    //Creates a modeledEntity with no rotation and origin positioning
+    public ModeledEntity(Model model){
+        this.model = model;
+        position = new Vector3f(0,0,0);
+        rX = 0;
+        rY = 0;
+        rZ = 0;
+        scale = 1;
+    }
+
     //Creates a modeled entity with a position, rotation and scale
     public ModeledEntity(Model model, Vector3f position, float rX, float rY, float rZ, float scale){
         this.model = model;
@@ -89,4 +99,7 @@ public class ModeledEntity {
         return material;
     }
 
+    public void setModel(Model model) {
+        this.model = model;
+    }
 }

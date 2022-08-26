@@ -6,7 +6,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class ViewFrustrum {
 
-    private Vector3f location = new Vector3f(0,0,0);
+    private Vector3f location = new Vector3f(0,10,10);
     private float pitch;
     private float yaw;
     private float roll;
@@ -19,22 +19,22 @@ public class ViewFrustrum {
 
     public void move(){
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W)){
-            location.z -=0.02f;
+            location.z -= 0.2f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_A)){
-            location.x -=0.02f;
+            location.x -= 0.2f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S)){
-            location.z +=0.02f;
+            location.z += 0.2f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_D)){
-            location.x +=0.02f;
+            location.x += 0.2f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
-            location.y -= 0.02f;
+            location.y -=  0.2f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
-            location.y += 0.02f;
+            location.y +=  0.2f;
         }
     }
 

@@ -3,6 +3,7 @@ package SimulationEngine.Loaders;
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.ModelTexture;
+import SimulationEngine.ProjectEntities.ModeledEntity;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -19,11 +20,11 @@ import static org.lwjgl.assimp.Assimp.*;
 public class AssimpLoader {
     //import a scene using assimp and then use that scene to get the relevant information about the meshes etc.
 
-    public static Model[] loadModel(String filePath, ModelLoader loader) {
-        return loadModel(filePath, loader, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
+    public static ModeledEntity[] loadModel(String filePath, ModelLoader loader, String texturePath) {
+        return loadModel(filePath, loader, texturePath, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
     }
 
-    public static Model[] loadModel (String filePath, ModelLoader loader, int flags){
+    public static ModeledEntity[] loadModel (String filePath, ModelLoader loader, String texturePath, int flags){
         AIScene aiScene = aiImportFile(filePath, flags);
         if(aiScene == null) {
             System.out.println("ERROR LOADING FILE");
@@ -33,41 +34,27 @@ public class AssimpLoader {
         PointerBuffer aiMaterials = aiScene.mMaterials();
         List<Material> materials = new ArrayList<Material>();
         for (int i = 0; i < numMaterials; i++) {
-        AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));
-        processMaterial(aiMaterial, materials);
+            AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));
+            processMaterial(aiMaterial, materials, texturePath);
         }
-
-        int numTextures = aiScene.mNumTextures();
-        PointerBuffer aiTextures = aiScene.mTextures();
-        List<AITexture> textures = new ArrayList<AITexture>();
-
 
         int numMeshes = aiScene.mNumMeshes();
         PointerBuffer aiMeshes = aiScene.mMeshes();
-        Model[] models = new Model[numMeshes];
+        ModeledEntity[] entities = new ModeledEntity[numMeshes];
         for (int i = 0; i < numMeshes; i++) {
+
             AIMesh aiMesh = AIMesh.create(aiMeshes.get(i));
             Model model = processMesh(aiMesh, materials, loader);
-            models[i] = model;
+            entities[i] = new ModeledEntity(model);
+            int materialIDx = aiMesh.mMaterialIndex();
+            if(materialIDx >= 0 && materialIDx < materials.size()){
+                entities[i].setMaterial(materials.get(materialIDx));
+            }
         }
-        return models;
+        return entities;
     }
 
-    //Sorts which vertex is related to which texture, normal vector and index
-    private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalsArray){
-        //I know we all love C++ so I had to put this in here
-        int currentVertexPointer = Integer.parseInt(vertexData[0]) -1;
-        indices.add(currentVertexPointer);
-        Vector2f currentTexture = textures.get(Integer.parseInt(vertexData[1])-1 );
-        textureArray[currentVertexPointer*2] = currentTexture.x;
-        textureArray[currentVertexPointer*2+1] = 1 - currentTexture.y; //1 - is required as openGL starts from the top left for UV mapping and blender starts at bottom left
-        Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2])-1);
-        normalsArray[currentVertexPointer*3] = currentNorm.x;
-        normalsArray[currentVertexPointer*3+1] = currentNorm.y;
-        normalsArray[currentVertexPointer*3+2] = currentNorm.z;
-    }
-
-    private static void processMaterial(AIMaterial aiMaterial, List<Material> materials){
+    private static void processMaterial(AIMaterial aiMaterial, List<Material> materials, String texturePath){
         AIColor4D colour = AIColor4D.create();
 
         Vector4f ambient = Material.DEFAULT_COLOUR;
@@ -88,9 +75,14 @@ public class AssimpLoader {
             specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
         }
 
-        //I'll come back to this
-        //Material material = new Material(ambient, diffuse, specular, 1.0f, 10f, new ModelTexture(loader.loadTexture("whiteColor")));
-        //materials.add(material);
+        //will need to add emissivity here later
+
+        ModelLoader loader = new ModelLoader();
+        ModelTexture texture =  new ModelTexture(loader.loadTexture(texturePath));
+        //will need to find a way to include the normal map here later
+
+        Material material = new Material(ambient, diffuse, specular, 1.0f, 10f, texture);
+        materials.add(material);
     }
 
     private static Model processMesh(AIMesh aiMesh, List<Material> materials, ModelLoader loader) {

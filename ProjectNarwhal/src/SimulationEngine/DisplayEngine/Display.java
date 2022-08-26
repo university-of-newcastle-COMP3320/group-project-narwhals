@@ -9,6 +9,7 @@ import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Models.ModelTexture;
+import Terrain.BaseTerrain;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -115,31 +116,47 @@ public class Display {
         StaticShader shader = new StaticShader();
         RenderController renderer = new RenderController();
 
-        Model[] models = AssimpLoader.loadModel("ProjectResources/dragon.obj", loader);
-        //this will be changed in the future to be done automatically when loading a model
-        Random rand = new Random();
-        List<ModeledEntity> entities = new ArrayList<>();
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Knife/knife.obj", loader, "Knife/Textures/Albedo");
 
-        for(int i=0; i<200; i++){
-            float x = rand.nextFloat()* 100 - 50;
-            float y = rand.nextFloat()* 100 - 50;
-            float z = rand.nextFloat()* 100 - 50;
-            ModeledEntity entity = new ModeledEntity(models[0], new Vector3f(x,y,z), 0, 0, 0, 1);
-            entity.setMaterial(new Material(new Vector4f(0,0,0,0), new Vector4f(0,0,0,0),new Vector4f(0,0,0,0), 1, 100, new ModelTexture(loader.loadTexture("whiteColor"))));
-            entities.add(entity);
-        }
+        models[0].setPosition(new Vector3f(0, 10, 0));
 
-        LightSource light = new LightSource(new Vector3f(0,200,100), new Vector3f(1,1,1));
+//        uncomment for performance test
+//        Random rand = new Random();
+//        List<ModeledEntity> entities = new ArrayList<>();
+
+//        for(int i=0; i<100; i++){
+//            float x = rand.nextFloat()* 100 - 50;
+//            float y = rand.nextFloat()* 100 - 50;
+//            float z = rand.nextFloat()* 100 - 50;
+//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+//            newEntity.setMaterial(models[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,y,z));
+//            entities.add(newEntity);
+//        }
+
+        BaseTerrain terrain = new BaseTerrain(0,0,loader, new ModelTexture(loader.loadTexture("grass")));
+        BaseTerrain terrain2 = new BaseTerrain(-1,0,loader, new ModelTexture(loader.loadTexture("grass")));
+        BaseTerrain terrain3 = new BaseTerrain(0,-1,loader, new ModelTexture(loader.loadTexture("grass")));
+        BaseTerrain terrain4 = new BaseTerrain(-1,-1,loader, new ModelTexture(loader.loadTexture("grass")));
+
+
+
+
+        LightSource light = new LightSource(new Vector3f(20000,20000,2000), new Vector3f(1.5f,1.5f,1.5f));
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             camera.move();
-            //manual object translation options
 
-            for(ModeledEntity entity: entities){
-                renderer.processEntity(entity);
-            }
+//            for(ModeledEntity model: entities){
+                renderer.processEntity(models[0]);
+//                model.increaseRotation(0f,0.2f,0f);
+//            }
+            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
+            renderer.processTerrain(terrain3);
+            renderer.processTerrain(terrain4);
 
             renderer.render(light, camera);
 
