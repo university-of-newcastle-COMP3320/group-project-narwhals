@@ -1,7 +1,5 @@
 package SimulationEngine.Models;
 
-import SimulationEngine.Textures.ModelTexture;
-import org.joml.Vector4f;
 import org.joml.Vector4f;
 
 //stores information about an object including normal maps and color and light values
@@ -23,12 +21,13 @@ public class Material {
     public Material(){}
 
 
-    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance, float shineDamper) {
+    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance, float shineDamper, ModelTexture texture) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
         this.reflectance = reflectance;
         this.shineDamper = shineDamper;
+        this.texture = texture;
     }
 
     public Vector4f getAmbientColor() {

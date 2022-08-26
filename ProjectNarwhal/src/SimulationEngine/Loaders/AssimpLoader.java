@@ -2,6 +2,7 @@ package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
+import SimulationEngine.Models.ModelTexture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -18,11 +19,11 @@ import static org.lwjgl.assimp.Assimp.*;
 public class AssimpLoader {
     //import a scene using assimp and then use that scene to get the relevant information about the meshes etc.
 
-    public static Model[] loadObjModel(String filePath, ModelLoader loader) {
-        return loadObjModel(filePath, loader, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
+    public static Model[] loadModel(String filePath, ModelLoader loader) {
+        return loadModel(filePath, loader, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
     }
 
-    public static Model[] loadObjModel (String filePath, ModelLoader loader, int flags){
+    public static Model[] loadModel (String filePath, ModelLoader loader, int flags){
         AIScene aiScene = aiImportFile(filePath, flags);
         if(aiScene == null) {
             System.out.println("ERROR LOADING FILE");
@@ -87,8 +88,9 @@ public class AssimpLoader {
             specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
         }
 
-        Material material = new Material(ambient, diffuse, specular, 1.0f, 10f);
-        materials.add(material);
+        //I'll come back to this
+        //Material material = new Material(ambient, diffuse, specular, 1.0f, 10f, new ModelTexture(loader.loadTexture("whiteColor")));
+        //materials.add(material);
     }
 
     private static Model processMesh(AIMesh aiMesh, List<Material> materials, ModelLoader loader) {

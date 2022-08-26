@@ -1,24 +1,25 @@
-package SimulationEngine;
+package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
-import SimulationEngine.Models.TexturedModel;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
-import SimulationEngine.Textures.ModelTexture;
+import SimulationEngine.Models.ModelTexture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -112,45 +113,44 @@ public class Display {
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
-        Renderer render = new Renderer(shader);
+        RenderController renderer = new RenderController();
 
-        Model[] models = AssimpLoader.loadObjModel("ProjectResources/dragon.obj", loader);
-        TexturedModel tModel = new TexturedModel(models[0], new ModelTexture(loader.loadTexture("whiteColor")));
+        Model[] models = AssimpLoader.loadModel("ProjectResources/dragon.obj", loader);
         //this will be changed in the future to be done automatically when loading a model
-        tModel.setMaterial(new Material(new Vector4f(0,0,0,0), new Vector4f(0,0,0,0),new Vector4f(0,0,0,0), 1, 10));
-        ModeledEntity entity = new ModeledEntity(tModel, new Vector3f(0,-2,-20), 0, 0, 0, 1);
+        Random rand = new Random();
+        List<ModeledEntity> entities = new ArrayList<>();
 
-        LightSource light = new LightSource(new Vector3f(200,200,100), new Vector3f(1,1,1));
+        for(int i=0; i<200; i++){
+            float x = rand.nextFloat()* 100 - 50;
+            float y = rand.nextFloat()* 100 - 50;
+            float z = rand.nextFloat()* 100 - 50;
+            ModeledEntity entity = new ModeledEntity(models[0], new Vector3f(x,y,z), 0, 0, 0, 1);
+            entity.setMaterial(new Material(new Vector4f(0,0,0,0), new Vector4f(0,0,0,0),new Vector4f(0,0,0,0), 1, 100, new ModelTexture(loader.loadTexture("whiteColor"))));
+            entities.add(entity);
+        }
+
+        LightSource light = new LightSource(new Vector3f(0,200,100), new Vector3f(1,1,1));
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             camera.move();
-
             //manual object translation options
-            entity.increaseRotation(0,0.2f,0f);
 
-            GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
+            for(ModeledEntity entity: entities){
+                renderer.processEntity(entity);
+            }
 
-            shader.start(); //start the shaders
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
+            renderer.render(light, camera);
 
 
-            //game logic start
-            render.render(entity, shader);
-
-            //game logic stop
-
-            shader.stop(); //stop the shaders
             glfwSwapBuffers(window); // swap the buffers
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
         }
-
+        renderer.cleanUp();
         shader.cleanUp();
     }
 

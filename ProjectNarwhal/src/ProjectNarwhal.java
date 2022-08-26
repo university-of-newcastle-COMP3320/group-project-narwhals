@@ -1,4 +1,4 @@
-import SimulationEngine.Display;
+import SimulationEngine.DisplayEngine.Display;
 
 public class ProjectNarwhal {
 

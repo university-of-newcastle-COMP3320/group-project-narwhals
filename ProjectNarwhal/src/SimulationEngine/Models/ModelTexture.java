@@ -1,4 +1,4 @@
-package SimulationEngine.Textures;
+package SimulationEngine.Models;
 
 public class ModelTexture {
 

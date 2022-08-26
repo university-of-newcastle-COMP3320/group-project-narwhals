@@ -1,16 +1,18 @@
 package SimulationEngine.ProjectEntities;
 
-import SimulationEngine.Models.TexturedModel;
+import SimulationEngine.Models.Material;
+import SimulationEngine.Models.Model;
 import org.joml.Vector3f;
 
 public class ModeledEntity {
 
-    private TexturedModel model;
+    private Material material;
+    private Model model;
     private Vector3f position;
     private float rX, rY, rZ, scale;
 
     //Creates a modeled entity with a position, rotation and scale
-    public ModeledEntity(TexturedModel model, Vector3f position, float rX, float rY, float rZ, float scale){
+    public ModeledEntity(Model model, Vector3f position, float rX, float rY, float rZ, float scale){
         this.model = model;
         this.position = position;
         this.rX = rX;
@@ -34,7 +36,7 @@ public class ModeledEntity {
     }
 
     //returns the stored textured model
-    public TexturedModel getModel() {
+    public Model getModel() {
         return model;
     }
 
@@ -77,6 +79,14 @@ public class ModeledEntity {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public void setMaterial(Material material){
+        this.material = material;
+    }
+
+    public Material getMaterial(){
+        return material;
     }
 
 }
