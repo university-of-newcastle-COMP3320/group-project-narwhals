@@ -7,6 +7,7 @@ import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Shaders.TerrainShader;
 import Terrain.BaseTerrain;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 
@@ -14,14 +15,14 @@ import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.*;
 
 public class RenderController {
 
     private static final float FOV_ANGLE = 90.0f;
     private static final float NEAR_PLANE = 0.01f;
     private static final float FAR_PLANE = 100000f;
+    private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
     private EntityRenderer eRenderer;
@@ -39,9 +40,11 @@ public class RenderController {
     }
 
     public void render(LightSource light, ViewFrustrum camera){
+        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
         GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
         eShader.start(); //start the shaders
+        eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         eShader.loadLight(light);
         eShader.loadViewMatrix(camera);
 
@@ -53,6 +56,7 @@ public class RenderController {
         tShader.loadLight(light);
         tShader.loadViewMatrix(camera);
         tRenderer.render(terrains);
+        tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
 
         tShader.stop();
 

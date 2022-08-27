@@ -4,6 +4,7 @@ import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class StaticShader extends ShaderProgram{
 
@@ -16,6 +17,7 @@ public class StaticShader extends ShaderProgram{
     private int location_lightColor;
     private int location_shineDamper;
     private int location_reflectance;
+    private int location_waterColor;
 
     //Constructor
     public StaticShader() {
@@ -43,12 +45,16 @@ public class StaticShader extends ShaderProgram{
         location_lightPosition = super.getUniformLocation("lightPosition");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectance = super.getUniformLocation("reflectance");
-
+        location_waterColor = super.getUniformLocation("waterColor");
     }
 
     public void loadShineVariables(float damper, float reflectance){
         super.loadFloat(location_shineDamper, damper);
         super.loadFloat(location_reflectance, reflectance);
+    }
+
+    public void loadWaterColor(float r, float g, float b){
+        super.loadVec3(location_waterColor, new Vector3f(r,g,b));
     }
 
     //Loads a provided transformation matrix to the shader

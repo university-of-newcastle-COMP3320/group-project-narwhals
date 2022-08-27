@@ -108,31 +108,28 @@ public class Display {
         // bindings available for use.
         GL.createCapabilities();
 
-        // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         RenderController renderer = new RenderController();
 
-        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Knife/knife.obj", loader, "Knife/Textures/Albedo");
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/dragon.obj", loader, "whiteColor");
 
         models[0].setPosition(new Vector3f(0, 10, 0));
 
 //        uncomment for performance test
-//        Random rand = new Random();
-//        List<ModeledEntity> entities = new ArrayList<>();
+        Random rand = new Random();
+        List<ModeledEntity> entities = new ArrayList<>();
 
-//        for(int i=0; i<100; i++){
-//            float x = rand.nextFloat()* 100 - 50;
-//            float y = rand.nextFloat()* 100 - 50;
-//            float z = rand.nextFloat()* 100 - 50;
-//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-//            newEntity.setMaterial(models[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,y,z));
-//            entities.add(newEntity);
-//        }
+        for(int i=0; i<100; i++){
+            float x = rand.nextFloat()* 100 - 50;
+            float y = rand.nextFloat()* 100 - 50;
+            float z = rand.nextFloat()* 100 - 50;
+            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+            newEntity.setMaterial(models[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,y,z));
+            entities.add(newEntity);
+        }
 
         BaseTerrain terrain = new BaseTerrain(0,0,loader, new ModelTexture(loader.loadTexture("grass")));
         BaseTerrain terrain2 = new BaseTerrain(-1,0,loader, new ModelTexture(loader.loadTexture("grass")));
@@ -149,10 +146,11 @@ public class Display {
         while ( !glfwWindowShouldClose(window) ) {
             camera.move();
 
-//            for(ModeledEntity model: entities){
-                renderer.processEntity(models[0]);
-//                model.increaseRotation(0f,0.2f,0f);
-//            }
+
+            for(ModeledEntity model: entities){
+                renderer.processEntity(model);
+                model.increaseRotation(0f,0.2f,0f);
+            }
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
             renderer.processTerrain(terrain3);
