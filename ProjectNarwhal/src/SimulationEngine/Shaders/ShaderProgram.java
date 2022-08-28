@@ -102,6 +102,10 @@ public abstract class ShaderProgram {
         GL20.glUniform3f(location, vector.x, vector.y , vector.z );
     }
 
+    protected void loadInt(int location, int value){
+        GL20.glUniform1i(location,value);
+    }
+
     //loads a boolean to a specified location
     protected void loadBool (int location, boolean value){
         int boolVal = 0;

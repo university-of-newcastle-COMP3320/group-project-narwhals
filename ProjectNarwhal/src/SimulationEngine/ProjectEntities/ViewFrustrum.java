@@ -19,22 +19,22 @@ public class ViewFrustrum {
 
     public void move(){
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W)){
-            location.z -= 0.2f;
+            location.z -= 0.6f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_A)){
-            location.x -= 0.2f;
+            location.x -= 0.6f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S)){
-            location.z += 0.2f;
+            location.z += 0.6f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_D)){
-            location.x += 0.2f;
+            location.x += 0.6f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
-            location.y -=  0.2f;
+            location.y -=  0.6f;
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
-            location.y +=  0.2f;
+            location.y +=  0.6f;
         }
     }
 

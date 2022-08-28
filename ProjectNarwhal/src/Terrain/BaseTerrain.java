@@ -14,10 +14,12 @@ public class BaseTerrain {
     private float x;
     private float z;
     private Model model;
-    private Material terrainMaterial;
+    private TerrainTexturePack texturePack;
+    private TerrainTexture blendMap;
 
-    public BaseTerrain(int gridX, int gridZ, ModelLoader loader, ModelTexture texture){
-        terrainMaterial = new Material(new Vector4f(0,0,0,0), new Vector4f(0,0,0,0),new Vector4f(0,0,0,0), 0, 1, texture);
+    public BaseTerrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap){
+        this.texturePack = texturePack;
+        this.blendMap = blendMap;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
@@ -73,15 +75,11 @@ public class BaseTerrain {
         return model;
     }
 
-    public ModelTexture getTexture() {
-        return terrainMaterial.getTexture();
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
     }
 
-    public Material getMaterial() {
-        return terrainMaterial;
-    }
-
-    public void setMaterial(Material terrainMaterial) {
-        this.terrainMaterial = terrainMaterial;
+    public TerrainTexture getBlendMap() {
+        return blendMap;
     }
 }

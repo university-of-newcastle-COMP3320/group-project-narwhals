@@ -53,10 +53,10 @@ public class RenderController {
         eShader.stop(); //stop the shaders
 
         tShader.start();
+        tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         tShader.loadLight(light);
         tShader.loadViewMatrix(camera);
         tRenderer.render(terrains);
-        tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
 
         tShader.stop();
 

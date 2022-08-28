@@ -18,6 +18,11 @@ public class TerrainShader extends ShaderProgram{
     private int location_shineDamper;
     private int location_reflectance;
     private int location_waterColor;
+    private int location_backgroundTexture;
+    private int location_rTexture;
+    private int location_gTexture;
+    private int location_bTexture;
+    private int location_blendMap;
 
     //Constructor
     public TerrainShader() {
@@ -46,6 +51,11 @@ public class TerrainShader extends ShaderProgram{
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectance = super.getUniformLocation("reflectance");
         location_waterColor = super.getUniformLocation("waterColor");
+        location_backgroundTexture = super.getUniformLocation("backgroundTexture");
+        location_rTexture = super.getUniformLocation("rTexture");
+        location_gTexture = super.getUniformLocation("gTexture");
+        location_bTexture = super.getUniformLocation("bTexture");
+        location_blendMap = super.getUniformLocation("blendMap");
     }
 
     public void loadShineVariables(float damper, float reflectance){
@@ -55,6 +65,15 @@ public class TerrainShader extends ShaderProgram{
 
     public void loadWaterColor(float r, float g, float b){
         super.loadVec3(location_waterColor, new Vector3f(r,g,b));
+    }
+
+    public void connectTextureUnits(){
+        super.loadInt(location_backgroundTexture, 0);
+        super.loadInt(location_rTexture, 1);
+        super.loadInt(location_gTexture, 2);
+        super.loadInt(location_bTexture, 3);
+        super.loadInt(location_blendMap, 4);
+
     }
 
     //Loads a provided transformation matrix to the shader
