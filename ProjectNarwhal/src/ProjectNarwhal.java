@@ -50,7 +50,7 @@ public class ProjectNarwhal {
         StaticShader shader = new StaticShader();
         RenderController renderer = new RenderController();
 
-        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Knife/knife.obj", loader, "Knife/Textures/Albedo");
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/narwhal.obj", loader, "whiteColor");
 
         models[0].setPosition(new Vector3f(0, 10, 0));
 
