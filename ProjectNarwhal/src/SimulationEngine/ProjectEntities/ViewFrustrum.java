@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFWCursorPosCallbackI;
 
 import java.nio.FloatBuffer;
 
+import static org.lwjgl.glfw.GLFW.*;
 
 
 public class ViewFrustrum {
@@ -40,7 +41,6 @@ public class ViewFrustrum {
         checkInputs();
         calculatePitch(y.get(1)- y.get(0));
         calculateYaw(x.get(1) - x.get(0));
-        System.out.println(yaw);
         float dx = (float) (currentSpeed * Math.sin(Math.toRadians(-getYaw())));
         float dz = (float) (currentSpeed * Math.cos(Math.toRadians(-getYaw())));
         location.x += dx;
@@ -63,6 +63,9 @@ public class ViewFrustrum {
         }
         else{
             currentSpeed = 0;
+        }
+        if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE )){
+            glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         }
         //not sure about these
 //        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){

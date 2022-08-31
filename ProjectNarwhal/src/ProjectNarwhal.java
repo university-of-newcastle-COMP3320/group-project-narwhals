@@ -50,22 +50,26 @@ public class ProjectNarwhal {
         StaticShader shader = new StaticShader();
         RenderController renderer = new RenderController();
 
-        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/narwhal.obj", loader, "whiteColor");
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
+        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral3/3.obj", loader, "/Coral3/coral3");
+        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/tex1");
+
 
         models[0].setPosition(new Vector3f(0, 10, 0));
 
         Random rand = new Random();
         List<ModeledEntity> entities = new ArrayList<>();
 
-        for(int i=0; i<100; i++){
-            float x = rand.nextFloat()* 100 - 50;
-            float y = rand.nextFloat()* 100 - 50;
-            float z = rand.nextFloat()* 100 - 50;
-            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-            newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,y,z));
-            entities.add(newEntity);
-        }
+//        for(int i=0; i<100; i++){
+//            float x = rand.nextFloat()* 100 - 50;
+//            float y = rand.nextFloat()* 100 - 50;
+//            float z = rand.nextFloat()* 100 - 50;
+            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
+            newEntity.setMaterial(models3[0].getMaterial());
+
+//            newEntity.setPosition(new Vector3f(x,y,z));
+//            entities.add(newEntity);
+//        }
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("seabed"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("coral"));
@@ -97,10 +101,10 @@ public class ProjectNarwhal {
 //            camera.look();
 
 
-            for(ModeledEntity model: entities){
-                renderer.processEntity(model);
-                model.increaseRotation(0f,0.02f,0f);
-            }
+//            for(ModeledEntity model: entities){
+                renderer.processEntity(newEntity);
+//                model.increaseRotation(0f,0.02f,0f);
+//            }
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
             renderer.processTerrain(terrain3);
