@@ -1,31 +1,14 @@
 package SimulationEngine.DisplayEngine;
 
-import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Loaders.AssimpLoader;
-import SimulationEngine.Models.Material;
-import SimulationEngine.Models.Model;
-import SimulationEngine.ProjectEntities.LightSource;
-import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.ProjectEntities.ViewFrustrum;
-import SimulationEngine.Shaders.StaticShader;
-import SimulationEngine.Models.ModelTexture;
-import Terrain.BaseTerrain;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
