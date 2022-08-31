@@ -5,7 +5,6 @@ import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;

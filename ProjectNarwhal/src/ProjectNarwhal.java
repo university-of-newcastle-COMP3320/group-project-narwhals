@@ -94,11 +94,12 @@ public class ProjectNarwhal {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             camera.move();
+//            camera.look();
 
 
             for(ModeledEntity model: entities){
                 renderer.processEntity(model);
-                model.increaseRotation(0f,0.2f,0f);
+                model.increaseRotation(0f,0.02f,0f);
             }
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
