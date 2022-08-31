@@ -10,6 +10,7 @@ import SimulationEngine.Shaders.StaticShader;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
+import Terrain.WaterSurface;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
@@ -51,23 +52,33 @@ public class ProjectNarwhal {
         RenderController renderer = new RenderController();
 
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
-        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral3/3.obj", loader, "/Coral3/coral3");
-        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/tex1");
+        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
+        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral3/3a.obj", loader, "/Coral3/coral3");
+        ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
+        ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
+        ModeledEntity[] divingBell= AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
         ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/narwhal.obj", loader, "whiteColor");
 
 
 
-        narwhal[0].setPosition(new Vector3f(0, 10, 0));
+        narwhal[0].setPosition(new Vector3f(0, 10, -50));
 
         Random rand = new Random();
         List<ModeledEntity> entities = new ArrayList<>();
 
-
-        ModeledEntity narwhal1 = new ModeledEntity(narwhal[0].getModel(), new Vector3f(0,15,-20), 0 ,0, 0, 3);
+        //I've realised I'm already returning model and this is creating new models and assigning the old models to the new ones, fix
+        ModeledEntity narwhal1 = new ModeledEntity(narwhal[0].getModel(), new Vector3f(0,40,-20), 0 ,270, 0, 3);
         narwhal1.setMaterial(narwhal[0].getMaterial());
-        entities.add(narwhal1);
+        //back face culling will need to be disabled for the diving bells at this point
+        ModeledEntity divingBell1 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(45,40,-220), 0 ,270, 0, 3);
+        divingBell1.setMaterial(divingBell[0].getMaterial());
+        entities.add(divingBell1);
+        ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55,40,-30), 0 ,270, 0, 3);
+        divingBell2.setMaterial(divingBell[0].getMaterial());
+        entities.add(divingBell2);
 
-        for(int i=0; i<100; i++){
+
+        for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
@@ -76,7 +87,7 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-        for(int i=0; i<100; i++){
+        for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
@@ -85,7 +96,25 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-        for(int i=0; i<100; i++){
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+            newEntity.setMaterial(models4[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+            newEntity.setMaterial(models5[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
@@ -102,6 +131,10 @@ public class ProjectNarwhal {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
+        WaterSurface water = new WaterSurface(0,0,50, loader, texturePack, blendMap);
+        WaterSurface water2 = new WaterSurface(0,-1,100, loader, texturePack, blendMap);
+        WaterSurface water3 = new WaterSurface(-1,-1,100, loader, texturePack, blendMap);
+        WaterSurface water4 = new WaterSurface(-1,0,100, loader, texturePack, blendMap);
 
         BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap);
         BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap);
@@ -116,6 +149,7 @@ public class ProjectNarwhal {
 
 
         LightSource light = new LightSource(new Vector3f(20000,20000,2000), new Vector3f(1.5f,1.5f,1.5f));
+        boolean circle = false;
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -125,10 +159,32 @@ public class ProjectNarwhal {
             for(ModeledEntity model: entities){
                 renderer.processEntity(model);
             }
+            renderer.processEntity(narwhal1);
+            if(narwhal1.getPosition().z <= -100 && !circle){
+                circle = true;
+                narwhal1.increaseRotation(0,180,0);
+            }
+            if(narwhal1.getPosition().z >= 100 && circle){
+                circle = false;
+                narwhal1.increaseRotation(0,180,0);
+            }
+            if(narwhal1.getPosition().x > -100 && !circle){
+                narwhal1.setPosition(new Vector3f(narwhal1.getPosition().x, narwhal1.getPosition().y, narwhal1.getPosition().z - 0.05f));
+            }
+
+            if(narwhal1.getPosition().x < 100 && circle){
+                narwhal1.setPosition(new Vector3f(narwhal1.getPosition().x, narwhal1.getPosition().y, narwhal1.getPosition().z  + 0.05f));
+            }
+
+
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
             renderer.processTerrain(terrain3);
             renderer.processTerrain(terrain4);
+            renderer.processTerrain(water);
+            renderer.processTerrain(water2);
+            renderer.processTerrain(water3);
+            renderer.processTerrain(water4);
 
             renderer.render(light, camera);
 

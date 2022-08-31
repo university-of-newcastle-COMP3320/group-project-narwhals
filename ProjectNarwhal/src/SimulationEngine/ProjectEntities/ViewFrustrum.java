@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 
 public class ViewFrustrum {
-    private Vector3f location = new Vector3f(0,20,10);
+    private Vector3f location = new Vector3f(0,25,40);
     private float pitch;
     private float yaw;
     private float roll;

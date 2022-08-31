@@ -32,8 +32,8 @@ public class RenderController {
     private List<BaseTerrain> terrains = new ArrayList<>();
 
     public RenderController() {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
+//        GL11.glEnable(GL11.GL_CULL_FACE);
+//        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
