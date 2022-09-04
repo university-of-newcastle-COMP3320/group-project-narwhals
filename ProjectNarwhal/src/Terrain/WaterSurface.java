@@ -7,7 +7,7 @@ public class WaterSurface extends BaseTerrain{
     private float gridY;
 
     public WaterSurface(int gridX, int gridZ, int gridY, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap){
-        super(gridX, gridZ, loader, texturePack, blendMap);
+        super(gridX, gridZ, loader, texturePack, blendMap, "TerrainTextures/heightmap");
         this.gridY = gridY;
     }
 

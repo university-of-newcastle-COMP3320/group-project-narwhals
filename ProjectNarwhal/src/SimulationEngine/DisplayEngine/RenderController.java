@@ -21,7 +21,7 @@ public class RenderController {
 
     private static final float FOV_ANGLE = 90.0f;
     private static final float NEAR_PLANE = 0.01f;
-    private static final float FAR_PLANE = 100000f;
+    private static final float FAR_PLANE = 1000f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
@@ -32,8 +32,8 @@ public class RenderController {
     private List<BaseTerrain> terrains = new ArrayList<>();
 
     public RenderController() {
-//        GL11.glEnable(GL11.GL_CULL_FACE);
-//        GL11.glCullFace(GL11.GL_BACK);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);

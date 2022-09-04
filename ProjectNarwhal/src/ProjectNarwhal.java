@@ -57,7 +57,7 @@ public class ProjectNarwhal {
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
         ModeledEntity[] divingBell= AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/narwhal.obj", loader, "whiteColor");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
 
 
 
@@ -77,10 +77,9 @@ public class ProjectNarwhal {
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
 
-
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
@@ -88,8 +87,8 @@ public class ProjectNarwhal {
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
@@ -97,8 +96,8 @@ public class ProjectNarwhal {
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
@@ -106,8 +105,8 @@ public class ProjectNarwhal {
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
@@ -115,41 +114,35 @@ public class ProjectNarwhal {
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
             entities.add(newEntity);
         }
 
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("seabed"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("coral"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("sand"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("stones"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coral"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/sand"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/stones"));
 
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
 
         WaterSurface water = new WaterSurface(0,0,50, loader, texturePack, blendMap);
         WaterSurface water2 = new WaterSurface(0,-1,100, loader, texturePack, blendMap);
         WaterSurface water3 = new WaterSurface(-1,-1,100, loader, texturePack, blendMap);
         WaterSurface water4 = new WaterSurface(-1,0,100, loader, texturePack, blendMap);
 
-        BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap);
-        BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap);
-        BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap);
-        BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap);
+        BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
+        BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
+        BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
+        BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-
-
-
-
-
-
-
-        LightSource light = new LightSource(new Vector3f(20000,20000,2000), new Vector3f(1.5f,1.5f,1.5f));
+        LightSource light = new LightSource(new Vector3f(200,300,200), new Vector3f(1f,1f,1f));
         boolean circle = false;
+        boolean circle2 = false;
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
