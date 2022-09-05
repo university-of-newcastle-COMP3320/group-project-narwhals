@@ -5,7 +5,9 @@ import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Shaders.StaticShader;
 import SimulationEngine.Shaders.TerrainShader;
+import SimulationEngine.Shaders.WaterShader;
 import Terrain.BaseTerrain;
+import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -25,11 +27,14 @@ public class RenderController {
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
+    private TerrainShader tShader = new TerrainShader();
+    private WaterShader wShader = new WaterShader();
     private EntityRenderer eRenderer;
     private TerrainRenderer tRenderer;
-    private TerrainShader tShader = new TerrainShader();
+    private WaterRenderer wRenderer;
     private Map<ModeledEntity, List<ModeledEntity>> entities = new HashMap<>();
     private List<BaseTerrain> terrains = new ArrayList<>();
+    private List<WaterSurface> waters = new ArrayList<>();
 
     public RenderController() {
         GL11.glEnable(GL11.GL_CULL_FACE);
@@ -37,6 +42,7 @@ public class RenderController {
         createProjectionMatrix();
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
+        wRenderer = new WaterRenderer(wShader, projectionMatrix);
     }
 
     public void render(LightSource light, ViewFrustrum camera){
@@ -60,8 +66,19 @@ public class RenderController {
 
         tShader.stop();
 
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        wShader.start();
+        wShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
+        wShader.loadLight(light);
+        wShader.loadViewMatrix(camera);
+        wRenderer.render(waters);
+
+        wShader.stop();
+        GL11.glEnable(GL11.GL_CULL_FACE);
+
         terrains.clear();
         entities.clear();
+        waters.clear();
     }
 
     public void processEntity(ModeledEntity entity){
@@ -79,6 +96,8 @@ public class RenderController {
     public void processTerrain(BaseTerrain terrain){
         terrains.add(terrain);
     }
+
+    public void processWater(WaterSurface water){ waters.add(water);}
 
     public void cleanUp(){
         eShader.cleanUp();

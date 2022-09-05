@@ -2,7 +2,6 @@ import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.ModelTexture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
@@ -10,7 +9,8 @@ import SimulationEngine.Shaders.StaticShader;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
-import Terrain.WaterSurface;
+import Water.WaterSurface;
+import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
@@ -130,10 +130,11 @@ public class ProjectNarwhal {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
 
-        WaterSurface water = new WaterSurface(0,0,50, loader, texturePack, blendMap);
         WaterSurface water2 = new WaterSurface(0,-1,100, loader, texturePack, blendMap);
-        WaterSurface water3 = new WaterSurface(-1,-1,100, loader, texturePack, blendMap);
-        WaterSurface water4 = new WaterSurface(-1,0,100, loader, texturePack, blendMap);
+        WaterSurface water = new WaterSurface(0,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water2 = new WaterSurface(0,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water3 = new WaterSurface(-1,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water4 = new WaterSurface(-1,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
 
         BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
@@ -174,10 +175,10 @@ public class ProjectNarwhal {
             renderer.processTerrain(terrain2);
             renderer.processTerrain(terrain3);
             renderer.processTerrain(terrain4);
-            renderer.processTerrain(water);
-            renderer.processTerrain(water2);
-            renderer.processTerrain(water3);
-            renderer.processTerrain(water4);
+            renderer.processWater(water);
+            renderer.processWater(water2);
+            renderer.processWater(water3);
+            renderer.processWater(water4);
 
             renderer.render(light, camera);
 
