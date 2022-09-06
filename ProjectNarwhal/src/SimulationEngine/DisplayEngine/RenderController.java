@@ -102,6 +102,7 @@ public class RenderController {
     public void cleanUp(){
         eShader.cleanUp();
         tShader.cleanUp();
+        wShader.cleanUp();
     }
 
     //creates a projection matrix representing a frustrum using static variables

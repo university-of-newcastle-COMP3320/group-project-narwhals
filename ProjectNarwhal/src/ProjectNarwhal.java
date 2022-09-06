@@ -143,11 +143,13 @@ public class ProjectNarwhal {
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
+//        LightSource light = new LightSource(new Vector3f(0,1000,-7000), new Vector3f(0.4f,0.4f,0.4f));
         //Sun light source
-        LightSource light = new LightSource(new Vector3f(200,300,200), new Vector3f(0.8f,0.8f,0.8f));
         List<LightSource> lights = new ArrayList<>();
-        lights.add(light);
-        lights.add(new LightSource(new Vector3f(0,200,-200), new Vector3f(0.004f,0.65f, 0.87f)));
+        lights.add(new LightSource(new Vector3f(10,10,10), new Vector3f(0.1f,0.1f,0.1f)));
+        lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(0f,0f, 2f), new Vector3f(1,0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(2f,0f, 0f), new Vector3f(1,0.01f, 0.002f)));
+//        lights.add(light);
 
 
         boolean circle = false;

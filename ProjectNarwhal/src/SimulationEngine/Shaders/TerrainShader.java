@@ -17,6 +17,7 @@ public class TerrainShader extends ShaderProgram{
     private int location_viewMatrix;
     private int location_lightPosition[];
     private int location_lightColor[];
+    private int location_attenuation[];
     private int location_shineDamper;
     private int location_reflectance;
     private int location_waterColor;
@@ -64,9 +65,11 @@ public class TerrainShader extends ShaderProgram{
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
+        location_attenuation = new int[numberOfLights];
         for(int i = 0; i < numberOfLights; i ++){
             location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
             location_lightColor[i] = super.getUniformLocation("lightColor["+i+"]");
+            location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
         }
     }
 
@@ -112,6 +115,7 @@ public class TerrainShader extends ShaderProgram{
         for(int i = 0; i < numberOfLights; i ++){
             super.loadVec3(location_lightPosition[i], lights.get(i).getPosition());
             super.loadVec3(location_lightColor[i], lights.get(i).getColour());
+            super.loadVec3(location_attenuation[i], lights.get(i).getAttenuation());
         }
     }
 }
