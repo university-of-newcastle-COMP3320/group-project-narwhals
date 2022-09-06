@@ -130,18 +130,26 @@ public class ProjectNarwhal {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
 
-        WaterSurface water2 = new WaterSurface(0,-1,100, loader, texturePack, blendMap);
+
+        //water surface tiles
         WaterSurface water = new WaterSurface(0,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
         WaterSurface water2 = new WaterSurface(0,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
         WaterSurface water3 = new WaterSurface(-1,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
         WaterSurface water4 = new WaterSurface(-1,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
 
+        //ground surface tiles
         BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-        LightSource light = new LightSource(new Vector3f(200,300,200), new Vector3f(1f,1f,1f));
+        //Sun light source
+        LightSource light = new LightSource(new Vector3f(200,300,200), new Vector3f(0.8f,0.8f,0.8f));
+        List<LightSource> lights = new ArrayList<>();
+        lights.add(light);
+        lights.add(new LightSource(new Vector3f(0,200,-200), new Vector3f(0.004f,0.65f, 0.87f)));
+
+
         boolean circle = false;
         boolean circle2 = false;
 
@@ -180,7 +188,7 @@ public class ProjectNarwhal {
             renderer.processWater(water3);
             renderer.processWater(water4);
 
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
 
 
             glfwSwapBuffers(window); // swap the buffers

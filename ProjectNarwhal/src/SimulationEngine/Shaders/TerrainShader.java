@@ -6,6 +6,8 @@ import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import java.util.List;
+
 public class TerrainShader extends ShaderProgram{
 
     private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/TerrainVertexShader.txt";
@@ -13,8 +15,8 @@ public class TerrainShader extends ShaderProgram{
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
-    private int location_lightPosition;
-    private int location_lightColor;
+    private int location_lightPosition[];
+    private int location_lightColor[];
     private int location_shineDamper;
     private int location_reflectance;
     private int location_waterColor;
@@ -23,6 +25,10 @@ public class TerrainShader extends ShaderProgram{
     private int location_gTexture;
     private int location_bTexture;
     private int location_blendMap;
+
+    private int location_numberOfLights;
+
+    private int numberOfLights = 10;
 
     //Constructor
     public TerrainShader() {
@@ -46,8 +52,6 @@ public class TerrainShader extends ShaderProgram{
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
-        location_lightColor = super.getUniformLocation("lightColor");
-        location_lightPosition = super.getUniformLocation("lightPosition");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectance = super.getUniformLocation("reflectance");
         location_waterColor = super.getUniformLocation("waterColor");
@@ -56,6 +60,19 @@ public class TerrainShader extends ShaderProgram{
         location_gTexture = super.getUniformLocation("gTexture");
         location_bTexture = super.getUniformLocation("bTexture");
         location_blendMap = super.getUniformLocation("blendMap");
+        location_numberOfLights = super.getUniformLocation("numberOfLights");
+
+        location_lightColor = new int[numberOfLights];
+        location_lightPosition = new int[numberOfLights];
+        for(int i = 0; i < numberOfLights; i ++){
+            location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
+            location_lightColor[i] = super.getUniformLocation("lightColor["+i+"]");
+        }
+    }
+
+    public void loadNumberOfLights(int number){
+        this.numberOfLights = number;
+        super.loadFloat(location_numberOfLights, (float)number);
     }
 
     public void loadShineVariables(float damper, float reflectance){
@@ -90,8 +107,11 @@ public class TerrainShader extends ShaderProgram{
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
-    public void loadLight(LightSource light){
-        super.loadVec3(location_lightPosition, light.getPosition());
-        super.loadVec3(location_lightColor, light.getColour());
+    public void loadLights(List<LightSource> lights){
+        loadNumberOfLights(lights.size());
+        for(int i = 0; i < numberOfLights; i ++){
+            super.loadVec3(location_lightPosition[i], lights.get(i).getPosition());
+            super.loadVec3(location_lightColor[i], lights.get(i).getColour());
+        }
     }
 }

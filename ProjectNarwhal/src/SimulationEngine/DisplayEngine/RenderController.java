@@ -45,13 +45,13 @@ public class RenderController {
         wRenderer = new WaterRenderer(wShader, projectionMatrix);
     }
 
-    public void render(LightSource light, ViewFrustrum camera){
+    public void render(List<LightSource> lights, ViewFrustrum camera){
         glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
         GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
         eShader.start(); //start the shaders
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
-        eShader.loadLight(light);
+        eShader.loadLights(lights);
         eShader.loadViewMatrix(camera);
 
         eRenderer.render(entities);
@@ -60,7 +60,7 @@ public class RenderController {
 
         tShader.start();
         tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
-        tShader.loadLight(light);
+        tShader.loadLights(lights);
         tShader.loadViewMatrix(camera);
         tRenderer.render(terrains);
 
@@ -69,7 +69,7 @@ public class RenderController {
         GL11.glDisable(GL11.GL_CULL_FACE);
         wShader.start();
         wShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
-        wShader.loadLight(light);
+        wShader.loadLights(lights);
         wShader.loadViewMatrix(camera);
         wRenderer.render(waters);
 
