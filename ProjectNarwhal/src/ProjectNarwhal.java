@@ -64,7 +64,6 @@ public class ProjectNarwhal {
 
 
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
-//        orca[0].setPosition(new Vector3f(0, 50, -50)); //Maybe
 
         Random rand = new Random();
         List<ModeledEntity> entities = new ArrayList<>();
@@ -79,7 +78,7 @@ public class ProjectNarwhal {
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55,40,-30), 0 ,270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
-        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-55,60,-30), 0 ,270, 0, 3);
+        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60,60,-220), 0 ,270, 0, 6);
         orca1.setMaterial(orca[0].getMaterial());
         entities.add(orca1);
 
