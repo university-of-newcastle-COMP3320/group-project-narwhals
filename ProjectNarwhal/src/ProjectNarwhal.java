@@ -58,10 +58,13 @@ public class ProjectNarwhal {
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
         ModeledEntity[] divingBell= AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
         ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
+        ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
+
 
 
 
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
+//        orca[0].setPosition(new Vector3f(0, 50, -50)); //Maybe
 
         Random rand = new Random();
         List<ModeledEntity> entities = new ArrayList<>();
@@ -76,6 +79,9 @@ public class ProjectNarwhal {
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55,40,-30), 0 ,270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
+        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-55,60,-30), 0 ,270, 0, 3);
+        orca1.setMaterial(orca[0].getMaterial());
+        entities.add(orca1);
 
         for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 500 - 250;
