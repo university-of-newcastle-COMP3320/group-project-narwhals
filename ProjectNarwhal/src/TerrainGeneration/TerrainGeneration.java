@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class TerrainGeneration {
     private static double time = 0;
-	private static BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private static BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
     public static BufferedImage getNoiseImage(){
     	time += 0.01;
     	for(int y = 0; y < MainWindow.HEIGHT; y++){
