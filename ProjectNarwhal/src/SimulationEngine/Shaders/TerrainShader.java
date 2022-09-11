@@ -31,6 +31,9 @@ public class TerrainShader extends ShaderProgram{
 
     private int numberOfLights = 10;
 
+    private int location_toShadowMapSpace;
+    private int location_shadowMap;
+
     //Constructor
     public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -62,6 +65,8 @@ public class TerrainShader extends ShaderProgram{
         location_bTexture = super.getUniformLocation("bTexture");
         location_blendMap = super.getUniformLocation("blendMap");
         location_numberOfLights = super.getUniformLocation("numberOfLights");
+        location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
+        location_shadowMap = super.getUniformLocation("shadowMap");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -93,7 +98,11 @@ public class TerrainShader extends ShaderProgram{
         super.loadInt(location_gTexture, 2);
         super.loadInt(location_bTexture, 3);
         super.loadInt(location_blendMap, 4);
+        super.loadInt(location_shadowMap, 5);
+    }
 
+    public void loadToShadowSpaceMatrix(Matrix4f matrix){
+        super.loadMatrix(location_toShadowMapSpace, matrix);
     }
 
     //Loads a provided transformation matrix to the shader

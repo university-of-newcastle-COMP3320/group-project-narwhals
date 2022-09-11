@@ -6,12 +6,14 @@ in vec3 toLightVector[10];
 in vec3 toCameraVector;
 in float visibility;
 in float NumberOfLights;
+in vec4 shadowCoords;
 
 uniform sampler2D backgroundTexture;
 uniform sampler2D rTexture;
 uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
+uniform sampler2D shadowMap;
 
 uniform vec3 lightColor[10];
 uniform vec3 attenuation[10];
@@ -23,6 +25,12 @@ out vec4 outColor;
 
 void main()
   {
+
+   float objectNearestLight = texture(shadowMap, shadowCoords.xy).r;
+   float lightFactor = 1.0;
+   if (shadowCoords.z > objectNearestLight){
+   lightFactor = 1.0 - 0.4;
+   }
    vec4 blendMapColour = texture(blendMap, TextureCoords);
    float backTextureAmount = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
    vec2 tiledCoords = TextureCoords * 40.0;
@@ -54,7 +62,7 @@ void main()
               float dampedFactor = pow(specularFactor,shineDamper);
               totalSpecular = totalSpecular + (dampedFactor * reflectance * lightColor[i]) / attFactor;
       }
-   totalDiffuse = max(totalDiffuse, 0.1);
+   totalDiffuse = max(totalDiffuse, 0.1) * lightFactor;
 
    outColor = vec4(totalDiffuse,1.0) * totalColour + vec4(totalSpecular, 1.0);
    outColor = mix(vec4(waterColor, 1.0), outColor, visibility);

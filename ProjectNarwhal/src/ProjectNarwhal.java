@@ -2,6 +2,9 @@ import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Models.Material;
+import SimulationEngine.Models.Model;
+import SimulationEngine.Models.ModelTexture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
@@ -49,7 +52,7 @@ public class ProjectNarwhal {
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
-        RenderController renderer = new RenderController();
+        RenderController renderer = new RenderController(camera);
 
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
@@ -60,9 +63,6 @@ public class ProjectNarwhal {
         ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
 
-
-
-
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
 
         Random rand = new Random();
@@ -70,7 +70,7 @@ public class ProjectNarwhal {
 
         //I've realised I'm already returning model and this is creating new models and assigning the old models to the new ones, fix
         ModeledEntity narwhal1 = new ModeledEntity(narwhal[0].getModel(), new Vector3f(0,40,-20), 0 ,270, 0, 3);
-        narwhal1.setMaterial(narwhal[0].getMaterial());
+        narwhal1.setMaterial(narwhal[0].getMaterial());;
         //back face culling will need to be disabled for the diving bells at this point
         ModeledEntity divingBell1 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(45,40,-220), 0 ,270, 0, 3);
         divingBell1.setMaterial(divingBell[0].getMaterial());
@@ -127,7 +127,7 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
+        TerrainTexture backgroundTexture = new TerrainTexture(renderer.getShadowMapTexture());
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coral"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/sand"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/stones"));
@@ -148,13 +148,13 @@ public class ProjectNarwhal {
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-//        LightSource light = new LightSource(new Vector3f(0,1000,-7000), new Vector3f(0.4f,0.4f,0.4f));
+        LightSource sun = new LightSource(new Vector3f(1000,100000,1000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
         lights.add(new LightSource(new Vector3f(10,10,10), new Vector3f(0.1f,0.1f,0.1f)));
         lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(0f,0f, 2f), new Vector3f(1,0.01f, 0.002f)));
         lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(2f,0f, 0f), new Vector3f(1,0.01f, 0.002f)));
-//        lights.add(light);
+        lights.add(sun);
 
 
         boolean circle = false;
@@ -163,6 +163,7 @@ public class ProjectNarwhal {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            renderer.renderShadowMap(entities, sun);
             camera.move();
 
             for(ModeledEntity model: entities){
