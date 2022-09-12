@@ -71,7 +71,8 @@ public class ProjectNarwhal {
 
         //I've realised I'm already returning model and this is creating new models and assigning the old models to the new ones, fix
         ModeledEntity narwhal1 = new ModeledEntity(narwhal[0].getModel(), new Vector3f(0,40,-20), 0 ,270, 0, 3);
-        narwhal1.setMaterial(narwhal[0].getMaterial());;
+        narwhal1.setMaterial(narwhal[0].getMaterial());
+        entities.add(narwhal1);
         //back face culling will need to be disabled for the diving bells at this point
         ModeledEntity divingBell1 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(45,40,-220), 0 ,270, 0, 3);
         divingBell1.setMaterial(divingBell[0].getMaterial());
@@ -92,41 +93,41 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 500 - 250;
-//            float z = rand.nextFloat()* 500 - 250;
-//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-//            newEntity.setMaterial(models2[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 500 - 250;
-//            float z = rand.nextFloat()* 500 - 250;
-//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-//            newEntity.setMaterial(models4[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 500 - 250;
-//            float z = rand.nextFloat()* 500 - 250;
-//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-//            newEntity.setMaterial(models5[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 500 - 250;
-//            float z = rand.nextFloat()* 500 - 250;
-//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-//            newEntity.setMaterial(models[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            entities.add(newEntity);
-//        }
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
+            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+            newEntity.setMaterial(models2[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
+            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+            newEntity.setMaterial(models4[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
+            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+            newEntity.setMaterial(models5[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 500 - 250;
+            float z = rand.nextFloat()* 500 - 250;
+            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+            newEntity.setMaterial(models[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            entities.add(newEntity);
+        }
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coral"));

@@ -33,6 +33,7 @@ public class TerrainShader extends ShaderProgram{
 
     private int location_toShadowMapSpace;
     private int location_shadowMap;
+    private int location_shadowDistance;
 
     //Constructor
     public TerrainShader() {
@@ -67,6 +68,7 @@ public class TerrainShader extends ShaderProgram{
         location_numberOfLights = super.getUniformLocation("numberOfLights");
         location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
         location_shadowMap = super.getUniformLocation("shadowMap");
+        location_shadowDistance = super.getUniformLocation("shadowDistance");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -90,6 +92,10 @@ public class TerrainShader extends ShaderProgram{
 
     public void loadWaterColor(float r, float g, float b){
         super.loadVec3(location_waterColor, new Vector3f(r,g,b));
+    }
+
+    public void loadShadowDistance(float dist){
+        super.loadFloat(location_shadowDistance, dist);
     }
 
     public void connectTextureUnits(){

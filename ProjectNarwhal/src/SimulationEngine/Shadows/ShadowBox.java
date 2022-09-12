@@ -11,25 +11,12 @@ import org.lwjgl.glfw.GLFWVidMode;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
-/**
- * Represents the 3D cuboidal area of the world in which objects will cast
- * shadows (basically represents the orthographic projection area for the shadow
- * render pass). It is updated each frame to optimise the area, making it as
- * small as possible (to allow for optimal shadow map resolution) while not
- * being too small to avoid objects not having shadows when they should.
- * Everything inside the cuboidal area represented by this object will be
- * rendered to the shadow map in the shadow render pass. Everything outside the
- * area won't be.
- *
- * @author Karl
- *
- */
 public class ShadowBox {
 
-	private static final float OFFSET = 10;
+	private static final float OFFSET = 40;
 	private static final Vector4f UP = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f FORWARD = new Vector4f(0, 0, -1, 0);
-	private static final float SHADOW_DISTANCE = 100;
+	private static final float SHADOW_DISTANCE = 200;
 
 	private float minX, maxX;
 	private float minY, maxY;
@@ -39,31 +26,12 @@ public class ShadowBox {
 
 	private float farHeight, farWidth, nearHeight, nearWidth;
 
-	/**
-	 * Creates a new shadow box and calculates some initial values relating to
-	 * the camera's view frustum, namely the width and height of the near plane
-	 * and (possibly adjusted) far plane.
-	 *
-	 * @param lightViewMatrix
-	 *            - basically the "view matrix" of the light. Can be used to
-	 *            transform a point from world space into "light" space (i.e.
-	 *            changes a point's coordinates from being in relation to the
-	 *            world's axis to being in terms of the light's local axis).
-	 * @param camera
-	 *            - the in-game camera.
-	 */
 	protected ShadowBox(Matrix4f lightViewMatrix, ViewFrustrum camera) {
 		this.lightViewMatrix = lightViewMatrix;
 		this.cam = camera;
 		calculateWidthsAndHeights();
 	}
 
-	/**
-	 * Updates the bounds of the shadow box based on the light direction and the
-	 * camera's view frustum, to make sure that the box covers the smallest area
-	 * possible while still ensuring that everything inside the camera's view
-	 * (within a certain range) will cast shadows.
-	 */
 	protected void update() {
 		Matrix4f rotation = calculateCameraRotationMatrix();
 		Vector4f vector = new Vector4f();
@@ -114,12 +82,6 @@ public class ShadowBox {
 
 	}
 
-	/**
-	 * Calculates the center of the "view cuboid" in light space first, and then
-	 * converts this to world space using the inverse light's view matrix.
-	 *
-	 * @return The center of the "view cuboid" in world space.
-	 */
 	protected Vector3f getCenter() {
 		float x = (minX + maxX) / 2f;
 		float y = (minY + maxY) / 2f;
@@ -132,43 +94,18 @@ public class ShadowBox {
 		return new Vector3f(vector.x, vector.y, vector.z);
 	}
 
-	/**
-	 * @return The width of the "view cuboid" (orthographic projection area).
-	 */
 	protected float getWidth() {
 		return maxX - minX;
 	}
 
-	/**
-	 * @return The height of the "view cuboid" (orthographic projection area).
-	 */
 	protected float getHeight() {
 		return maxY - minY;
 	}
 
-	/**
-	 * @return The length of the "view cuboid" (orthographic projection area).
-	 */
 	protected float getLength() {
 		return maxZ - minZ;
 	}
 
-	/**
-	 * Calculates the position of the vertex at each corner of the view frustum
-	 * in light space (8 vertices in total, so this returns 8 positions).
-	 *
-	 * @param rotation
-	 *            - camera's rotation.
-	 * @param forwardVector
-	 *            - the direction that the camera is aiming, and thus the
-	 *            direction of the frustum.
-	 * @param centerNear
-	 *            - the center point of the frustum's near plane.
-	 * @param centerFar
-	 *            - the center point of the frustum's (possibly adjusted) far
-	 *            plane.
-	 * @return The positions of the vertices of the frustum in light space.
-	 */
 	private Vector4f[] calculateFrustumVertices(Matrix4f rotation, Vector3f forwardVector,
 												Vector3f centerNear, Vector3f centerFar) {
 		Vector4f vector = new Vector4f();
@@ -198,18 +135,6 @@ public class ShadowBox {
 		return points;
 	}
 
-	/**
-	 * Calculates one of the corner vertices of the view frustum in world space
-	 * and converts it to light space.
-	 *
-	 * @param startPoint
-	 *            - the starting center point on the view frustum.
-	 * @param direction
-	 *            - the direction of the corner from the start point.
-	 * @param width
-	 *            - the distance of the corner from the start point.
-	 * @return - The relevant corner vertex of the view frustum in light space.
-	 */
 	private Vector4f calculateLightSpaceFrustumCorner(Vector3f startPoint, Vector3f direction,
 													  float width) {
 		Vector3f point = new Vector3f();
@@ -219,9 +144,6 @@ public class ShadowBox {
 		return point4f;
 	}
 
-	/**
-	 * @return The rotation of the camera represented as a matrix.
-	 */
 	private Matrix4f calculateCameraRotationMatrix() {
 		Matrix4f rotation = new Matrix4f();
 		rotation.rotate((float) Math.toRadians(-cam.getYaw()), new Vector3f(0, 1, 0));
@@ -229,13 +151,6 @@ public class ShadowBox {
 		return rotation;
 	}
 
-	/**
-	 * Calculates the width and height of the near and far planes of the
-	 * camera's view frustum. However, this doesn't have to use the "actual" far
-	 * plane of the view frustum. It can use a shortened view frustum if desired
-	 * by bringing the far-plane closer, which would increase shadow resolution
-	 * but means that distant objects wouldn't cast shadows.
-	 */
 	private void calculateWidthsAndHeights() {
 		farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(RenderController.FOV_ANGLE)));
 		nearWidth = (float) (RenderController.FOV_ANGLE
@@ -244,12 +159,13 @@ public class ShadowBox {
 		nearHeight = nearWidth / getAspectRatio();
 	}
 
-	/**
-	 * @return The aspect ratio of the display (width:height ratio).
-	 */
 	private float getAspectRatio() {
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		return (float) vidmode.width() / (float) vidmode.height();
+	}
+
+	public float getShadowDistance(){
+		return SHADOW_DISTANCE;
 	}
 
 }

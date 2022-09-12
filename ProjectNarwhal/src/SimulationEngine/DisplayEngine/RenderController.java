@@ -26,7 +26,7 @@ public class RenderController {
 
     public static final float FOV_ANGLE = 70.0f;
     public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 1000f;
+    public static final float FAR_PLANE = 500f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
@@ -71,6 +71,7 @@ public class RenderController {
         tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         tShader.loadLights(lights);
         tShader.loadViewMatrix(camera);
+        tShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
         tRenderer.render(terrains, shadowMapRenderer.getToShadowMapSpaceMatrix());
 
         tShader.stop();
