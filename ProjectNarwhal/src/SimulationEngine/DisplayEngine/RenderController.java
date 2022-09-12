@@ -24,7 +24,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RenderController {
 
-    public static final float FOV_ANGLE = 90.0f;
+    public static final float FOV_ANGLE = 70.0f;
     public static final float NEAR_PLANE = 0.01f;
     public static final float FAR_PLANE = 1000f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
@@ -130,8 +130,9 @@ public class RenderController {
     //creates a projection matrix representing a frustrum using static variables
     private void createProjectionMatrix(){
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        projectionMatrix = new Matrix4f();
         float aspectRatio = (float) vidmode.width()  / (float) vidmode.height() ;
-        float y_scale = (float) ((1.0f / Math.tan(Math.toRadians(FOV_ANGLE / 2.0f))) * aspectRatio);
+        float y_scale = (float) ((1.0f / Math.tan(Math.toRadians(FOV_ANGLE / 2.0f))));
         float x_scale = y_scale / aspectRatio;
         float frustum_length = FAR_PLANE - NEAR_PLANE;
 

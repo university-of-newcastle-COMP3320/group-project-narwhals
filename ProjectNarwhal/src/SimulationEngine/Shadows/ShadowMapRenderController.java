@@ -137,6 +137,7 @@ public class ShadowMapRenderController {
 	 *            "view cuboid".
 	 */
 	private void prepare(Vector3f lightDirection, ShadowBox box) {
+		System.out.println((double)box.getWidth() + ":" + (double)box.getHeight() + ":" + (double)box.getLength());
 		updateOrthoProjectionMatrix(box.getWidth(), box.getHeight(), box.getLength());
 		updateLightViewMatrix(lightDirection, box.getCenter());
 		projectionMatrix.mul(lightViewMatrix, projectionViewMatrix);
@@ -171,8 +172,8 @@ public class ShadowMapRenderController {
 	 *            - the center of the "view cuboid" in world space.
 	 */
 	private void updateLightViewMatrix(Vector3f direction, Vector3f center) {
-		direction.normalize();
-		center.negate();
+		direction.normalize(direction);
+		center.negate(center);
 		lightViewMatrix.identity();
 		float pitch = (float) Math.acos(new Vector2f(direction.x, direction.z).length());
 		lightViewMatrix.rotate(pitch, new Vector3f(1, 0, 0), lightViewMatrix);

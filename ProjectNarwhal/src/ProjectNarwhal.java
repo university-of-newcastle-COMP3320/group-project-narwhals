@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glGetError;
 
 public class ProjectNarwhal {
 
@@ -91,43 +92,43 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
-            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-            newEntity.setMaterial(models2[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            entities.add(newEntity);
-        }
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 500 - 250;
+//            float z = rand.nextFloat()* 500 - 250;
+//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+//            newEntity.setMaterial(models2[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 500 - 250;
+//            float z = rand.nextFloat()* 500 - 250;
+//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+//            newEntity.setMaterial(models4[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 500 - 250;
+//            float z = rand.nextFloat()* 500 - 250;
+//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+//            newEntity.setMaterial(models5[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 500 - 250;
+//            float z = rand.nextFloat()* 500 - 250;
+//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+//            newEntity.setMaterial(models[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            entities.add(newEntity);
+//        }
 
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
-            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-            newEntity.setMaterial(models4[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
-            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-            newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
-            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-            newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            entities.add(newEntity);
-        }
-
-        TerrainTexture backgroundTexture = new TerrainTexture(renderer.getShadowMapTexture());
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coral"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/sand"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/stones"));
@@ -148,7 +149,7 @@ public class ProjectNarwhal {
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-        LightSource sun = new LightSource(new Vector3f(1000,100000,1000), new Vector3f(1f,1f,1f));
+        LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
         lights.add(new LightSource(new Vector3f(10,10,10), new Vector3f(0.1f,0.1f,0.1f)));
@@ -197,7 +198,6 @@ public class ProjectNarwhal {
             renderer.processWater(water4);
 
             renderer.render(lights, camera);
-
 
             glfwSwapBuffers(window); // swap the buffers
 
