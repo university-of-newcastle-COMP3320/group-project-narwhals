@@ -59,8 +59,10 @@ public class ProjectNarwhal {
         ModeledEntity[] divingBell= AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
         ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
-
-
+        ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture");
+        ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
+        ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
+        ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
 
 
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
@@ -82,12 +84,41 @@ public class ProjectNarwhal {
         orca1.setMaterial(orca[0].getMaterial());
         entities.add(orca1);
 
+
+        //Test: Random Positioning of IceChunks
+        for(int i=0; i<200; i++){
+            float x = rand.nextFloat()* 800 - 400;
+            float z = rand.nextFloat()* 800 - 400;
+            int rotation = (int) (x+z % 360);
+            ModeledEntity newEntity;
+            switch ((int) (rand.nextFloat()*4+1)) {
+                case 1:
+                    newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk1[0].getMaterial());
+                    break;
+                case 2:
+                    newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk2[0].getMaterial());
+                    break;
+                case 3:
+                    newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
+                    newEntity.setMaterial(iceChunk3[0].getMaterial());
+                    break;
+                default:
+                    newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk4[0].getMaterial());
+                    break;
+
+            }
+            entities.add(newEntity);
+        }
+
         for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 500 - 250;
             float z = rand.nextFloat()* 500 - 250;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x,80,z));
             entities.add(newEntity);
         }
 
