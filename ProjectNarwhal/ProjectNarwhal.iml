@@ -13,5 +13,6 @@
     <orderEntry type="library" name="lwjgl-openal" level="project" />
     <orderEntry type="library" name="lwjgl-opengl" level="project" />
     <orderEntry type="library" name="lwjgl-assimp" level="project" />
+    <orderEntry type="library" name="OpenSimplexNoise" level="project" />
   </component>
 </module>
