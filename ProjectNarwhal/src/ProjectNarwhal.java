@@ -2,6 +2,9 @@ import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Models.Material;
+import SimulationEngine.Models.Model;
+import SimulationEngine.Models.ModelTexture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glGetError;
 
 public class ProjectNarwhal {
 
@@ -49,7 +53,7 @@ public class ProjectNarwhal {
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
-        RenderController renderer = new RenderController();
+        RenderController renderer = new RenderController(camera);
 
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
@@ -73,10 +77,12 @@ public class ProjectNarwhal {
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
 
+
         divingBell[0].setPosition(new Vector3f(45,40,-220));
         divingBell[0].setScale(3);
         divingBell[0].setRY(270);
         entities.add(divingBell[0]);
+
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55,40,-30), 0 ,270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
@@ -184,12 +190,13 @@ public class ProjectNarwhal {
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-        LightSource light = new LightSource(new Vector3f(0,1000,-7000), new Vector3f(1f,1f,1f));
+
+        LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
         lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(0f,0f, 2f), new Vector3f(1,0.01f, 0.002f)));
         lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(2f,0f, 0f), new Vector3f(1,0.01f, 0.002f)));
-        lights.add(light);
+        lights.add(sun);
 
 
         boolean circle = false;
@@ -198,6 +205,7 @@ public class ProjectNarwhal {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            renderer.renderShadowMap(entities, sun);
             camera.move();
 
             for(ModeledEntity model: entities){
@@ -231,7 +239,6 @@ public class ProjectNarwhal {
             renderer.processWater(water4);
 
             renderer.render(lights, camera);
-
 
             glfwSwapBuffers(window); // swap the buffers
 
