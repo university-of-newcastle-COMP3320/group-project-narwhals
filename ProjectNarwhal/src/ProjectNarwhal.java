@@ -69,14 +69,14 @@ public class ProjectNarwhal {
 
         Random rand = new Random();
         List<ModeledEntity> entities = new ArrayList<>();
+        narwhal[0].setPosition( new Vector3f(0,40,-20));
+        narwhal[0].setRY(270);
+        narwhal[0].setScale(3);
 
-        //I've realised I'm already returning model and this is creating new models and assigning the old models to the new ones, fix
-        ModeledEntity narwhal1 = new ModeledEntity(narwhal[0].getModel(), new Vector3f(0,40,-20), 0 ,270, 0, 3);
-        narwhal1.setMaterial(narwhal[0].getMaterial());
-        //back face culling will need to be disabled for the diving bells at this point
-        ModeledEntity divingBell1 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(45,40,-220), 0 ,270, 0, 3);
-        divingBell1.setMaterial(divingBell[0].getMaterial());
-        entities.add(divingBell1);
+        divingBell[0].setPosition(new Vector3f(45,40,-220));
+        divingBell[0].setScale(3);
+        divingBell[0].setRY(270);
+        entities.add(divingBell[0]);
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55,40,-30), 0 ,270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
@@ -114,47 +114,52 @@ public class ProjectNarwhal {
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,80,z));
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(3) + 1);
             entities.add(newEntity);
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(3) + 1);
             entities.add(newEntity);
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(3) + 1);
             entities.add(newEntity);
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(3) + 1);
             entities.add(newEntity);
         }
 
         for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 500 - 250;
-            float z = rand.nextFloat()* 500 - 250;
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(2) + 1);
             entities.add(newEntity);
         }
 
@@ -179,13 +184,12 @@ public class ProjectNarwhal {
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
 
-//        LightSource light = new LightSource(new Vector3f(0,1000,-7000), new Vector3f(0.4f,0.4f,0.4f));
+        LightSource light = new LightSource(new Vector3f(0,1000,-7000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
-        lights.add(new LightSource(new Vector3f(10,10,10), new Vector3f(0.1f,0.1f,0.1f)));
         lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(0f,0f, 2f), new Vector3f(1,0.01f, 0.002f)));
         lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(2f,0f, 0f), new Vector3f(1,0.01f, 0.002f)));
-//        lights.add(light);
+        lights.add(light);
 
 
         boolean circle = false;
@@ -199,21 +203,21 @@ public class ProjectNarwhal {
             for(ModeledEntity model: entities){
                 renderer.processEntity(model);
             }
-            renderer.processEntity(narwhal1);
-            if(narwhal1.getPosition().z <= -100 && !circle){
+            renderer.processEntity(narwhal[0]);
+            if(narwhal[0].getPosition().z <= -100 && !circle){
                 circle = true;
-                narwhal1.increaseRotation(0,180,0);
+                narwhal[0].increaseRotation(0,180,0);
             }
-            if(narwhal1.getPosition().z >= 100 && circle){
+            if(narwhal[0].getPosition().z >= 100 && circle){
                 circle = false;
-                narwhal1.increaseRotation(0,180,0);
+                narwhal[0].increaseRotation(0,180,0);
             }
-            if(narwhal1.getPosition().x > -100 && !circle){
-                narwhal1.setPosition(new Vector3f(narwhal1.getPosition().x, narwhal1.getPosition().y, narwhal1.getPosition().z - 0.05f));
+            if(narwhal[0].getPosition().x > -100 && !circle){
+                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z - 0.05f));
             }
 
-            if(narwhal1.getPosition().x < 100 && circle){
-                narwhal1.setPosition(new Vector3f(narwhal1.getPosition().x, narwhal1.getPosition().y, narwhal1.getPosition().z  + 0.05f));
+            if(narwhal[0].getPosition().x < 100 && circle){
+                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z  + 0.05f));
             }
 
 
