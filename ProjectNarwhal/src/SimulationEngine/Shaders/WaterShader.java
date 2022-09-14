@@ -10,8 +10,8 @@ import java.util.List;
 
 public class WaterShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.txt";
-    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.txt";
+    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -22,8 +22,12 @@ public class WaterShader extends ShaderProgram{
     private int location_reflectance;
     private int location_waterColor;
     private int location_numberOfLights;
+    private int location_waveTime;
 
     private int numberOfLights = 100;
+
+    private float time = 0;
+    private static final float WAVE_SPEED = 0.002f;
 
     //Constructor
     public WaterShader() {
@@ -51,6 +55,7 @@ public class WaterShader extends ShaderProgram{
         location_reflectance = super.getUniformLocation("reflectance");
         location_waterColor = super.getUniformLocation("waterColor");
         location_numberOfLights = super.getUniformLocation("numberOfLights");
+        location_waveTime = super.getUniformLocation("waveTime");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -100,4 +105,10 @@ public class WaterShader extends ShaderProgram{
         }
     }
 
+    //need to increment this as the simulation runs
+    public void updateTime()
+    {
+        time += WAVE_SPEED;
+        super.loadFloat(location_waveTime, time);
+    }
 }
