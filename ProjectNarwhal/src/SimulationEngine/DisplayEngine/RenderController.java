@@ -62,8 +62,9 @@ public class RenderController {
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         eShader.loadLights(lights);
         eShader.loadViewMatrix(camera);
-
-        eRenderer.render(entities);
+        eShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
+        eShader.bindShadowMap();
+        eRenderer.render(entities, shadowMapRenderer.getToShadowMapSpaceMatrix());
 
         eShader.stop(); //stop the shaders
 
