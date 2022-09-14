@@ -10,8 +10,8 @@ import java.util.List;
 
 public class StaticShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.txt";
-    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.txt";
+    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
