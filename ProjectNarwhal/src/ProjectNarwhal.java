@@ -91,7 +91,7 @@ public class ProjectNarwhal {
         entities.add(orca1);
 
 
-        //Test: Random Positioning of IceChunks
+        //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
             float x = rand.nextFloat()* 800 - 400;
             float z = rand.nextFloat()* 800 - 400;
@@ -119,13 +119,15 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
+        //Random positioning of coral
         for(int i=0; i<50; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(3) + 1);
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
@@ -135,7 +137,8 @@ public class ProjectNarwhal {
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(3) + 1);
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
@@ -145,7 +148,8 @@ public class ProjectNarwhal {
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(3) + 1);
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
@@ -155,7 +159,8 @@ public class ProjectNarwhal {
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(3) + 1);
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
@@ -165,12 +170,13 @@ public class ProjectNarwhal {
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(2) + 1);
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
         }
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coral"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coralBase"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/sand"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/stones"));
 
@@ -179,10 +185,10 @@ public class ProjectNarwhal {
 
 
         //water surface tiles
-        WaterSurface water = new WaterSurface(0,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water2 = new WaterSurface(0,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water3 = new WaterSurface(-1,200,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water4 = new WaterSurface(-1,200,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water = new WaterSurface(0,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water2 = new WaterSurface(0,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water3 = new WaterSurface(-1,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        WaterSurface water4 = new WaterSurface(-1,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
 
         //ground surface tiles
         BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");

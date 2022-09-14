@@ -13,10 +13,10 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class ShadowBox {
 
-	private static final float OFFSET = 40;
+	private static final float OFFSET = 200;
 	private static final Vector4f UP = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f FORWARD = new Vector4f(0, 0, -1, 0);
-	private static final float SHADOW_DISTANCE = 200;
+	private static final float SHADOW_DISTANCE = 300;
 
 	private float minX, maxX;
 	private float minY, maxY;

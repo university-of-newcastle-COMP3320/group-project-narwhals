@@ -76,6 +76,7 @@ void main()
               totalSpecular = totalSpecular + (dampedFactor * reflectance * lightColor[i]) / attFactor;
       }
    totalDiffuse = max(totalDiffuse * lightFactor, 0.1);
+   totalSpecular = totalSpecular * lightFactor;
 
    outColor = vec4(totalDiffuse,1.0) * totalColour + vec4(totalSpecular, 1.0);
    outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
