@@ -1,4 +1,4 @@
-# Blender MTL File: 'diving bellv4.blend'
+# Blender MTL File: 'diving bellv5.blend'
 # Material Count: 1
 
 newmtl Material
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\mags_\\Downloads\\TexturesCom_BronzeCopper0097_1_M.jpg
+map_Kd Copper.png

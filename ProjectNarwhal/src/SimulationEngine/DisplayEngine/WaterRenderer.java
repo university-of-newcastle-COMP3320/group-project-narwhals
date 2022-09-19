@@ -1,10 +1,11 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.Shaders.TerrainShader;
+import SimulationEngine.Shaders.WaterShader;
 import SimulationEngine.Tools.ProjectMaths;
 import Terrain.BaseTerrain;
-import Terrain.TerrainTexturePack;
-import Terrain.WaterSurface;
+import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -15,57 +16,43 @@ import org.lwjgl.opengl.GL30;
 import java.util.List;
 
 public class WaterRenderer {
-    private TerrainShader shader;
+    private WaterShader shader;
 
-    public WaterRenderer(TerrainShader shader, Matrix4f projectionMatrix){
+    public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
-        shader.connectTextureUnits();
         shader.stop();
     }
 
-    public void render(List<WaterSurface> terrains){
-        for(WaterSurface terrain: terrains){
-            prepareTerrain(terrain);
-            loadModelMatrix(terrain);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-            unbindTerrain();
+    public void render(List<WaterSurface> waters){
+        for(WaterSurface water: waters){
+            prepareWater(water);
+            loadModelMatrix(water);
+            GL11.glDrawElements(GL11.GL_TRIANGLES, water.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+            unbindWater();
         }
     }
 
-    private void prepareTerrain(WaterSurface terrain){
-        GL30.glBindVertexArray(terrain.getModel().getVaoID());
+    private void prepareWater(WaterSurface water){
+        GL30.glBindVertexArray(water.getModel().getVaoID());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
-        bindTextures(terrain);
         shader.loadShineVariables(1, 0);
-    }
-
-    private void bindTextures(WaterSurface terrain){
-        TerrainTexturePack texturePack = terrain.getTexturePack();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE1);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getrTexture().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE2);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getgTexture().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE3);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getbTexture().getTextureID());
-        GL13.glActiveTexture(GL13.GL_TEXTURE4);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, water.getTexture().getTextureID());
     }
 
-    private void unbindTerrain(){
+    private void unbindWater(){
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
     }
 
-    private void loadModelMatrix(WaterSurface terrain){
-        Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(new Vector3f(terrain.getX(), terrain.getY(), terrain.getZ()),0,0,0,1);
+    private void loadModelMatrix(WaterSurface water){
+        Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(new Vector3f(water.getX(), water.getY(), water.getZ()),0,0,0,1);
         shader.loadTransformationMatrix(transformationMatrix);
     }
 }

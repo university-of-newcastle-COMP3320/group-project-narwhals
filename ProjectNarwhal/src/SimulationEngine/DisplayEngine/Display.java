@@ -44,6 +44,8 @@ public class Display {
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwWindowHint(GLFW_REFRESH_RATE, GLFW_TRUE);//window refresh rate
+        glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
 
         // Create the window
         window = glfwCreateWindow(1920, 1080, "Secret Project Narwhal", NULL, NULL);

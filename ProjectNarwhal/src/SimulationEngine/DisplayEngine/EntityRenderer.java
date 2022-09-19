@@ -27,7 +27,8 @@ public class EntityRenderer {
     }
 
     //handles rendering each batch of models
-    public void render(Map<ModeledEntity, List<ModeledEntity>> entities){
+    public void render(Map<ModeledEntity, List<ModeledEntity>> entities, Matrix4f toShadowSpace){
+        shader.loadToShadowSpaceMatrix(toShadowSpace);
         for(ModeledEntity model:entities.keySet()){
             prepareModel(model);
             List<ModeledEntity> batch = entities.get(model);
