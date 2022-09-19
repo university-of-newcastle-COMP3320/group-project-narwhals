@@ -18,14 +18,16 @@ public class TerrainGeneration {
 		Color[][][] images = new Color[4][512][512];
 
 		for(int i = 0; i<4; i++){
-			images[i] = tg.drawMap(tg.generateMap(seed.nextInt(50), 512, 512));
+			images[i] = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 512, 512));
 		}
 
 		String path = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap" + ".png";
 		BufferedImage image = new BufferedImage(images[0].length, images[0][0].length, BufferedImage.TYPE_INT_RGB);
-		for (int x = 0; x < 512; x++) {
-			for (int y = 0; y < 512; y++) {
-				image.setRGB(x, y, images[0][x][y].getRGB());
+		for(int z = 0; z < 4; z++){
+			for (int x = 0; x < 512; x++) {
+				for (int y = 0; y < 512; y++) {
+					image.setRGB(x, y, images[z][x][y].getRGB());
+				}
 			}
 		}
 
@@ -39,13 +41,13 @@ public class TerrainGeneration {
 
 	public double[][] generateMap(long seed, int width, int height) {
 		double[][] map = new double[width][height];
+		double seedDouble = seed;
 
 		for(int x=0; x<width; x++){
 			lastX++;
 			for(int y=0; y<height; y++){
 				lastY++;
-				lastZ++;
-				map[x][y] = Math.abs(ImprovedNoise.noise(x*20.0/width, y*10.0/height, 0.0)); //make maths scale from 0 to 1
+				map[x][y] = Math.abs(ImprovedNoise.noise(x*seedDouble/width, y*10.0/height, 0.0)); //make maths scale from 0 to 1
 			}
 		}
 		return map;
