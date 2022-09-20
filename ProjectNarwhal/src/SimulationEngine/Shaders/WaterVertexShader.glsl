@@ -2,8 +2,8 @@
 
   const float PI = 3.1415926535897932384626433832795;
 
-  const float waveLength = 4.0;
-  const float waveAmplitude = 0.2;
+  const float waveLength = 8.0;
+  const float waveAmplitude = 2;
 
   in vec3 position;
   in vec2 textureCoords;
@@ -35,16 +35,18 @@
 
   vec3 applyDistortion(vec3 vertex)
   {
-  	float xDistortion = generateOffset(vertex.x, vertex.z, 0.2, 0.1);
-  	float yDistortion = generateOffset(vertex.x, vertex.z, 0.1, 0.3);
-  	float zDistortion = generateOffset(vertex.x, vertex.z, 0.15, 0.2);
+  	float xDistortion = generateOffset(vertex.x, vertex.z);
+  	float yDistortion = generateOffset(vertex.x, vertex.z);
+  	float zDistortion = generateOffset(vertex.x, vertex.z);
   	return vertex + vec3(xDistortion, yDistortion, zDistortion);
   }
 
   void main()
   {
-      //need to use applyDistortion() on each vertex of the water surface
-      vec4 worldPosition = transformationMatrix * vec4(position,1.0);
+      vec3 currentVertex = position;
+      currentVertex = applyDistortion(currentVertex);
+
+      vec4 worldPosition = transformationMatrix * vec4(currentVertex,1.0);
       vec4 positionRelativeToCam = viewMatrix * worldPosition;
       gl_Position = projectionMatrix * positionRelativeToCam;
       TextureCoords = textureCoords;

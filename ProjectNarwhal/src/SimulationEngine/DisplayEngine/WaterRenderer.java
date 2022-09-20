@@ -17,6 +17,8 @@ import java.util.List;
 
 public class WaterRenderer {
     private WaterShader shader;
+    private float time = 0;
+    private static final float WAVE_SPEED = 0.002f;
 
     public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
@@ -31,6 +33,7 @@ public class WaterRenderer {
             loadModelMatrix(water);
             GL11.glDrawElements(GL11.GL_TRIANGLES, water.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
             unbindWater();
+            updateTime(); //Testing
         }
     }
 
@@ -54,5 +57,10 @@ public class WaterRenderer {
     private void loadModelMatrix(WaterSurface water){
         Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(new Vector3f(water.getX(), water.getY(), water.getZ()),0,0,0,1);
         shader.loadTransformationMatrix(transformationMatrix);
+    }
+
+    private void updateTime() {
+        time += WAVE_SPEED;
+        shader.loadWaveTime(time);
     }
 }
