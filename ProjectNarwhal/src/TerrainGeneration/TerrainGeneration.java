@@ -41,9 +41,8 @@ public class TerrainGeneration {
 					else if(z == 2){
 						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 512][y].getRGB());
 					}
-					else if(z == 3){
+					else {
 						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 512][y + 512].getRGB());
-
 					}
 				}
 			}
