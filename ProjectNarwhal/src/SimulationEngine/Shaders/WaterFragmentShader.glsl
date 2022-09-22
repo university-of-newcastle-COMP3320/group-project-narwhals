@@ -42,4 +42,5 @@ void main()
 
       outColor = vec4(totalDiffuse,1.0) * texture(textureSampler, TextureCoords) + vec4(totalSpecular, 1.0);
       outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
+        outColor = outColor * vec4(1.0f, 1.0f, 1.0f, 0.5f);
     }

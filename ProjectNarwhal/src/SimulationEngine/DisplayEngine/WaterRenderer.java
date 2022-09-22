@@ -21,6 +21,8 @@ public class WaterRenderer {
     private static final float WAVE_SPEED = 0.002f;
 
     public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix){
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
@@ -33,7 +35,7 @@ public class WaterRenderer {
             loadModelMatrix(water);
             GL11.glDrawElements(GL11.GL_TRIANGLES, water.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
             unbindWater();
-            updateTime(); //Testing
+            updateTime();
         }
     }
 
