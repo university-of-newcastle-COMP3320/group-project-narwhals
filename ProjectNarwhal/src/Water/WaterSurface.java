@@ -83,4 +83,8 @@ public class WaterSurface {
     public WaterTexture getTexture(){
         return texture;
     }
+
+    public void setTexture(WaterTexture texture){
+        this.texture = texture;
+    }
 }

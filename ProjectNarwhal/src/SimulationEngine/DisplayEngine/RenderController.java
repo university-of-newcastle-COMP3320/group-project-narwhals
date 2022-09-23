@@ -51,12 +51,20 @@ public class RenderController {
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
-    public void render(List<LightSource> lights, ViewFrustrum camera){
+
+    public void render(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, ViewFrustrum camera){
         glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
         GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
         GL13.glActiveTexture(GL13.GL_TEXTURE5);
         GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
+
+        for(ModeledEntity model: entityBatch){
+            processEntity(model);
+        }
+        for(BaseTerrain terrain: terrainBatch){
+            processTerrain(terrain);
+        }
 
         eShader.start(); //start the shaders
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);

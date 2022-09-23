@@ -12,10 +12,12 @@ import SimulationEngine.Shaders.StaticShader;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
+import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +51,13 @@ public class ProjectNarwhal {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         RenderController renderer = new RenderController(camera);
+        WaterFrameBuffers fbos = new WaterFrameBuffers();
 
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
@@ -183,18 +187,19 @@ public class ProjectNarwhal {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
 
-
+        List<WaterSurface> waters = new ArrayList<>();
         //water surface tiles
-        WaterSurface water = new WaterSurface(0,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water2 = new WaterSurface(0,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water3 = new WaterSurface(-1,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
-        WaterSurface water4 = new WaterSurface(-1,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder")));
+        waters.add(new WaterSurface(0,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(0,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-1,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-1,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
+        List<BaseTerrain> terrains = new ArrayList<>();
         //ground surface tiles
-        BaseTerrain terrain = new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
-        BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
-        BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap");
-        BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap");
+        terrains.add(new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
+        terrains.add(new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
+        terrains.add(new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
+        terrains.add(new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
 
         LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
@@ -208,43 +213,26 @@ public class ProjectNarwhal {
         boolean circle = false;
         boolean circle2 = false;
 
+        int i = 0;
+        for(WaterSurface water: waters){
+            waters.get(i).setTexture(new WaterTexture(fbos.getReflectionTexture()));
+            i++;
+        }
+
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             renderer.renderShadowMap(entities, sun);
             camera.move();
 
-            for(ModeledEntity model: entities){
-                renderer.processEntity(model);
-            }
-            renderer.processEntity(narwhal[0]);
-            if(narwhal[0].getPosition().z <= -100 && !circle){
-                circle = true;
-                narwhal[0].increaseRotation(0,180,0);
-            }
-            if(narwhal[0].getPosition().z >= 100 && circle){
-                circle = false;
-                narwhal[0].increaseRotation(0,180,0);
-            }
-            if(narwhal[0].getPosition().x > -100 && !circle){
-                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z - 0.05f));
-            }
+            fbos.bindReflectionFrameBuffer();
+            renderer.render(entities, terrains, lights, camera);
+            fbos.unbindCurrentFrameBuffer();
 
-            if(narwhal[0].getPosition().x < 100 && circle){
-                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z  + 0.05f));
+            for(WaterSurface water: waters){
+                renderer.processWater(water);
             }
-
-
-            renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
-            renderer.processTerrain(terrain3);
-            renderer.processTerrain(terrain4);
-            renderer.processWater(water);
-            renderer.processWater(water2);
-            renderer.processWater(water3);
-            renderer.processWater(water4);
-
-            renderer.render(lights, camera);
+            renderer.render(entities, terrains, lights, camera);
 
             glfwSwapBuffers(window); // swap the buffers
 
@@ -252,6 +240,7 @@ public class ProjectNarwhal {
             // invoked during this call.
             glfwPollEvents();
         }
+        fbos.cleanUp();
         renderer.cleanUp();
         shader.cleanUp();
     }
