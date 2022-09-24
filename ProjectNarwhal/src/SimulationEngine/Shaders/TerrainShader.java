@@ -5,6 +5,7 @@ import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class TerrainShader extends ShaderProgram{
     private int location_toShadowMapSpace;
     private int location_shadowMap;
     private int location_shadowDistance;
+    private int location_plane;
 
     //Constructor
     public TerrainShader() {
@@ -69,6 +71,7 @@ public class TerrainShader extends ShaderProgram{
         location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
         location_shadowMap = super.getUniformLocation("shadowMap");
         location_shadowDistance = super.getUniformLocation("shadowDistance");
+        location_plane = super.getUniformLocation("plane");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -105,6 +108,10 @@ public class TerrainShader extends ShaderProgram{
         super.loadInt(location_bTexture, 3);
         super.loadInt(location_blendMap, 4);
         super.loadInt(location_shadowMap, 5);
+    }
+
+    public void loadClippingPlane(Vector4f plane){
+        super.loadVec4(location_plane, plane);
     }
 
     public void loadToShadowSpaceMatrix(Matrix4f matrix){

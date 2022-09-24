@@ -8,9 +8,11 @@ import SimulationEngine.Shaders.TerrainShader;
 import SimulationEngine.Shaders.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
 import Terrain.BaseTerrain;
+import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -41,35 +43,39 @@ public class RenderController {
 
     private ShadowMapRenderController shadowMapRenderer;
 
-    public RenderController(ViewFrustrum camera) {
+    public RenderController(ViewFrustrum camera, WaterFrameBuffers fbos) {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
-        wRenderer = new WaterRenderer(wShader, projectionMatrix);
+        wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
-
-    public void render(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, ViewFrustrum camera){
-        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
-        GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
-        GL13.glActiveTexture(GL13.GL_TEXTURE5);
-        GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
-
+    public void renderScene(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, ViewFrustrum camera, Vector4f clipPlane){
         for(ModeledEntity model: entityBatch){
             processEntity(model);
         }
         for(BaseTerrain terrain: terrainBatch){
             processTerrain(terrain);
         }
+        render(lights, camera, clipPlane);
+    }
+
+
+    public void render(List<LightSource> lights, ViewFrustrum camera, Vector4f clipPlane){
+        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
+        GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
+        GL13.glActiveTexture(GL13.GL_TEXTURE5);
+        GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
 
         eShader.start(); //start the shaders
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         eShader.loadLights(lights);
         eShader.loadViewMatrix(camera);
+        eShader.loadClippingPlane(clipPlane);
         eShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
         eShader.bindShadowMap();
         eRenderer.render(entities, shadowMapRenderer.getToShadowMapSpaceMatrix());
@@ -80,6 +86,7 @@ public class RenderController {
         tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         tShader.loadLights(lights);
         tShader.loadViewMatrix(camera);
+        tShader.loadClippingPlane(clipPlane);
         tShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
         tRenderer.render(terrains, shadowMapRenderer.getToShadowMapSpaceMatrix());
 

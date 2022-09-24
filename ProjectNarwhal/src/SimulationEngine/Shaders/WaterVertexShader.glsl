@@ -15,6 +15,7 @@
   out vec3 toCameraVector;
   out float visibility;
   out float NumberOfLights;
+  out vec4 clipSpace;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -48,8 +49,9 @@
 
       vec4 worldPosition = transformationMatrix * vec4(currentVertex,1.0);
       vec4 positionRelativeToCam = viewMatrix * worldPosition;
-      gl_Position = projectionMatrix * positionRelativeToCam;
-      TextureCoords = textureCoords;
+      clipSpace = projectionMatrix * positionRelativeToCam;
+      gl_Position = clipSpace;
+
 
       surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
       for(int i = 0; i < numberOfLights; i ++){

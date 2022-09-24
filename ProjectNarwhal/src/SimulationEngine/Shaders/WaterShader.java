@@ -23,8 +23,10 @@ public class WaterShader extends ShaderProgram{
     private int location_waterColor;
     private int location_numberOfLights;
     private int location_waveTime;
-
     private int numberOfLights = 100;
+    private int location_reflectionTexture;
+    private int location_refractionTexture;
+    private int location_baseTexture;
 
     //Constructor
     public WaterShader() {
@@ -53,6 +55,9 @@ public class WaterShader extends ShaderProgram{
         location_waterColor = super.getUniformLocation("waterColor");
         location_numberOfLights = super.getUniformLocation("numberOfLights");
         location_waveTime = super.getUniformLocation("waveTime");
+        location_reflectionTexture = super.getUniformLocation("reflectionTexture");
+        location_refractionTexture = super.getUniformLocation("refractionTexture");
+        location_baseTexture = super.getUniformLocation("baseTexture");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -63,6 +68,12 @@ public class WaterShader extends ShaderProgram{
             location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
 
         }
+    }
+
+    public void connectTextureUnits(){
+        super.loadInt(location_reflectionTexture, 0);
+        super.loadInt(location_refractionTexture, 1);
+        super.loadInt(location_baseTexture, 2);
     }
 
     public void loadNumberOfLights(int number){

@@ -5,6 +5,7 @@ import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class StaticShader extends ShaderProgram{
     private int location_toShadowMapSpace;
     private int location_shadowMap;
     private int location_shadowDistance;
+    private int location_plane;
 
     //Constructor
     public StaticShader() {
@@ -57,6 +59,7 @@ public class StaticShader extends ShaderProgram{
         location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
         location_shadowMap = super.getUniformLocation("shadowMap");
         location_shadowDistance = super.getUniformLocation("shadowDistance");
+        location_plane = super.getUniformLocation("plane");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -87,6 +90,9 @@ public class StaticShader extends ShaderProgram{
     }
     public void loadToShadowSpaceMatrix(Matrix4f matrix){
         super.loadMatrix(location_toShadowMapSpace, matrix);
+    }
+    public void loadClippingPlane(Vector4f plane){
+        super.loadVec4(location_plane, plane);
     }
 
 

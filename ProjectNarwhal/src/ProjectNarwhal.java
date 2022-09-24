@@ -16,7 +16,9 @@ import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import Water.WaterTexture;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import java.util.ArrayList;
@@ -45,20 +47,17 @@ public class ProjectNarwhal {
     }
 
     private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
+        //Very important following line
         GL.createCapabilities();
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
         ViewFrustrum camera = new ViewFrustrum(window);
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
-        RenderController renderer = new RenderController(camera);
         WaterFrameBuffers fbos = new WaterFrameBuffers();
+        RenderController renderer = new RenderController(camera, fbos);
 
+        //Load models
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
         ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral3/3a.obj", loader, "/Coral3/coral3");
@@ -72,7 +71,7 @@ public class ProjectNarwhal {
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
 
-
+        //Set the initial position and orientation of models
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
 
         Random rand = new Random();
@@ -179,6 +178,7 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
+        //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coralBase"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/sand"));
@@ -187,15 +187,16 @@ public class ProjectNarwhal {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
 
+
         List<WaterSurface> waters = new ArrayList<>();
-        //water surface tiles
+        //Load water surface tiles
         waters.add(new WaterSurface(0,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(0,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1,125,-1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1,125,0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
         List<BaseTerrain> terrains = new ArrayList<>();
-        //ground surface tiles
+        //Load ground surface tiles
         terrains.add(new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
         terrains.add(new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
         terrains.add(new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
@@ -225,14 +226,28 @@ public class ProjectNarwhal {
             renderer.renderShadowMap(entities, sun);
             camera.move();
 
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+
+            //Reflections
             fbos.bindReflectionFrameBuffer();
-            renderer.render(entities, terrains, lights, camera);
+            float distance = 2 * (camera.getLocation().y - waters.get(0).getY());
+            camera.getLocation().y -= distance;
+            camera.invertPitch();
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY() + 2));
+            camera.getLocation().y += distance;
+            camera.invertPitch();
             fbos.unbindCurrentFrameBuffer();
+
+            //Refractions
+//            fbos.bindRefractionFrameBuffer();
+//            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY()));
+//            fbos.unbindCurrentFrameBuffer();
 
             for(WaterSurface water: waters){
                 renderer.processWater(water);
             }
-            renderer.render(entities, terrains, lights, camera);
+            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 10));
 
             glfwSwapBuffers(window); // swap the buffers
 

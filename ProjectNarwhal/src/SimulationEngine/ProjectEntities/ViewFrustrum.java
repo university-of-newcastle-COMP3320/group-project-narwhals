@@ -103,6 +103,10 @@ public class ViewFrustrum {
         }
     }
 
+    public void invertPitch(){
+        this.pitch = -pitch;
+    }
+
     //getters
     public Vector3f getLocation() {
         return location;

@@ -5,6 +5,7 @@ import SimulationEngine.Shaders.TerrainShader;
 import SimulationEngine.Shaders.WaterShader;
 import SimulationEngine.Tools.ProjectMaths;
 import Terrain.BaseTerrain;
+import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -19,12 +20,15 @@ public class WaterRenderer {
     private WaterShader shader;
     private float time = 0;
     private static final float WAVE_SPEED = 0.002f;
+    private WaterFrameBuffers fbos;
 
-    public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix){
+    public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix, WaterFrameBuffers fbos){
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.shader = shader;
+        this.fbos = fbos;
         shader.start();
+        shader.connectTextureUnits();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
     }
@@ -46,7 +50,11 @@ public class WaterRenderer {
         GL20.glEnableVertexAttribArray(2);
         shader.loadShineVariables(1, 0);
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, water.getTexture().getTextureID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getReflectionTexture());
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getRefractionTexture());
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL11.glBindTexture(GL13.GL_TEXTURE3, water.getTexture().getTextureID());
     }
 
     private void unbindWater(){
@@ -64,5 +72,9 @@ public class WaterRenderer {
     private void updateTime() {
         time += WAVE_SPEED;
         shader.loadWaveTime(time);
+    }
+
+    public WaterShader getShader(){
+        return shader;
     }
 }
