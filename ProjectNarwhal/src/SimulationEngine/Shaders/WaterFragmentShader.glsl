@@ -7,6 +7,7 @@ in vec3 toCameraVector;
 in float visibility;
 in float NumberOfLights;
 in vec4 clipSpace;
+in vec3 reflectionVector;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor[10];
@@ -17,6 +18,8 @@ uniform vec3 waterColor;
 uniform sampler2D reflectionTexture;
 uniform sampler2D refractionTexture;
 uniform sampler2D baseTexture;
+uniform sampler2D dudvMap;
+uniform float moveFactor;
 
 out vec4 outColor;
 
@@ -43,16 +46,25 @@ void main()
         }
         totalDiffuse = max(totalDiffuse, 0.1);
 
+        vec2 distortion1 = (texture(dudvMap, vec2(TextureCoords.x + moveFactor, TextureCoords.y)).rg * 2.0 - 1.0) * 0.002;
+        vec2 distortion2 = (texture(dudvMap, vec2(-TextureCoords.x + moveFactor, TextureCoords.y + moveFactor)).rg * 2.0 - 1.0) * 0.002;
+        vec2 totalDistortion = distortion1 + distortion2;
         vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;
-        vec4 reflectColor = texture(reflectionTexture, vec2(ndc.x,-ndc.y));
-        vec4 refractColor = texture(refractionTexture, vec2(ndc.x,ndc.y));
-        vec4 reflectMix = mix(reflectColor, refractColor, 0.5);
-        vec4 baseColor = texture(baseTexture, vec2(ndc.x,ndc.y));
+        vec2 reflectCoords = vec2(ndc.x,-ndc.y);
+        vec2 refractCoords = vec2(ndc.x,ndc.y);
+        refractCoords += totalDistortion;
+        reflectCoords += totalDistortion;
+        refractCoords = clamp(refractCoords, 0.001, 0.999);
+        reflectCoords.x = clamp(reflectCoords.x, 0.001, 0.999);
+        reflectCoords.y = clamp(reflectCoords.y, -0.999, -0.001);
+        vec4 reflectColor = texture(reflectionTexture, reflectCoords);
+        vec4 refractColor = texture(refractionTexture, refractCoords);
+        vec3 viewVector = normalize(reflectionVector);
+        float refractiveIndex = dot(viewVector, vec3(0.0, -1.0, 0.0));
+        refractiveIndex = pow(refractiveIndex, 2);
+        vec4 reflectMix = mix(reflectColor, refractColor, refractiveIndex);
 
         outColor = vec4(totalDiffuse,1.0) + vec4(totalSpecular, 1.0);
-        //To see what the base texture looks like overlaid, change 0.01 to 0.5 or any value inbetween
-        //Personally, not a fan
-        outColor = outColor * mix(reflectMix, baseColor, 0.01);
+        outColor = outColor * reflectMix;
         outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
-        outColor = outColor * vec4(1.0f, 1.0f, 1.0f, 0.5f);
     }

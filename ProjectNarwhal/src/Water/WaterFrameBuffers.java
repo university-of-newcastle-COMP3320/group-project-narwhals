@@ -14,10 +14,10 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class WaterFrameBuffers {
 
-    protected static final int REFLECTION_WIDTH = 1990;
-    private static final int REFLECTION_HEIGHT = 1080;
-    protected static final int REFRACTION_WIDTH = 1990;
-    private static final int REFRACTION_HEIGHT = 1080;
+    protected static final int REFLECTION_WIDTH = 1280;
+    private static final int REFLECTION_HEIGHT = 720;
+    protected static final int REFRACTION_WIDTH = 1280;
+    private static final int REFRACTION_HEIGHT = 720;
     private int reflectionFrameBuffer;
     private int reflectionTexture;
     private int reflectionDepthBuffer;

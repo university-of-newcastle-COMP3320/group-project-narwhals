@@ -16,7 +16,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class ViewFrustrum {
     private Vector3f location = new Vector3f(0,25,40);
 
-    private final float CONTROL_OFFSET = 10;
+    private final float CONTROL_OFFSET = 10.5f;
     private float pitch;
     private float yaw;
     private float roll;
@@ -35,70 +35,58 @@ public class ViewFrustrum {
         this.window = window;
         Keyboard keyboard = new Keyboard();
         GLFW.glfwSetKeyCallback(window, keyboard::invoke);
-//        GLFW.glfwSetCursorPosCallback(window, new GLFWCursorPosCallbackI() {
-//            @Override
-//            public void invoke(long window, double xpos, double ypos) {
-//                x.put(2,x.get(1));
-//                x.put(2,x.get(1));
-//                x.put(1,x.get(0));
-//                y.put(1,y.get(0));
-//                x.put(0,(float)xpos);
-//                y.put(0,(float)ypos);
-//            }
-//        }::invoke);
         GLFW.glfwSetCursorPos(window, 0, 0);
-//        GLFW.glfwSetCursorEnterCallback(window, new GLFWCursorEnterCallbackI() {
-//            @Override
-//            public void invoke(long window, boolean entered) {
-//                if(entered){
-//                    move = true;
-//                }
-//                else{
-//                    move = false;
-//                }
-//            }
-//        });
     };
 
     public void move(){
         x[1] = x[0];
         y[1] = y[0];
         GLFW.glfwGetCursorPos(window,x,y);
-        if(move == true) {
-            checkInputs();
-            calculatePitch((float)(y[1] - y[0]));
-            calculateYaw((float)(x[1] - x[0]));
-            float dx = (float) (currentSpeed * Math.sin(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
-            float dz = (float) (currentSpeed * Math.cos(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
-            location.x += dx;
-            location.z += dz;
-        }
+        System.out.println(location.x);
+        checkInputs();
+        calculatePitch((float)(y[1] - y[0]));
+        calculateYaw((float)(x[1] - x[0]));
+        float dx = (float) (currentSpeed * Math.sin(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
+        float dz = (float) (currentSpeed * Math.cos(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
+        location.x += dx;
+        location.z += dz;
     }
 
     public void checkInputs(){
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W) && location.x >= -800 && location.x <=800 && location.z >= -800 && location.z <= 800){
             currentSpeed = -0.6f;
         }
-//        TO reimplement these, cross product
+        else if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S) && location.x >= -800 && location.x <=800 && location.z >= -800 && location.z <= 800){
+            currentSpeed = 0.6f;
+        }
+        else if(location.x <= -800){
+            location.x += 1;
+        }
+        else if(location.z <= -800){
+            location.z += 1;
+        }
+        else if(location.x >= 800) {
+            location.x -= 1;
+        }
+        else if(location.z >= 800){
+            location.z -= 1;
+        }
+        else{
+            currentSpeed = 0;
+        }
 //        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_A)){
 //            currentSpeed = 0.6f;
 //        }
 //        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_D)){
 //            currentSpeed = 0.6f;
 //        }
-        else if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S)){
-            currentSpeed = 0.6f;
-        }
-        else{
-            currentSpeed = 0;
-        }
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE )){
             glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) && location.y >= 25){
             location.y -= 0.6f;
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y <= 120){
             location.y  += 0.6f;
         }
     }

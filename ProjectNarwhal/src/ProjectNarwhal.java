@@ -145,38 +145,38 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-            newEntity.setMaterial(models4[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-            newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-            newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat());
-            entities.add(newEntity);
-        }
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+//            newEntity.setMaterial(models4[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+//            newEntity.setMaterial(models5[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+//            newEntity.setMaterial(models[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat());
+//            entities.add(newEntity);
+//        }
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
@@ -233,21 +233,22 @@ public class ProjectNarwhal {
             float distance = 2 * (camera.getLocation().y - waters.get(0).getY());
             camera.getLocation().y -= distance;
             camera.invertPitch();
-            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY() + 2));
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY() + 5));
             camera.getLocation().y += distance;
             camera.invertPitch();
             fbos.unbindCurrentFrameBuffer();
 
             //Refractions
-//            fbos.bindRefractionFrameBuffer();
-//            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY()));
-//            fbos.unbindCurrentFrameBuffer();
+            fbos.bindRefractionFrameBuffer();
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, 1 , 0 , -waters.get(0).getY() + 5));
+            fbos.unbindCurrentFrameBuffer();
+
 
             for(WaterSurface water: waters){
                 renderer.processWater(water);
             }
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
-            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 10));
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 0 ));
 
             glfwSwapBuffers(window); // swap the buffers
 

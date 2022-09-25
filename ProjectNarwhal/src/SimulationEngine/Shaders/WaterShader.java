@@ -27,6 +27,9 @@ public class WaterShader extends ShaderProgram{
     private int location_reflectionTexture;
     private int location_refractionTexture;
     private int location_baseTexture;
+    private int location_dudvMap;
+    private int location_moveFactor;
+    private int location_cameraLocation;
 
     //Constructor
     public WaterShader() {
@@ -58,6 +61,9 @@ public class WaterShader extends ShaderProgram{
         location_reflectionTexture = super.getUniformLocation("reflectionTexture");
         location_refractionTexture = super.getUniformLocation("refractionTexture");
         location_baseTexture = super.getUniformLocation("baseTexture");
+        location_dudvMap = super.getUniformLocation("dudvMap");
+        location_moveFactor = super.getUniformLocation("moveFactor");
+        location_cameraLocation = super.getUniformLocation("cameraLocation");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -73,7 +79,11 @@ public class WaterShader extends ShaderProgram{
     public void connectTextureUnits(){
         super.loadInt(location_reflectionTexture, 0);
         super.loadInt(location_refractionTexture, 1);
-        super.loadInt(location_baseTexture, 2);
+        super.loadInt(location_dudvMap, 2);
+    }
+
+    public void loadMoveFactor(float moveFactor){
+        super.loadFloat(location_moveFactor, moveFactor);
     }
 
     public void loadNumberOfLights(int number){
@@ -102,6 +112,7 @@ public class WaterShader extends ShaderProgram{
     public void loadViewMatrix(ViewFrustrum camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
+        super.loadVec3(location_cameraLocation, camera.getLocation());
     }
 
     public void loadLights(List<LightSource> lights){

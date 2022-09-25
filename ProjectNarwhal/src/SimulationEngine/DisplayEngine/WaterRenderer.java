@@ -1,5 +1,6 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.Shaders.TerrainShader;
 import SimulationEngine.Shaders.WaterShader;
@@ -21,12 +22,15 @@ public class WaterRenderer {
     private float time = 0;
     private static final float WAVE_SPEED = 0.002f;
     private WaterFrameBuffers fbos;
+    private int distortionTexture;
 
     public WaterRenderer(WaterShader shader, Matrix4f projectionMatrix, WaterFrameBuffers fbos){
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.shader = shader;
         this.fbos = fbos;
+        ModelLoader loader = new ModelLoader();
+        distortionTexture = loader.loadTexture("/WaterTextures/DUDV");
         shader.start();
         shader.connectTextureUnits();
         shader.loadProjectionMatrix(projectionMatrix);
@@ -54,7 +58,7 @@ public class WaterRenderer {
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getRefractionTexture());
         GL13.glActiveTexture(GL13.GL_TEXTURE2);
-        GL11.glBindTexture(GL13.GL_TEXTURE3, water.getTexture().getTextureID());
+        GL11.glBindTexture(GL13.GL_TEXTURE_2D, distortionTexture);
     }
 
     private void unbindWater(){
@@ -71,7 +75,8 @@ public class WaterRenderer {
 
     private void updateTime() {
         time += WAVE_SPEED;
-        shader.loadWaveTime(time);
+        shader.loadWaveTime(time / 5);
+        shader.loadMoveFactor(time / 10);
     }
 
     public WaterShader getShader(){

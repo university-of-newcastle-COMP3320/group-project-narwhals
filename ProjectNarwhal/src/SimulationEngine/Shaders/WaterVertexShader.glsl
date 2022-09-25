@@ -1,10 +1,5 @@
  #version 400 core
 
-  const float PI = 3.1415926535897932384626433832795;
-
-  const float waveLength = 8.0;
-  const float waveAmplitude = 2;
-
   in vec3 position;
   in vec2 textureCoords;
   in vec3 normal;
@@ -16,6 +11,7 @@
   out float visibility;
   out float NumberOfLights;
   out vec4 clipSpace;
+  out vec3 reflectionVector;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -23,9 +19,13 @@
   uniform mat4 viewMatrix;
   uniform vec3 lightPosition[10];
   uniform float waveTime;
+  uniform vec3 cameraLocation;
 
   const float density = 0.005;
   const float gradient = 1.5;
+  const float PI = 3.1415926535897932384626433832795;
+  const float waveLength = 8.0;
+  const float waveAmplitude = 2;
 
   float generateOffset(float x, float z)
   {
@@ -51,6 +51,8 @@
       vec4 positionRelativeToCam = viewMatrix * worldPosition;
       clipSpace = projectionMatrix * positionRelativeToCam;
       gl_Position = clipSpace;
+      TextureCoords = textureCoords * 20.0;
+      reflectionVector = cameraLocation - worldPosition.xyz;
 
 
       surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
