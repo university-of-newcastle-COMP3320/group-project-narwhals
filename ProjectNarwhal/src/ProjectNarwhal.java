@@ -238,7 +238,7 @@ public class ProjectNarwhal {
             float distance = 2 * (camera.getLocation().y - waters.get(0).getY());
             camera.getLocation().y -= distance;
             camera.invertPitch();
-            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY() + 5));
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , waters.get(0).getY() - 25));
             camera.getLocation().y += distance;
             camera.invertPitch();
             fbos.unbindCurrentFrameBuffer();

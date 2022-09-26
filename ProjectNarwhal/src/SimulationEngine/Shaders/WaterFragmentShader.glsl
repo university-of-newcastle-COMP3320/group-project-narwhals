@@ -61,7 +61,7 @@ void main()
         vec4 refractColor = texture(refractionTexture, refractCoords);
         vec3 viewVector = normalize(reflectionVector);
         float refractiveIndex = dot(viewVector, vec3(0.0, -1.0, 0.0));
-        refractiveIndex = pow(refractiveIndex, 2);
+//        refractiveIndex = pow(refractiveIndex, 2);
         vec4 reflectMix = mix(reflectColor, refractColor, refractiveIndex);
 
         outColor = vec4(totalDiffuse,1.0) + vec4(totalSpecular, 1.0);
