@@ -5,8 +5,8 @@ import org.joml.Matrix4f;
 
 public class ShadowShader extends ShaderProgram {
 	
-	private static final String VERTEX_FILE = "src/SimulationEngine/Shadows/shadowVertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/SimulationEngine/Shadows/shadowFragmentShader.txt";
+	private static final String VERTEX_FILE = "src/SimulationEngine/Shadows/shadowVertexShader.glsl";
+	private static final String FRAGMENT_FILE = "src/SimulationEngine/Shadows/shadowFragmentShader.glsl";
 	
 	private int location_mvpMatrix;
 
@@ -17,7 +17,6 @@ public class ShadowShader extends ShaderProgram {
 	@Override
 	protected void getAllUniformLocations() {
 		location_mvpMatrix = super.getUniformLocation("mvpMatrix");
-		
 	}
 	
 	protected void loadMvpMatrix(Matrix4f mvpMatrix){

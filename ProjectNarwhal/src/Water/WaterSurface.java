@@ -9,7 +9,7 @@ import org.joml.Vector4f;
 public class WaterSurface {
 
     private static final float SIZE = 800;
-    private static final int VERTEX_COUNT = 128;
+    private static final int VERTEX_COUNT = 256;
 
     private float x;
     private float y;

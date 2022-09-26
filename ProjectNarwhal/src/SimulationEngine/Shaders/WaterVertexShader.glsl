@@ -24,14 +24,14 @@
   const float density = 0.005;
   const float gradient = 1.5;
   const float PI = 3.1415926535897932384626433832795;
-  const float waveLength = 8.0;
-  const float waveAmplitude = 2;
+  const float waveLength = 20;
+  const float waveAmplitude = 5;
 
   float generateOffset(float x, float z)
   {
-      float radiansX = (x / waveLength + waveTime) * 2.0 * PI;
-      float radiansZ = (z / waveLength + waveTime) * 2.0 * PI;
-      return waveAmplitude * 0.5 * (sin(radiansZ) + cos(radiansX));
+      float radiansX = (x / waveLength + waveTime) * 2 * PI;
+      float radiansZ = (z / waveLength + waveTime) * 2 * PI;
+      return waveAmplitude * 0.25 * (sin(radiansZ) + cos(radiansX));
   }
 
   vec3 applyDistortion(vec3 vertex)

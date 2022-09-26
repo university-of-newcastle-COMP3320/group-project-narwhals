@@ -42,7 +42,6 @@ public class ViewFrustrum {
         x[1] = x[0];
         y[1] = y[0];
         GLFW.glfwGetCursorPos(window,x,y);
-        System.out.println(location.x);
         checkInputs();
         calculatePitch((float)(y[1] - y[0]));
         calculateYaw((float)(x[1] - x[0]));

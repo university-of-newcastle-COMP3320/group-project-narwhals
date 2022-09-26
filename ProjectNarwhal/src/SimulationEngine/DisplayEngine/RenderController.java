@@ -130,7 +130,6 @@ public class RenderController {
             processEntity(entity);
         }
         shadowMapRenderer.render(entities, sun);
-//        entities.clear();
     }
 
     public int getShadowMapTexture(){

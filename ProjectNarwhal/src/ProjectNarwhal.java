@@ -98,24 +98,29 @@ public class ProjectNarwhal {
         for(int i=0; i<200; i++){
             float x = rand.nextFloat()* 800 - 400;
             float z = rand.nextFloat()* 800 - 400;
+            float scale = rand.nextInt(4,15);
             int rotation = (int) (x+z % 360);
             ModeledEntity newEntity;
             switch ((int) (rand.nextFloat()*4+1)) {
                 case 1:
                     newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
                     newEntity.setMaterial(iceChunk1[0].getMaterial());
+                    newEntity.setScale(scale);
                     break;
                 case 2:
                     newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
                     newEntity.setMaterial(iceChunk2[0].getMaterial());
+                    newEntity.setScale(scale);
                     break;
                 case 3:
                     newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
                     newEntity.setMaterial(iceChunk3[0].getMaterial());
+                    newEntity.setScale(scale);
                     break;
                 default:
                     newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
                     newEntity.setMaterial(iceChunk4[0].getMaterial());
+                    newEntity.setScale(scale);
                     break;
 
             }
@@ -145,38 +150,38 @@ public class ProjectNarwhal {
             entities.add(newEntity);
         }
 
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-//            newEntity.setMaterial(models4[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-//            newEntity.setMaterial(models5[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<50; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-//            newEntity.setMaterial(models[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat());
-//            entities.add(newEntity);
-//        }
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+            newEntity.setMaterial(models4[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+            newEntity.setMaterial(models5[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<50; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+            newEntity.setMaterial(models[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat());
+            entities.add(newEntity);
+        }
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
@@ -206,9 +211,9 @@ public class ProjectNarwhal {
         LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
-        lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(0f,0f, 2f), new Vector3f(1,0.01f, 0.002f)));
-        lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(2f,0f, 0f), new Vector3f(1,0.01f, 0.002f)));
         lights.add(sun);
+        lights.add(new LightSource(new Vector3f(46,21,-221), new Vector3f(1f,1f, 0.8235f), new Vector3f(1,0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-56,21,-31), new Vector3f(1f,1f, 0.8235f), new Vector3f(1,0.01f, 0.002f)));
 
 
         boolean circle = false;
@@ -247,8 +252,8 @@ public class ProjectNarwhal {
             for(WaterSurface water: waters){
                 renderer.processWater(water);
             }
-            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
-            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 0 ));
+            //clip distance set to 130 to cull polygons
+            renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 130));
 
             glfwSwapBuffers(window); // swap the buffers
 
