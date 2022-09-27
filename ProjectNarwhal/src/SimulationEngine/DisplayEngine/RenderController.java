@@ -37,6 +37,7 @@ public class RenderController {
     private EntityRenderer eRenderer;
     private TerrainRenderer tRenderer;
     private WaterRenderer wRenderer;
+    private SkyboxRenderer sRenderer;
     private Map<ModeledEntity, List<ModeledEntity>> entities = new HashMap<>();
     private List<BaseTerrain> terrains = new ArrayList<>();
     private List<WaterSurface> waters = new ArrayList<>();
@@ -44,12 +45,13 @@ public class RenderController {
     private ShadowMapRenderController shadowMapRenderer;
 
     public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
-        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
         wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
+        sRenderer = new SkyboxRenderer(loader, projectionMatrix);
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
@@ -103,6 +105,7 @@ public class RenderController {
 
         GL11.glEnable(GL11.GL_CULL_FACE);
 
+            sRenderer.render(camera);
 
         terrains.clear();
         entities.clear();
