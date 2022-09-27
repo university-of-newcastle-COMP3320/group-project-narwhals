@@ -1,9 +1,7 @@
 package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Model;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
@@ -12,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 
 
 public class ModelLoader {
@@ -31,6 +28,13 @@ public class ModelLoader {
         storeDataInAttributeList(2,3, normals);
         unbindVAO();
         return new Model(vaoID, indicies.length);
+    }
+
+    public Model loadToVAO(float[] positions, int dimensions){
+        int vaoID = createVAO();
+        this.storeDataInAttributeList(0, dimensions, positions);
+        unbindVAO();
+        return new Model(vaoID, positions.length / dimensions);
     }
 
     //loads a texture from an image and returns its id

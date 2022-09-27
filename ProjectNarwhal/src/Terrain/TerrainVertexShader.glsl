@@ -21,7 +21,7 @@
   uniform float shadowDistance;
   uniform vec4 plane;
 
-  const float density = 0.005;
+  const float density = 0.003;
   const float gradient = 1.5;
   const float transitionDistance = 10.0;
 

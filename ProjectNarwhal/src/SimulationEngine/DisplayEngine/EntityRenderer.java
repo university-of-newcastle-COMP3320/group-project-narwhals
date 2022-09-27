@@ -1,7 +1,7 @@
 package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.Shaders.StaticShader;
+import SimulationEngine.BaseShaders.StaticShader;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
@@ -11,8 +11,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import java.util.*;
-
-import static org.lwjgl.glfw.GLFW.*;
 
 public class EntityRenderer {
 

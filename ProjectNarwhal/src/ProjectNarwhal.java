@@ -2,13 +2,12 @@ import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.ModelTexture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
-import SimulationEngine.Shaders.StaticShader;
+import SimulationEngine.BaseShaders.StaticShader;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glGetError;
 
 public class ProjectNarwhal {
 
@@ -55,7 +53,7 @@ public class ProjectNarwhal {
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         WaterFrameBuffers fbos = new WaterFrameBuffers();
-        RenderController renderer = new RenderController(camera, fbos);
+        RenderController renderer = new RenderController(loader, camera, fbos);
 
         //Load models
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
@@ -208,6 +206,7 @@ public class ProjectNarwhal {
         terrains.add(new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
 
+
         LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
         //Sun light source
         List<LightSource> lights = new ArrayList<>();
@@ -252,6 +251,7 @@ public class ProjectNarwhal {
             for(WaterSurface water: waters){
                 renderer.processWater(water);
             }
+            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
             //clip distance set to 130 to cull polygons
             renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1 , 0 , 130));
 
@@ -261,6 +261,7 @@ public class ProjectNarwhal {
             // invoked during this call.
             glfwPollEvents();
         }
+        loader.cleanUp();
         fbos.cleanUp();
         renderer.cleanUp();
         shader.cleanUp();

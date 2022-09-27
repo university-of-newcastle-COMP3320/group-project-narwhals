@@ -1,11 +1,12 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
-import SimulationEngine.Shaders.StaticShader;
-import SimulationEngine.Shaders.TerrainShader;
-import SimulationEngine.Shaders.WaterShader;
+import SimulationEngine.BaseShaders.StaticShader;
+import Terrain.TerrainShader;
+import Water.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
 import Terrain.BaseTerrain;
 import Water.WaterFrameBuffers;
@@ -17,7 +18,6 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -28,7 +28,7 @@ public class RenderController {
 
     public static final float FOV_ANGLE = 70.0f;
     public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 500f;
+    public static final float FAR_PLANE = 1000f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
@@ -43,7 +43,7 @@ public class RenderController {
 
     private ShadowMapRenderController shadowMapRenderer;
 
-    public RenderController(ViewFrustrum camera, WaterFrameBuffers fbos) {
+    public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
@@ -100,7 +100,9 @@ public class RenderController {
         wRenderer.render(waters);
 
         wShader.stop();
+
         GL11.glEnable(GL11.GL_CULL_FACE);
+
 
         terrains.clear();
         entities.clear();

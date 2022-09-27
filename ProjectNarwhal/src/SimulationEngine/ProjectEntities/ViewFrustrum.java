@@ -1,15 +1,8 @@
 package SimulationEngine.ProjectEntities;
 
 import SimulationEngine.Tools.Keyboard;
-import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCursorEnterCallbackI;
-import org.lwjgl.glfw.GLFWCursorPosCallbackI;
-
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-
 import static org.lwjgl.glfw.GLFW.*;
 
 
@@ -82,10 +75,10 @@ public class ViewFrustrum {
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE )){
             glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) && location.y >= 25){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
             location.y -= 0.6f;
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y <= 120){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
             location.y  += 0.6f;
         }
     }

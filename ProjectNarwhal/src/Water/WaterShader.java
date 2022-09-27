@@ -1,18 +1,18 @@
-package SimulationEngine.Shaders;
+package Water;
 
+import SimulationEngine.BaseShaders.ShaderProgram;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import java.util.List;
 
-public class StaticShader extends ShaderProgram{
+public class WaterShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/VertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/FragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/Water/WaterVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/Water/WaterFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -23,15 +23,17 @@ public class StaticShader extends ShaderProgram{
     private int location_reflectance;
     private int location_waterColor;
     private int location_numberOfLights;
-
-    private int numberOfLights = 10;
-    private int location_toShadowMapSpace;
-    private int location_shadowMap;
-    private int location_shadowDistance;
-    private int location_plane;
+    private int location_waveTime;
+    private int numberOfLights = 100;
+    private int location_reflectionTexture;
+    private int location_refractionTexture;
+    private int location_baseTexture;
+    private int location_dudvMap;
+    private int location_moveFactor;
+    private int location_cameraLocation;
 
     //Constructor
-    public StaticShader() {
+    public WaterShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
         //uniforms will not work if this is not called
         getAllUniformLocations();
@@ -56,10 +58,13 @@ public class StaticShader extends ShaderProgram{
         location_reflectance = super.getUniformLocation("reflectance");
         location_waterColor = super.getUniformLocation("waterColor");
         location_numberOfLights = super.getUniformLocation("numberOfLights");
-        location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
-        location_shadowMap = super.getUniformLocation("shadowMap");
-        location_shadowDistance = super.getUniformLocation("shadowDistance");
-        location_plane = super.getUniformLocation("plane");
+        location_waveTime = super.getUniformLocation("waveTime");
+        location_reflectionTexture = super.getUniformLocation("reflectionTexture");
+        location_refractionTexture = super.getUniformLocation("refractionTexture");
+        location_baseTexture = super.getUniformLocation("baseTexture");
+        location_dudvMap = super.getUniformLocation("dudvMap");
+        location_moveFactor = super.getUniformLocation("moveFactor");
+        location_cameraLocation = super.getUniformLocation("cameraLocation");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -68,7 +73,18 @@ public class StaticShader extends ShaderProgram{
             location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
             location_lightColor[i] = super.getUniformLocation("lightColor["+i+"]");
             location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
+
         }
+    }
+
+    public void connectTextureUnits(){
+        super.loadInt(location_reflectionTexture, 0);
+        super.loadInt(location_refractionTexture, 1);
+        super.loadInt(location_dudvMap, 2);
+    }
+
+    public void loadMoveFactor(float moveFactor){
+        super.loadFloat(location_moveFactor, moveFactor);
     }
 
     public void loadNumberOfLights(int number){
@@ -80,21 +96,6 @@ public class StaticShader extends ShaderProgram{
         super.loadFloat(location_shineDamper, damper);
         super.loadFloat(location_reflectance, reflectance);
     }
-
-    public void bindShadowMap(){
-        super.loadInt(location_shadowMap, 5);
-    }
-
-    public void loadShadowDistance(float dist){
-        super.loadFloat(location_shadowDistance, dist);
-    }
-    public void loadToShadowSpaceMatrix(Matrix4f matrix){
-        super.loadMatrix(location_toShadowMapSpace, matrix);
-    }
-    public void loadClippingPlane(Vector4f plane){
-        super.loadVec4(location_plane, plane);
-    }
-
 
     public void loadWaterColor(float r, float g, float b){
         super.loadVec3(location_waterColor, new Vector3f(r,g,b));
@@ -112,6 +113,7 @@ public class StaticShader extends ShaderProgram{
     public void loadViewMatrix(ViewFrustrum camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
+        super.loadVec3(location_cameraLocation, camera.getLocation());
     }
 
     public void loadLights(List<LightSource> lights){
@@ -123,4 +125,8 @@ public class StaticShader extends ShaderProgram{
         }
     }
 
+    public void loadWaveTime(float waveTime)
+    {
+        super.loadFloat(location_waveTime, waveTime);
+    }
 }
