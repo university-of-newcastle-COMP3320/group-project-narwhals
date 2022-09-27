@@ -19,10 +19,10 @@ public class TerrainGeneration {
 
 		pixelSheet = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 1024, 1024));
 
-		String path1 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap1" + ".png";
-		String path2 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap2" + ".png";
-		String path3 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap3" + ".png";
-		String path4 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap4" + ".png";
+		String path1 = "ProjectResources/TerrainTextures/" + "heightmap1" + ".png";
+		String path2 = "ProjectResources/TerrainTextures/" + "heightmap2" + ".png";
+		String path3 = "ProjectResources/TerrainTextures/" + "heightmap3" + ".png";
+		String path4 = "ProjectResources/TerrainTextures/" + "heightmap4" + ".png";
 
 		BufferedImage[] imageForPngFile = new BufferedImage[4];
 		for(int i = 0; i<4; i++){
@@ -49,6 +49,7 @@ public class TerrainGeneration {
 		}
 
 		File ImageFile1 = new File(path1);
+		System.out.println(ImageFile1.getAbsolutePath());
 		File ImageFile2 = new File(path2);
 		File ImageFile3 = new File(path3);
 		File ImageFile4 = new File(path4);
