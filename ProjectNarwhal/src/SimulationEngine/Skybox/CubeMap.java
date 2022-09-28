@@ -5,7 +5,7 @@ import SimulationEngine.Models.Model;
 
 public class CubeMap {
 
-    private static final float SIZE = 10f;
+    private static final float SIZE = 100f;
 
     private static final float[] VERTICES = {
             -SIZE,  SIZE, -SIZE,

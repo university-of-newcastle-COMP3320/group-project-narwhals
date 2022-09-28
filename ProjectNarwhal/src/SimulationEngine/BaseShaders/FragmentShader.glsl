@@ -72,6 +72,6 @@ void main(){
     vec4 reflectedColor = texture(enviroMap, reflectedVector);
 
     outColor = vec4(totalDiffuse,1.0) * texture(textureSampler, TextureCoords) + vec4(totalSpecular, 1.0);
-    outColor = mix(outColor, reflectedColor, 0.6);
+//    outColor = mix(outColor, reflectedColor, 0.6);
     outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
     }

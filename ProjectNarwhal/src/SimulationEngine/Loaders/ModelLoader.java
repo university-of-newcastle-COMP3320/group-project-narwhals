@@ -2,6 +2,7 @@ package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Model;
 import SimulationEngine.Models.TextureData;
+import de.matthiasmann.twl.utils.PNGDecoder.Format;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import org.lwjgl.opengl.*;
 
@@ -50,8 +51,8 @@ public class ModelLoader {
             TextureData data = decodeTextureFile("ProjectResources/"+textureFiles[i]+".png");
             GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
         }
-        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         textures.add(texID);
         return texID;
     }
@@ -66,7 +67,7 @@ public class ModelLoader {
             width = decoder.getWidth();
             height = decoder.getHeight();
             buffer = ByteBuffer.allocateDirect(4 * width * height);
-            decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
+            decoder.decode(buffer, width * 4, Format.RGBA);
             buffer.flip();
             in.close();
         } catch (Exception e) {

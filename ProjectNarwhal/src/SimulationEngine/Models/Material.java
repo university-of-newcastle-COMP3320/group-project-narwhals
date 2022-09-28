@@ -20,7 +20,6 @@ public class Material {
 
     public Material(){}
 
-
     public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance, float shineDamper, ModelTexture texture) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;

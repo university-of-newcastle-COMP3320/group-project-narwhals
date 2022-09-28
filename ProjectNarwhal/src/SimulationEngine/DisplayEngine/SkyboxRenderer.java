@@ -26,6 +26,7 @@ public class SkyboxRenderer {
         }
 
         public void render(ViewFrustrum camera){
+            GL11.glDisable(GL11.GL_CULL_FACE);
             shader.start();
             loadProjectionViewMatrix(camera);
             bindTexture();
@@ -33,6 +34,7 @@ public class SkyboxRenderer {
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, cubeMap.getCube().getVertexCount());
             unbindCubeVao();
             shader.stop();
+            GL11.glEnable(GL11.GL_CULL_FACE);
         }
 
         public void cleanUp(){
