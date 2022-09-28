@@ -11,6 +11,7 @@
   out float visibility;
   out float NumberOfLights;
   out vec4 shadowCoords;
+  out vec3 reflectedVector;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -20,6 +21,7 @@
   uniform mat4 toShadowMapSpace;
   uniform float shadowDistance;
   uniform vec4 plane;
+  uniform vec3 cameraPosition;
 
  const float density = 0.003;
  const float gradient = 1.5;
@@ -40,6 +42,9 @@
               toLightVector[i] = lightPosition[i] - worldPosition.xyz;
       }
       toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+      vec3 viewVector = normalize(worldPosition.xyz - cameraPosition);
+      vec3 unitNormal = normalize(normal);
+      reflectedVector = reflect(viewVector, unitNormal);
 
       float distance = length(positionRelativeToCam.xyz);
       visibility = exp(-pow((distance*density),gradient));

@@ -2,6 +2,7 @@ package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
@@ -15,10 +16,12 @@ import java.util.*;
 public class EntityRenderer {
 
     private StaticShader shader;
+    private CubeMap entityMap;
 
     //Constructor, creates the view frustrum matrix and loads it
-    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix, CubeMap entityMap){
         this.shader = shader;
+        this.entityMap = entityMap;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
@@ -27,6 +30,7 @@ public class EntityRenderer {
     //handles rendering each batch of models
     public void render(Map<ModeledEntity, List<ModeledEntity>> entities, Matrix4f toShadowSpace){
         shader.loadToShadowSpaceMatrix(toShadowSpace);
+        bindEnvironmentMap();
         for(ModeledEntity model:entities.keySet()){
             prepareModel(model);
             List<ModeledEntity> batch = entities.get(model);
@@ -59,6 +63,11 @@ public class EntityRenderer {
         Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(entity.getPosition(), entity.getRX(), entity.getRY(), entity.getRZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
+    }
+
+    private void bindEnvironmentMap(){
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, entityMap.getTexture());
     }
 
 }

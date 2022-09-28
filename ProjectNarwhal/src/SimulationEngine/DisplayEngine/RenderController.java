@@ -5,6 +5,7 @@ import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Skybox.CubeMap;
 import Terrain.TerrainShader;
 import Water.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
@@ -43,15 +44,16 @@ public class RenderController {
     private List<WaterSurface> waters = new ArrayList<>();
 
     private ShadowMapRenderController shadowMapRenderer;
+    private static final String[] SKYBOX = {"SkyboxTextures/right", "SkyboxTextures/left" , "SkyboxTextures/top", "SkyboxTextures/bottom", "SkyboxTextures/back", "SkyboxTextures/front"};
 
     public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
+        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
         createProjectionMatrix();
-        eRenderer = new EntityRenderer(eShader, projectionMatrix);
+        CubeMap enviroMap = new CubeMap(SKYBOX, loader);
+        eRenderer = new EntityRenderer(eShader, projectionMatrix, enviroMap);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
         wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
-        sRenderer = new SkyboxRenderer(loader, projectionMatrix);
+        sRenderer = new SkyboxRenderer(enviroMap, projectionMatrix);
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
@@ -67,9 +69,10 @@ public class RenderController {
 
 
     public void render(List<LightSource> lights, ViewFrustrum camera, Vector4f clipPlane){
-        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
-        GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
+        GL11.glEnable(GL11.GL_DEPTH_TEST);//Zbuffer
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);//Clear Color and depth buffers
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
         GL13.glActiveTexture(GL13.GL_TEXTURE5);
         GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
 
@@ -105,7 +108,7 @@ public class RenderController {
 
         GL11.glEnable(GL11.GL_CULL_FACE);
 
-            sRenderer.render(camera);
+        sRenderer.render(camera);
 
         terrains.clear();
         entities.clear();

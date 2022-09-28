@@ -34,12 +34,13 @@ public class ModelLoader {
         return new Model(vaoID, indicies.length);
     }
 
-    public Model loadToVAO(float[] positions, int dimensions){
+    public Model loadToVAO(float[] positions) {
         int vaoID = createVAO();
-        this.storeDataInAttributeList(0, dimensions, positions);
+        this.storeDataInAttributeList(0, 3, positions);
         unbindVAO();
-        return new Model(vaoID, positions.length / dimensions);
+        return new Model(vaoID, positions.length / 3);
     }
+
 
     public int loadCubeMap(String [] textureFiles){
         int texID = GL11.glGenTextures();

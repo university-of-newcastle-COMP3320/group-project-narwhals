@@ -29,6 +29,7 @@ public class StaticShader extends ShaderProgram{
     private int location_shadowMap;
     private int location_shadowDistance;
     private int location_plane;
+    private int location_enviroMap;
 
     //Constructor
     public StaticShader() {
@@ -60,6 +61,7 @@ public class StaticShader extends ShaderProgram{
         location_shadowMap = super.getUniformLocation("shadowMap");
         location_shadowDistance = super.getUniformLocation("shadowDistance");
         location_plane = super.getUniformLocation("plane");
+        location_enviroMap = super.getUniformLocation("enviroMap");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -74,6 +76,10 @@ public class StaticShader extends ShaderProgram{
     public void loadNumberOfLights(int number){
         this.numberOfLights = number;
         super.loadFloat(location_numberOfLights, (float)number);
+    }
+
+    protected void connectTextureUnits(){
+        super.loadInt(location_enviroMap, 1);
     }
 
     public void loadShineVariables(float damper, float reflectance){
