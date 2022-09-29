@@ -19,6 +19,7 @@ import org.joml.Matrix4f;
 			super.loadMatrix(location_projectionViewMatrix, matrix);
 		}
 
+
 		@Override
 		protected void getAllUniformLocations() {
 			location_projectionViewMatrix = super.getUniformLocation("projectionViewMatrix");

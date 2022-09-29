@@ -36,6 +36,7 @@ public class StaticShader extends ShaderProgram{
         super(VERTEX_FILE, FRAGMENT_FILE);
         //uniforms will not work if this is not called
         getAllUniformLocations();
+        connectTextureUnits();
     }
 
     //binds the attributes declared in vbo to shader in's

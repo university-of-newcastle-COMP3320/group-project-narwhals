@@ -76,8 +76,6 @@ public class RenderController {
         GL13.glActiveTexture(GL13.GL_TEXTURE5);
         GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
 
-        sRenderer.render(camera);
-
         eShader.start(); //start the shaders
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         eShader.loadLights(lights);
@@ -108,6 +106,7 @@ public class RenderController {
 
         wShader.stop();
 
+        sRenderer.render(camera);
         GL11.glEnable(GL11.GL_CULL_FACE);
 
 
@@ -149,6 +148,7 @@ public class RenderController {
         eShader.cleanUp();
         tShader.cleanUp();
         wShader.cleanUp();
+        sRenderer.cleanUp();
         shadowMapRenderer.cleanUp();
     }
 

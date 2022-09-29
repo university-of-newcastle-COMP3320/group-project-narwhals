@@ -45,7 +45,7 @@ public class ModelLoader {
 
     public int loadCubeMap(String [] textureFiles){
         int texID = GL11.glGenTextures();
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
         GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
         for(int i = 0; i < textureFiles.length; i++){
             TextureData data = decodeTextureFile("ProjectResources/"+textureFiles[i]+".png");
@@ -53,6 +53,9 @@ public class ModelLoader {
         }
         GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL13.GL_TEXTURE_WRAP_R, GL12.GL_CLAMP_TO_EDGE);
         textures.add(texID);
         return texID;
     }

@@ -26,15 +26,15 @@ public class SkyboxRenderer {
         }
 
         public void render(ViewFrustrum camera){
-            GL11.glDisable(GL11.GL_CULL_FACE);
+            GL11.glDepthFunc(GL11.GL_LEQUAL);
             shader.start();
             loadProjectionViewMatrix(camera);
-            bindTexture();
             bindCubeVao();
-            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, cubeMap.getCube().getVertexCount());
+            bindTexture();
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
             unbindCubeVao();
             shader.stop();
-            GL11.glEnable(GL11.GL_CULL_FACE);
+            GL11.glDepthFunc(GL11.GL_LESS);
         }
 
         public void cleanUp(){
@@ -52,7 +52,7 @@ public class SkyboxRenderer {
         }
 
         private void bindTexture(){
-            GL13.glActiveTexture(GL13.GL_TEXTURE0);
+            GL13.glActiveTexture(GL13.GL_TEXTURE2);
             GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, cubeMap.getTexture());
         }
 
