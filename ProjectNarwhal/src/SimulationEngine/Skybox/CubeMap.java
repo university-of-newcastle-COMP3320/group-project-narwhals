@@ -5,50 +5,50 @@ import SimulationEngine.Models.Model;
 
 public class CubeMap {
 
-    private static final float SIZE = 100f;
+    private static final float SIZE = 500f;
 
     private static final float[] VERTICES = {
-            -1.0f,  1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
+            -SIZE,  SIZE, -SIZE,
+            -SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
 
-            -1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
+            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE, -SIZE,
+            -SIZE,  SIZE,  SIZE,
+            -SIZE, -SIZE,  SIZE,
 
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
 
-            -1.0f, -1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
+            -SIZE, -SIZE,  SIZE,
+            -SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE,  SIZE,
 
-            -1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f, -1.0f,
-            1.0f,  1.0f,  1.0f,
-            1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f, -1.0f,
+            -SIZE,  SIZE, -SIZE,
+            SIZE,  SIZE, -SIZE,
+            SIZE,  SIZE,  SIZE,
+            SIZE,  SIZE,  SIZE,
+            -SIZE,  SIZE,  SIZE,
+            -SIZE,  SIZE, -SIZE,
 
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-            1.0f, -1.0f,  1.0f
+            -SIZE, -SIZE, -SIZE,
+            -SIZE, -SIZE,  SIZE,
+            SIZE, -SIZE, -SIZE,
+            SIZE, -SIZE, -SIZE,
+            -SIZE, -SIZE,  SIZE,
+            SIZE, -SIZE,  SIZE
     };
 
     //Try changing this into an entity.

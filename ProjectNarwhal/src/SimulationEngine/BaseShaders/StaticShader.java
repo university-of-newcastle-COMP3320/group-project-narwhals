@@ -30,13 +30,13 @@ public class StaticShader extends ShaderProgram{
     private int location_shadowDistance;
     private int location_plane;
     private int location_enviroMap;
+    private int location_cameraPositon;
 
     //Constructor
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
         //uniforms will not work if this is not called
         getAllUniformLocations();
-        connectTextureUnits();
     }
 
     //binds the attributes declared in vbo to shader in's
@@ -63,6 +63,7 @@ public class StaticShader extends ShaderProgram{
         location_shadowDistance = super.getUniformLocation("shadowDistance");
         location_plane = super.getUniformLocation("plane");
         location_enviroMap = super.getUniformLocation("enviroMap");
+        location_cameraPositon = super.getUniformLocation("cameraPosition");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -79,7 +80,7 @@ public class StaticShader extends ShaderProgram{
         super.loadFloat(location_numberOfLights, (float)number);
     }
 
-    protected void connectTextureUnits(){
+    public void connectTextureUnits(){
         super.loadInt(location_enviroMap, 1);
     }
 
@@ -118,6 +119,7 @@ public class StaticShader extends ShaderProgram{
 
     public void loadViewMatrix(ViewFrustrum camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+        super.loadVec3(location_cameraPositon, camera.getLocation());
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 

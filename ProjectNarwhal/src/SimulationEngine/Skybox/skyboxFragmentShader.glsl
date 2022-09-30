@@ -1,10 +1,11 @@
-#version 150
+#version 400 core
 
 in vec3 textureCoords;
-out vec4 out_Colour;
+out vec4 outColor;
 
 uniform samplerCube cubeMap;
 
 void main(void){
-    out_Colour = texture(cubeMap, textureCoords) ;
+    outColor = texture(cubeMap, textureCoords) ;
+//    outColor = vec4 (1.0, 1.0, 1.0, 1.0);
 }

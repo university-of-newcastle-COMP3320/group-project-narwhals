@@ -45,7 +45,7 @@ public class ModelLoader {
 
     public int loadCubeMap(String [] textureFiles){
         int texID = GL11.glGenTextures();
-        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
         for(int i = 0; i < textureFiles.length; i++){
             TextureData data = decodeTextureFile("ProjectResources/"+textureFiles[i]+".png");

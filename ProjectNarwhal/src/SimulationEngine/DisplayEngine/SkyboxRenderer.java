@@ -1,7 +1,5 @@
 package SimulationEngine.DisplayEngine;
 
-import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Model;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Skybox.SkyboxShader;
@@ -26,15 +24,14 @@ public class SkyboxRenderer {
         }
 
         public void render(ViewFrustrum camera){
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
             shader.start();
+            shader.connectTextureUnits();
             loadProjectionViewMatrix(camera);
             bindCubeVao();
             bindTexture();
-            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 36);
             unbindCubeVao();
             shader.stop();
-            GL11.glDepthFunc(GL11.GL_LESS);
         }
 
         public void cleanUp(){
@@ -52,12 +49,15 @@ public class SkyboxRenderer {
         }
 
         private void bindTexture(){
-            GL13.glActiveTexture(GL13.GL_TEXTURE2);
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, cubeMap.getTexture());
         }
 
         private void loadProjectionViewMatrix(ViewFrustrum camera){
             Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+            viewMatrix.m30(0);
+            viewMatrix.m31(0);
+            viewMatrix.m32(0);
             Matrix4f projectionViewMatrix = new Matrix4f();
             projectionMatrix.mul(viewMatrix, projectionViewMatrix);
             shader.loadProjectionViewMatrix(projectionViewMatrix);

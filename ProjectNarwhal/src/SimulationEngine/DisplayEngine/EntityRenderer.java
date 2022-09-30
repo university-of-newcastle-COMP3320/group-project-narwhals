@@ -6,12 +6,16 @@ import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import java.util.*;
+
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class EntityRenderer {
 
@@ -31,6 +35,7 @@ public class EntityRenderer {
     public void render(Map<ModeledEntity, List<ModeledEntity>> entities, Matrix4f toShadowSpace){
         shader.loadToShadowSpaceMatrix(toShadowSpace);
         bindEnvironmentMap();
+        shader.connectTextureUnits();
         for(ModeledEntity model:entities.keySet()){
             prepareModel(model);
             List<ModeledEntity> batch = entities.get(model);
