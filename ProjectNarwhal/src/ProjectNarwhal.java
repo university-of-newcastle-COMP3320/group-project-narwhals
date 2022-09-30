@@ -70,6 +70,7 @@ public class ProjectNarwhal {
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
+        ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-texture");
 
         //Set the initial position and orientation of models
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
@@ -93,12 +94,21 @@ public class ProjectNarwhal {
         orca1.setMaterial(orca[0].getMaterial());
         entities.add(orca1);
 
+        //school of fish
+        for (int i = 0; i<80; i++) {
+            int randX = rand.nextInt(100);
+            int randZ = rand.nextInt(30);
+            int randY = rand.nextInt(30);
+            ModeledEntity fish1 = new ModeledEntity(fish[0].getModel(), new Vector3f(-20 + randX,50 + randY, -80+randZ), 0 ,0, 0, 2);
+            fish1.setMaterial(fish[0].getMaterial());
+            entities.add(fish1);
+        }
 
         //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
             float x = rand.nextFloat()* 800 - 400;
             float z = rand.nextFloat()* 800 - 400;
-            float scale = rand.nextInt(4,15);
+            float scale = rand.nextInt(11) + 4;
             int rotation = (int) (x+z % 360);
             ModeledEntity newEntity;
             switch ((int) (rand.nextFloat()*4+1)) {
