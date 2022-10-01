@@ -12,6 +12,7 @@
   out float NumberOfLights;
   out vec4 shadowCoords;
   out vec3 reflectedVector;
+  out vec3 refractedVector;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -23,9 +24,9 @@
   uniform vec4 plane;
   uniform vec3 cameraPosition;
 
- const float density = 0.003;
- const float gradient = 1.5;
- const float transitionDistance = 10.0;
+  const float density = 0.003;
+  const float gradient = 1.5;
+  const float transitionDistance = 10.0;
 
   void main()
   {
@@ -45,6 +46,7 @@
       vec3 viewVector = normalize(worldPosition.xyz - cameraPosition);
       vec3 unitNormal = normalize(normal);
       reflectedVector = reflect(viewVector, unitNormal);
+      refractedVector = refract(viewVector, unitNormal, 1.0/1.33);
 
       float distance = length(positionRelativeToCam.xyz);
       visibility = exp(-pow((distance*density),gradient));

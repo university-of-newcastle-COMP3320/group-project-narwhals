@@ -8,6 +8,7 @@ in float visibility;
 in float NumberOfLights;
 in vec4 shadowCoords;
 in vec3 reflectedVector;
+in vec3 refractedVector;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor[10];
@@ -70,8 +71,10 @@ void main(){
    totalSpecular = totalSpecular;
 
     vec4 reflectedColor = texture(enviroMap, reflectedVector);
+    vec4 refractedColor = texture(enviroMap, refractedVector);
+    vec4 enviroColor = mix(reflectedColor, refractedColor, 0.5);
 
     outColor = vec4(totalDiffuse,1.0) * texture(textureSampler, TextureCoords) + vec4(totalSpecular, 1.0);
-    outColor = mix(outColor, reflectedColor, 0.6);
+    outColor = mix(outColor, enviroColor, 0.6);
     outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
     }
