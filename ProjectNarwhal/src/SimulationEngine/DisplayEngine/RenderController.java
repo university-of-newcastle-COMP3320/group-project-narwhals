@@ -1,6 +1,7 @@
 package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
@@ -27,9 +28,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RenderController {
 
-    public static final float FOV_ANGLE = 70.0f;
-    public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 100000f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
@@ -48,7 +46,7 @@ public class RenderController {
 
     public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
         glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
-        createProjectionMatrix();
+        camera.getProjectionMatrix();
         CubeMap enviroMap = new CubeMap(SKYBOX, loader);
         eRenderer = new EntityRenderer(eShader, projectionMatrix, enviroMap);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
@@ -57,7 +55,7 @@ public class RenderController {
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
-    public void renderScene(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, ViewFrustrum camera, Vector4f clipPlane){
+    public void renderScene(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, Camera camera, Vector4f clipPlane){
         for(ModeledEntity model: entityBatch){
             processEntity(model);
         }
@@ -68,7 +66,7 @@ public class RenderController {
     }
 
 
-    public void render(List<LightSource> lights, ViewFrustrum camera, Vector4f clipPlane){
+    public void render(List<LightSource> lights, Camera camera, Vector4f clipPlane){
         GL11.glEnable(GL11.GL_DEPTH_TEST);//Zbuffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);//Clear Color and depth buffers
         GL11.glEnable(GL11.GL_CULL_FACE);
@@ -150,23 +148,5 @@ public class RenderController {
         wShader.cleanUp();
         sRenderer.cleanUp();
         shadowMapRenderer.cleanUp();
-    }
-
-    //creates a projection matrix representing a frustrum using static variables
-    private void createProjectionMatrix(){
-        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        projectionMatrix = new Matrix4f();
-        float aspectRatio = (float) vidmode.width()  / (float) vidmode.height() ;
-        float y_scale = (float) ((1.0f / Math.tan(Math.toRadians(FOV_ANGLE / 2.0f))));
-        float x_scale = y_scale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-        projectionMatrix = new Matrix4f();
-        projectionMatrix.m00(x_scale);
-        projectionMatrix.m11(y_scale);
-        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
-        projectionMatrix.m23(-1);
-        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
-        projectionMatrix.m33(0);
     }
 }

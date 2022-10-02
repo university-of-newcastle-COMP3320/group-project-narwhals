@@ -5,26 +5,24 @@ import org.joml.Vector4f;
 //stores information about an object including normal maps and color and light values
 public class Material {
 
-    public static final Vector4f DEFAULT_COLOUR = new Vector4f(1.0f, 1.0f, 1.0f, 10.f);
+    public static final Vector4f DEFAULT_COLOUR = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
     private Vector4f ambientColor;
     private Vector4f diffuseColor;
     private Vector4f specularColor;
+    private Vector4f reflectivity;
     private float reflectance = 0;
     private float shineDamper = 1;
     private ModelTexture texture;
     private ModelTexture normalMap;
 
-    private String texturePath;
-
-    private String normalMapPath;
-
     public Material(){}
 
-    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, float reflectance, float shineDamper, ModelTexture texture) {
+    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, Vector4f reflectivity, float reflectance, float shineDamper, ModelTexture texture) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
         this.reflectance = reflectance;
+        this.reflectivity = reflectivity;
         this.shineDamper = shineDamper;
         this.texture = texture;
     }
@@ -83,5 +81,13 @@ public class Material {
 
     public void setShineDamper(float shineDamper) {
         this.shineDamper = shineDamper;
+    }
+
+    public Vector4f getReflectivity(){
+        return reflectivity;
+    }
+
+    public void setReflectivity(Vector4f reflectivity){
+        this.reflectivity = reflectivity;
     }
 }

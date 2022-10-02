@@ -18,6 +18,7 @@ uniform float reflectance;
 uniform vec3 waterColor;
 uniform sampler2D shadowMap;
 uniform samplerCube enviroMap;
+uniform float reflectivity;
 
 out vec4 outColor;
 
@@ -75,6 +76,6 @@ void main(){
     vec4 enviroColor = mix(reflectedColor, refractedColor, 0.5);
 
     outColor = vec4(totalDiffuse,1.0) * texture(textureSampler, TextureCoords) + vec4(totalSpecular, 1.0);
-    outColor = mix(outColor, enviroColor, 0.6);
+    outColor = mix(outColor, enviroColor, reflectivity);
     outColor = mix(vec4(waterColor, 1.0), outColor, visibility);
     }

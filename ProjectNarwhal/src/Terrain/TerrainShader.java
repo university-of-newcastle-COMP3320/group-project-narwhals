@@ -1,6 +1,7 @@
 package Terrain;
 
 import SimulationEngine.BaseShaders.ShaderProgram;
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
@@ -128,9 +129,8 @@ public class TerrainShader extends ShaderProgram {
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
-    public void loadViewMatrix(ViewFrustrum camera){
-        Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
-        super.loadMatrix(location_viewMatrix, viewMatrix);
+    public void loadViewMatrix(Camera camera){
+        super.loadMatrix(location_viewMatrix, camera.getViewMatrix());
     }
 
     public void loadLights(List<LightSource> lights){

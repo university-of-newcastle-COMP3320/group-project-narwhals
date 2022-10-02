@@ -75,13 +75,17 @@ public class AssimpLoader {
             specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
         }
 
-        //will need to add emissivity here later
+        Vector4f reflectivity = new Vector4f(0.0f);
+        result = aiGetMaterialColor(aiMaterial, AI_MATKEY_REFLECTIVITY, aiTextureType_NONE, 0, colour);
+        if (result == 0) {
+            reflectivity = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
+        }
 
         ModelLoader loader = new ModelLoader();
         ModelTexture texture =  new ModelTexture(loader.loadTexture(texturePath));
         //will need to find a way to include the normal map here later
 
-        Material material = new Material(ambient, diffuse, specular, 1.0f, 10f, texture);
+        Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture);
         materials.add(material);
     }
 

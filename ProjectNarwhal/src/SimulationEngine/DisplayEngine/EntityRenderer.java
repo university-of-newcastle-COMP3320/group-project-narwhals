@@ -68,6 +68,12 @@ public class EntityRenderer {
         Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(entity.getPosition(), entity.getRX(), entity.getRY(), entity.getRZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
+        if(entity.hasReflection()){
+            shader.loadReflectivity(entity.getMaterial().getReflectivity().x);
+        }
+        else{
+            shader.loadReflectivity(0);
+        }
     }
 
     private void bindEnvironmentMap(){

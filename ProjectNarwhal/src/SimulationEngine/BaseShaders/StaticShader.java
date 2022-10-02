@@ -1,5 +1,6 @@
 package SimulationEngine.BaseShaders;
 
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
@@ -31,6 +32,7 @@ public class StaticShader extends ShaderProgram{
     private int location_plane;
     private int location_enviroMap;
     private int location_cameraPositon;
+    private int location_reflectivity;
 
     //Constructor
     public StaticShader() {
@@ -64,6 +66,7 @@ public class StaticShader extends ShaderProgram{
         location_plane = super.getUniformLocation("plane");
         location_enviroMap = super.getUniformLocation("enviroMap");
         location_cameraPositon = super.getUniformLocation("cameraPosition");
+        location_reflectivity = super.getUniformLocation("reflectivity");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -96,13 +99,14 @@ public class StaticShader extends ShaderProgram{
     public void loadShadowDistance(float dist){
         super.loadFloat(location_shadowDistance, dist);
     }
+
     public void loadToShadowSpaceMatrix(Matrix4f matrix){
         super.loadMatrix(location_toShadowMapSpace, matrix);
     }
+
     public void loadClippingPlane(Vector4f plane){
         super.loadVec4(location_plane, plane);
     }
-
 
     public void loadWaterColor(float r, float g, float b){
         super.loadVec3(location_waterColor, new Vector3f(r,g,b));
@@ -117,10 +121,14 @@ public class StaticShader extends ShaderProgram{
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
-    public void loadViewMatrix(ViewFrustrum camera){
-        Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+    public void loadViewMatrix(Camera camera){
         super.loadVec3(location_cameraPositon, camera.getLocation());
-        super.loadMatrix(location_viewMatrix, viewMatrix);
+        super.loadMatrix(location_viewMatrix, camera.getViewMatrix());
+    }
+
+    //if models change the color of the reflection, this will also need to change to take in a vec4
+    public void loadReflectivity(float reflectivity){
+        super.loadFloat(location_reflectivity, reflectivity);
     }
 
     public void loadLights(List<LightSource> lights){

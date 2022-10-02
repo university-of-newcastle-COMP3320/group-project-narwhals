@@ -1,26 +1,34 @@
 package SimulationEngine.ProjectEntities;
 
 import SimulationEngine.Tools.Keyboard;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWVidMode;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 
-public class ViewFrustrum {
+public class ViewFrustrum implements Camera{
     private Vector3f location = new Vector3f(0,25,40);
 
     private final float CONTROL_OFFSET = 10.5f;
     private float pitch;
     private float yaw;
-    private float roll;
     private double[] x = new double[2];
     private double[] y = new double[2];
+    public static final float FOV_ANGLE = 70.0f;
+    public static final float NEAR_PLANE = 0.01f;
+    public static final float FAR_PLANE = 100000f;
+    private Matrix4f projectionMatrix = new Matrix4f();
+    private Matrix4f viewMatrix = new Matrix4f();
+    private Matrix4f projectionViewMatrix = new Matrix4f();
     private float currentSpeed;
     private long window;
-    private boolean move = true;
+    private Vector3f center;
 
     //default constructor
-    public ViewFrustrum(long window){
+    public ViewFrustrum(long window, Vector3f center){
         x[0] = 0;
         x[1] = 0;
         y[0] = 0;
@@ -29,6 +37,9 @@ public class ViewFrustrum {
         Keyboard keyboard = new Keyboard();
         GLFW.glfwSetKeyCallback(window, keyboard::invoke);
         GLFW.glfwSetCursorPos(window, 0, 0);
+        createProjectionMatrix();
+        updateViewMatrix();
+        this.center = center;
     };
 
     public void move(){
@@ -100,10 +111,6 @@ public class ViewFrustrum {
         return yaw;
     }
 
-    public float getRoll() {
-        return roll;
-    }
-
     public void calculatePitch(float y){
             float pitchChange = y * 0.1f;
             pitch-= pitchChange;
@@ -125,5 +132,53 @@ public class ViewFrustrum {
             if(yaw < 0){
                 yaw += 360;
             }
+    }
+
+    public Matrix4f getProjectionMatrix(){
+        return projectionMatrix;
+    }
+
+    public Vector3f getCenter(){
+        return center;
+    }
+
+    public Matrix4f getViewMatrix(){
+        return viewMatrix;
+    }
+
+    public Matrix4f getProjectionViewMatrix() {
+        return projectionViewMatrix;
+    }
+
+    public void reflect(float height) {
+
+    }
+
+    //creates a projection matrix representing a frustrum using static variables
+    private void createProjectionMatrix(){
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        projectionMatrix = new Matrix4f();
+        float aspectRatio = (float) vidmode.width()  / (float) vidmode.height() ;
+        float y_scale = (float) ((1.0f / Math.tan(Math.toRadians(FOV_ANGLE / 2.0f))));
+        float x_scale = y_scale / aspectRatio;
+        float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+        projectionMatrix = new Matrix4f();
+        projectionMatrix.m00(x_scale);
+        projectionMatrix.m11(y_scale);
+        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
+        projectionMatrix.m23(-1);
+        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
+        projectionMatrix.m33(0);
+    }
+
+    private void updateViewMatrix() {
+        viewMatrix.identity();
+        viewMatrix.rotate((float) Math.toRadians(180), new Vector3f(0, 0, 1));
+        viewMatrix.rotate((float) Math.toRadians(pitch), new Vector3f(1, 0, 0));
+        viewMatrix.rotate((float) Math.toRadians(yaw), new Vector3f(0, 1, 0));
+        Vector3f negativeCameraPos = new Vector3f(-center.x, -center.y, -center.z);
+        viewMatrix.translate(negativeCameraPos, viewMatrix);
+        projectionMatrix.mul(viewMatrix, projectionViewMatrix);
     }
 }

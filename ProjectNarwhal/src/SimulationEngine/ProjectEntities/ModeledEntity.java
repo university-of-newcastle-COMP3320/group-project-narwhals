@@ -3,6 +3,7 @@ package SimulationEngine.ProjectEntities;
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class ModeledEntity {
 
@@ -101,5 +102,14 @@ public class ModeledEntity {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public boolean hasReflection(){
+        if(this.getMaterial().getReflectivity().x == 0.0f){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
