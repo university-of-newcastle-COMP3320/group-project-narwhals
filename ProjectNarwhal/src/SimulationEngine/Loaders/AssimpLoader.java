@@ -2,7 +2,7 @@ package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
-import SimulationEngine.Models.ModelTexture;
+import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -82,7 +82,7 @@ public class AssimpLoader {
         }
 
         ModelLoader loader = new ModelLoader();
-        ModelTexture texture =  new ModelTexture(loader.loadTexture(texturePath));
+        Texture texture =  new Texture(loader.loadTexture(texturePath));
         //will need to find a way to include the normal map here later
 
         Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture);

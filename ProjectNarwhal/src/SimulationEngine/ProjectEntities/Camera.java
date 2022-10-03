@@ -9,4 +9,6 @@ public interface Camera {
     public void reflect(float height);
     public Matrix4f getProjectionMatrix();
     public Matrix4f getProjectionViewMatrix();
+    public float getPitch();
+    public float getYaw();
 }

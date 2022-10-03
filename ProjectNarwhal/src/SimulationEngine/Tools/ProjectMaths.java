@@ -1,5 +1,6 @@
 package SimulationEngine.Tools;
 
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -23,7 +24,7 @@ public class ProjectMaths {
         return matrix;
     }
 
-    public static Matrix4f createViewMatrix(ViewFrustrum camera){
+    public static Matrix4f createViewMatrix(Camera camera){
         Matrix4f viewMatrix = new Matrix4f();
         viewMatrix.identity();
         viewMatrix.rotate((float) Math.toRadians(camera.getPitch()), new Vector3f(1, 0, 0), viewMatrix);

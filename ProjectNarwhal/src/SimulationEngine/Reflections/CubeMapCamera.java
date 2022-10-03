@@ -24,6 +24,14 @@ public class CubeMapCamera implements Camera {
             createProjectionMatrix();
         }
 
+        public float getPitch(){
+            return pitch;
+        }
+
+        public float getYaw(){
+            return yaw;
+        }
+
         public void switchToFace(int faceIndex) {
             switch (faceIndex) {
                 case 0:

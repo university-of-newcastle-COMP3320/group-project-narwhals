@@ -122,8 +122,9 @@ public class StaticShader extends ShaderProgram{
     }
 
     public void loadViewMatrix(Camera camera){
+        Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
         super.loadVec3(location_cameraPositon, camera.getLocation());
-        super.loadMatrix(location_viewMatrix, camera.getViewMatrix());
+        super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
     //if models change the color of the reflection, this will also need to change to take in a vec4

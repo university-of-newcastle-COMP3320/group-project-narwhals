@@ -12,12 +12,12 @@ public class Material {
     private Vector4f reflectivity;
     private float reflectance = 0;
     private float shineDamper = 1;
-    private ModelTexture texture;
-    private ModelTexture normalMap;
+    private Texture texture;
+    private Texture normalMap;
 
     public Material(){}
 
-    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, Vector4f reflectivity, float reflectance, float shineDamper, ModelTexture texture) {
+    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, Vector4f reflectivity, float reflectance, float shineDamper, Texture texture) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
@@ -59,19 +59,19 @@ public class Material {
         this.reflectance = reflectance;
     }
 
-    public ModelTexture getTexture() {
+    public Texture getTexture() {
         return texture;
     }
 
-    public void setTexture(ModelTexture texture) {
+    public void setTexture(Texture texture) {
         this.texture = texture;
     }
 
-    public ModelTexture getNormalMap() {
+    public Texture getNormalMap() {
         return normalMap;
     }
 
-    public void setNormalMap(ModelTexture normalMap) {
+    public void setNormalMap(Texture normalMap) {
         this.normalMap = normalMap;
     }
 

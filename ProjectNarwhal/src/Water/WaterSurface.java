@@ -1,10 +1,7 @@
 package Water;
 
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
-import SimulationEngine.Models.ModelTexture;
-import org.joml.Vector4f;
 
 public class WaterSurface {
 

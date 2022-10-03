@@ -1,30 +1,17 @@
 import Scene.Scene;
 import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
-import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
-import SimulationEngine.Models.Model;
-import SimulationEngine.Models.Texture;
-import SimulationEngine.ProjectEntities.LightSource;
-import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
-import Terrain.BaseTerrain;
-import Terrain.TerrainTexture;
-import Terrain.TerrainTexturePack;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
-import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -51,13 +38,13 @@ public class ProjectNarwhal {
         GL.createCapabilities();
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
-        ViewFrustrum camera = new ViewFrustrum(window, new Vector3f(0f,0f,0f));
+        ViewFrustrum camera = new ViewFrustrum(window, new Vector3f(1f,1f,1f));
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         WaterFrameBuffers fbos = new WaterFrameBuffers();
         RenderController renderer = new RenderController(loader, camera, fbos);
 
-        Scene scene = new Scene(loader, fbos);
+        Scene scene = new Scene(loader, fbos, renderer);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.

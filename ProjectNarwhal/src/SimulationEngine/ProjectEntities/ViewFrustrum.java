@@ -37,9 +37,9 @@ public class ViewFrustrum implements Camera{
         Keyboard keyboard = new Keyboard();
         GLFW.glfwSetKeyCallback(window, keyboard::invoke);
         GLFW.glfwSetCursorPos(window, 0, 0);
+        this.center = center;
         createProjectionMatrix();
         updateViewMatrix();
-        this.center = center;
     };
 
     public void move(){
@@ -170,6 +170,18 @@ public class ViewFrustrum implements Camera{
         projectionMatrix.m23(-1);
         projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
         projectionMatrix.m33(0);
+    }
+
+    public static Matrix4f createViewMatrix(ViewFrustrum camera){
+        Matrix4f viewMatrix = new Matrix4f();
+        viewMatrix.identity();
+        viewMatrix.rotate((float) Math.toRadians(camera.getPitch()), new Vector3f(1, 0, 0), viewMatrix);
+        viewMatrix.rotate((float) Math.toRadians(camera.getYaw()), new Vector3f(0, 1, 0), viewMatrix);
+        //if we want to add roll rotation it needs to be added here
+        Vector3f cameraPos = camera.getLocation();
+        Vector3f negativeCameraPos = new Vector3f(-cameraPos.x,-cameraPos.y,-cameraPos.z);
+        viewMatrix.translate(negativeCameraPos, viewMatrix);
+        return viewMatrix;
     }
 
     private void updateViewMatrix() {

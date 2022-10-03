@@ -1,12 +1,15 @@
 package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import SimulationEngine.Skybox.CubeMap;
+import SimulationEngine.Tools.ProjectMaths;
 import Terrain.TerrainShader;
 import Water.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
@@ -42,13 +45,15 @@ public class RenderController {
     private List<WaterSurface> waters = new ArrayList<>();
 
     private ShadowMapRenderController shadowMapRenderer;
+    private CubeMap enviroMap;
     private static final String[] SKYBOX = {"SkyboxTextures/right", "SkyboxTextures/left" , "SkyboxTextures/top", "SkyboxTextures/bottom", "SkyboxTextures/back", "SkyboxTextures/front"};
 
     public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
         glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
-        camera.getProjectionMatrix();
-        CubeMap enviroMap = new CubeMap(SKYBOX, loader);
-        eRenderer = new EntityRenderer(eShader, projectionMatrix, enviroMap);
+        projectionMatrix = camera.getProjectionMatrix();
+
+        enviroMap = new CubeMap(SKYBOX, loader);
+        eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
         wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
         sRenderer = new SkyboxRenderer(enviroMap, projectionMatrix);

@@ -55,7 +55,7 @@ public class SkyboxRenderer {
         }
 
         private void loadProjectionViewMatrix(Camera camera){
-            Matrix4f viewMatrix = camera.getViewMatrix();
+            Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
             viewMatrix.m30(0);
             viewMatrix.m31(0);
             viewMatrix.m32(0);

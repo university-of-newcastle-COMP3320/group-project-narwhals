@@ -1,11 +1,14 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -23,9 +26,8 @@ public class EntityRenderer {
     private CubeMap entityMap;
 
     //Constructor, creates the view frustrum matrix and loads it
-    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix, CubeMap entityMap){
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
-        this.entityMap = entityMap;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();
@@ -34,7 +36,6 @@ public class EntityRenderer {
     //handles rendering each batch of models
     public void render(Map<ModeledEntity, List<ModeledEntity>> entities, Matrix4f toShadowSpace){
         shader.loadToShadowSpaceMatrix(toShadowSpace);
-        bindEnvironmentMap();
         shader.connectTextureUnits();
         for(ModeledEntity model:entities.keySet()){
             prepareModel(model);
@@ -70,15 +71,16 @@ public class EntityRenderer {
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
         if(entity.hasReflection()){
             shader.loadReflectivity(entity.getMaterial().getReflectivity().x);
+            bindEnvironmentMap(entity.getEnvironmentMap());
         }
         else{
             shader.loadReflectivity(0);
         }
     }
 
-    private void bindEnvironmentMap(){
+    private void bindEnvironmentMap(Texture entityMap){
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, entityMap.getTexture());
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, entityMap.getID());
     }
 
 }

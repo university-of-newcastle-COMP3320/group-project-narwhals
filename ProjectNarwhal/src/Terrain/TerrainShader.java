@@ -130,7 +130,8 @@ public class TerrainShader extends ShaderProgram {
     }
 
     public void loadViewMatrix(Camera camera){
-        super.loadMatrix(location_viewMatrix, camera.getViewMatrix());
+        Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+        super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
     public void loadLights(List<LightSource> lights){

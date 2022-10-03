@@ -12,6 +12,12 @@ public class Texture {
         public final int size;
         private final int type;
 
+        public Texture (int id){
+            this.textureId = id;
+            this.size = 0;
+            this.type = 0;
+        }
+
         protected Texture(int textureId, int size) {
             this.textureId = textureId;
             this.size = size;
@@ -33,16 +39,6 @@ public class Texture {
             GL11.glDeleteTextures(textureId);
         }
 
-//        public static TextureBuilder newTexture(MyFile textureFile) {
-//            return new TextureBuilder(textureFile);
-//        }
-//
-//        public static Texture newCubeMap(MyFile[] textureFiles) {
-//            int cubeMapId = TextureUtils.loadCubeMap(textureFiles);
-//            //TODO needs to know size!
-//            return new Texture(cubeMapId, GL13.GL_TEXTURE_CUBE_MAP, 0);
-//        }
-
         public static Texture newEmptyCubeMap(int size) {
             int cubeMapId = createEmptyCubeMap(size);
             return new Texture(cubeMapId, GL13.GL_TEXTURE_CUBE_MAP, size);
@@ -63,4 +59,8 @@ public class Texture {
             GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, 0);
             return texID;
         }
+
+        public int getID() {
+        return textureId;
+    }
 }

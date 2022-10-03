@@ -2,6 +2,7 @@ package SimulationEngine.ProjectEntities;
 
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
+import SimulationEngine.Models.Texture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -11,6 +12,7 @@ public class ModeledEntity {
     private Model model;
     private Vector3f position;
     private float rX, rY, rZ, scale;
+    private Texture environmentMap;
 
     //Creates a modeledEntity with no rotation and origin positioning
     public ModeledEntity(Model model){
@@ -111,5 +113,13 @@ public class ModeledEntity {
         else{
             return true;
         }
+    }
+
+    public void setEnvironmentMap(Texture environmentMap) {
+        this.environmentMap = environmentMap;
+    }
+
+    public Texture getEnvironmentMap() {
+        return environmentMap;
     }
 }
