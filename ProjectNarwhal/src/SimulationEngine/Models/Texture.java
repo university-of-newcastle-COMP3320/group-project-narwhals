@@ -18,25 +18,10 @@ public class Texture {
             this.type = 0;
         }
 
-        protected Texture(int textureId, int size) {
-            this.textureId = textureId;
-            this.size = size;
-            this.type = GL11.GL_TEXTURE_2D;
-        }
-
         protected Texture(int textureId, int type, int size) {
             this.textureId = textureId;
             this.size = size;
             this.type = type;
-        }
-
-        public void bindToUnit(int unit) {
-            GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit);
-            GL11.glBindTexture(type, textureId);
-        }
-
-        public void delete() {
-            GL11.glDeleteTextures(textureId);
         }
 
         public static Texture newEmptyCubeMap(int size) {
@@ -48,7 +33,7 @@ public class Texture {
             int texID = GL11.glGenTextures();
             GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
             for (int i = 0; i < 6; i++) {
-                GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA8, size, size, 0, GL11.GL_RGBA,
+                GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, size, size, 0, GL11.GL_RGBA,
                         GL11.GL_UNSIGNED_BYTE, (ByteBuffer)null);
             }
             GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);

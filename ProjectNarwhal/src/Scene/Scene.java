@@ -38,7 +38,7 @@ public class Scene{
         this.fbos = fbos;
         entities = new ArrayList<>();
 
-        environmentMap = Texture.newEmptyCubeMap(128);
+        environmentMap = Texture.newEmptyCubeMap(256);
 
         //Create the scene
         //Load models
@@ -62,12 +62,6 @@ public class Scene{
         narwhal[0].setPosition(new Vector3f(0, 40, -20));
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
-
-
-        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
-        orca1.setMaterial(orca[0].getMaterial());
-        System.out.println(orca1.getMaterial().getReflectivity().x);
-        entities.add(orca1);
 
         //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
@@ -200,20 +194,26 @@ public class Scene{
             i++;
         }
 
+        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
+        orca1.setMaterial(orca[0].getMaterial());
+        orca1.getMaterial().setReflectance(1f);
+        orca1.getMaterial().setShineDamper(10f);
+        orca1.getMaterial().setReflectivity(new Vector4f(0.1f, 0.1f, 0.1f, 1f));
+        EnvironmentMapRenderer.renderEnvironmentMap(this.getEnvironmentMap(), this, new Vector3f(-60, 60, -220), renderer);
+        orca1.setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(orca1);
+
         divingBell[0].setPosition(new Vector3f(45, 40, -220));
         divingBell[0].setScale(3);
         divingBell[0].setRY(270);
         divingBell[0].getMaterial().setReflectance(1f);
         divingBell[0].getMaterial().setShineDamper(10f);
-        divingBell[0].getMaterial().setReflectivity(new Vector4f(0.2f, 0.3f, 0.3f, 1f));
-        EnvironmentMapRenderer.renderEnvironmentMap(this.getEnvironmentMap(), this, new Vector3f(45, 40, -220), renderer);
+        divingBell[0].getMaterial().setReflectivity(new Vector4f(0.0f));
         divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBell[0]);
 
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
-        EnvironmentMapRenderer.renderEnvironmentMap(this.getEnvironmentMap(), this, new Vector3f(-55, 40, -30), renderer);
-        divingBell2.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBell2);
     }
 
