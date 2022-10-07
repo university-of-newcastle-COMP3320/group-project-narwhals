@@ -97,60 +97,60 @@ public class Scene{
         }
 
         //Random positioning of coral
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
-            newEntity.setMaterial(models3[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-            newEntity.setMaterial(models2[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-            newEntity.setMaterial(models4[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-            newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<50; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-            newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat());
-            entities.add(newEntity);
-        }
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
+//            newEntity.setMaterial(models3[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+//            newEntity.setMaterial(models2[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+//            newEntity.setMaterial(models4[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+//            newEntity.setMaterial(models5[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<50; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+//            newEntity.setMaterial(models[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat());
+//            entities.add(newEntity);
+//        }
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
