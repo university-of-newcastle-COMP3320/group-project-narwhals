@@ -67,7 +67,7 @@ public class Scene{
         for(int i=0; i<200; i++){
             float x = rand.nextFloat()* 800 - 400;
             float z = rand.nextFloat()* 800 - 400;
-            float scale = rand.nextInt(4,15);
+            float scale = rand.nextInt(11) + 4;
             int rotation = (int) (x+z % 360);
             ModeledEntity newEntity;
             switch ((int) (rand.nextFloat()*4+1)) {

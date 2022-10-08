@@ -13,6 +13,7 @@ import org.lwjgl.assimp.*;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.assimp.Assimp.*;
@@ -22,7 +23,8 @@ public class AssimpLoader {
     //import a scene using assimp and then use that scene to get the relevant information about the meshes etc.
 
     public static ModeledEntity[] loadModel(String filePath, ModelLoader loader, String texturePath) {
-        return loadModel(filePath, loader, texturePath, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals);
+        return loadModel(filePath, loader, texturePath, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_CalcTangentSpace
+        );
     }
 
     public static ModeledEntity[] loadModel (String filePath, ModelLoader loader, String texturePath, int flags){
@@ -91,12 +93,13 @@ public class AssimpLoader {
     }
 
     private static Model processMesh(AIMesh aiMesh, List<Material> materials, ModelLoader loader) {
+        float [] tangents = processTangents(aiMesh);
         float[] vertices = processVertices(aiMesh);
         float[] textures = processTextCoords(aiMesh);
         float[] normals = processNormals(aiMesh);
         int[] indices = processIndices(aiMesh);
 
-        return loader.loadToVAO(vertices,textures,normals,indices);
+        return loader.loadToVAO(vertices,textures,normals,tangents,indices);
     }
 
     private static void calculateTangents(VertexNM v0, VertexNM v1, VertexNM v2,
@@ -134,6 +137,21 @@ public class AssimpLoader {
         }
         return data;
     }
+
+
+    private static float[] processTangents(AIMesh aiMesh){
+        AIVector3D.Buffer buffer = aiMesh.mTangents();
+        float[] data = new float[buffer.remaining() * 3];
+        int pos = 0;
+        while (buffer.remaining() > 0) {
+            AIVector3D tangent = buffer.get();
+            data[pos++] = tangent.x();
+            data[pos++] = tangent.y();
+            data[pos++] = tangent.z();
+        }
+        return data;
+    }
+
 
     private static float[] processNormals(AIMesh aiMesh) {
         AIVector3D.Buffer buffer = aiMesh.mNormals();

@@ -35,6 +35,18 @@ public class ModelLoader {
         return new Model(vaoID, indicies.length);
     }
 
+    //for models that need tangent space vectors
+    public Model loadToVAO(float[] positions,float[] textureCoords,float[] normals,float[] tangents, int[] indicies) {
+        int vaoID = createVAO();
+        bindIndicesBuffer(indicies);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1,2, textureCoords);
+        storeDataInAttributeList(2,3, normals);
+        storeDataInAttributeList(3,3, tangents);
+        unbindVAO();
+        return new Model(vaoID, indicies.length);
+    }
+
     public Model loadToVAO(float[] positions) {
         int vaoID = createVAO();
         this.storeDataInAttributeList(0, 3, positions);
