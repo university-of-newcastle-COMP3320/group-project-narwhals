@@ -102,28 +102,6 @@ public class AssimpLoader {
         return loader.loadToVAO(vertices,textures,normals,tangents,indices);
     }
 
-    private static void calculateTangents(VertexNM v0, VertexNM v1, VertexNM v2,
-                                          List<Vector2f> textures) {
-        Vector3f delatPos1 = new Vector3f();
-        v1.getPosition().sub(v0.getPosition(), delatPos1);
-        Vector3f delatPos2 = new Vector3f();
-        v2.getPosition().sub(v0.getPosition(), delatPos2);
-        Vector2f uv0 = textures.get(v0.getTextureIndex());
-        Vector2f uv1 = textures.get(v1.getTextureIndex());
-        Vector2f uv2 = textures.get(v2.getTextureIndex());
-        Vector2f deltaUv1 = Vector2f.sub(uv1, uv0, null);
-        Vector2f deltaUv2 = Vector2f.sub(uv2, uv0, null);
-
-        float r = 1.0f / (deltaUv1.x * deltaUv2.y - deltaUv1.y * deltaUv2.x);
-        delatPos1.scale(deltaUv2.y);
-        delatPos2.scale(deltaUv1.y);
-        Vector3f tangent = Vector3f.sub(delatPos1, delatPos2, null);
-        tangent.scale(r);
-        v0.addTangent(tangent);
-        v1.addTangent(tangent);
-        v2.addTangent(tangent);
-    }
-
     //functions to convert assimp data into the arrays I need.
     private static float[] processVertices(AIMesh aiMesh) {
         AIVector3D.Buffer buffer = aiMesh.mVertices();
