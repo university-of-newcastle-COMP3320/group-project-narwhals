@@ -3,6 +3,8 @@
   in vec3 position;
   in vec2 textureCoords;
   in vec3 normal;
+  //these should be the tangents
+  in vec3 tangent;
 
   out vec2 TextureCoords;
   out vec3 surfaceNormal;

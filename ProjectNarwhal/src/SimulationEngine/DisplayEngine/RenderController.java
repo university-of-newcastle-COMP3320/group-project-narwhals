@@ -109,7 +109,7 @@ public class RenderController {
 
         wShader.stop();
 
-        sRenderer.render(camera);
+//        sRenderer.render(camera);
         GL11.glEnable(GL11.GL_CULL_FACE);
 
 
