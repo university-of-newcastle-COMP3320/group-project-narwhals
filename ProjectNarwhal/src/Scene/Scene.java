@@ -38,7 +38,7 @@ public class Scene{
         this.fbos = fbos;
         entities = new ArrayList<>();
 
-        environmentMap = Texture.newEmptyCubeMap(256);
+        environmentMap = Texture.newEmptyCubeMap(512);
 
         //Create the scene
         //Load models
@@ -54,6 +54,7 @@ public class Scene{
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
+        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor");
 
         //Set the initial position and orientation of models
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
@@ -97,7 +98,7 @@ public class Scene{
         }
 
         //Random positioning of coral
-        for(int i=0; i<50; i++){
+        for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
@@ -108,7 +109,8 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
+
+        for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
@@ -119,7 +121,7 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
+        for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
@@ -130,7 +132,7 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
+        for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
@@ -141,7 +143,7 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        for(int i=0; i<50; i++){
+        for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
@@ -198,16 +200,30 @@ public class Scene{
         orca1.setMaterial(orca[0].getMaterial());
         orca1.getMaterial().setReflectance(1f);
         orca1.getMaterial().setShineDamper(10f);
-        orca1.getMaterial().setReflectivity(new Vector4f(0.1f, 0.1f, 0.1f, 1f));
-        EnvironmentMapRenderer.renderEnvironmentMap(this.getEnvironmentMap(), this, new Vector3f(-60, 60, -220), renderer);
+        orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
         orca1.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(orca1);
+
+        //glass cubes
+        for(int j = 0; j < 10; j ++){
+            float x = rand.nextFloat()* 200 + 50;
+            float z = rand.nextFloat()* 200 + 50;
+            float ry = rand.nextFloat() * 720 - 360;
+            float scale = rand.nextInt(6) + 3;
+            ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
+            cubes.setMaterial(cube[0].getMaterial());
+            cubes.getMaterial().setReflectance(1f);
+            cubes.getMaterial().setShineDamper(10f);
+            cubes.getMaterial().setReflectivity(new Vector4f(0.9f, 0.1f, 0.1f, 1f));
+            environmentMap = Texture.newEmptyCubeMap(512);
+            EnvironmentMapRenderer.renderEnvironmentMap(environmentMap, this, new Vector3f(x, 20, z), renderer);
+            cubes.setEnvironmentMap(environmentMap);
+            entities.add(cubes);
+        }
 
         divingBell[0].setPosition(new Vector3f(45, 40, -220));
         divingBell[0].setScale(3);
         divingBell[0].setRY(270);
-        divingBell[0].getMaterial().setReflectance(1f);
-        divingBell[0].getMaterial().setShineDamper(10f);
         divingBell[0].getMaterial().setReflectivity(new Vector4f(0.0f));
         divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBell[0]);

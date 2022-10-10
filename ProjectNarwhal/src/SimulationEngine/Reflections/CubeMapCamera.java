@@ -6,9 +6,9 @@ import org.joml.Vector3f;
 
 public class CubeMapCamera implements Camera {
 
-    private static final float NEAR_PLANE = 0.1f;
+    private static final float NEAR_PLANE = 0.01f;
     private static final float FAR_PLANE = 200f;
-    private static final float FOV = 90;// don't change!
+    private static final float FOV = 90.0f;// don't change!
     private static final float ASPECT_RATIO = 1;
 
     private final Vector3f center;
@@ -28,11 +28,11 @@ public class CubeMapCamera implements Camera {
         switch (faceIndex) {
             case 0:
                 pitch = -180;
-                yaw = 90;
+                yaw = -90;
                 break;
             case 1:
                 pitch = -180;
-                yaw = -90;
+                yaw = 90;
                 break;
             case 2:
                 pitch = -90;
@@ -44,11 +44,11 @@ public class CubeMapCamera implements Camera {
                 break;
             case 4:
                 pitch = -180;
-                yaw = 180;
+                yaw = 0;
                 break;
             case 5:
                 pitch = -180;
-                yaw = 0;
+                yaw = 180;
                 break;
         }
         this.updateViewMatrix();
@@ -99,7 +99,6 @@ public class CubeMapCamera implements Camera {
         projectionMatrix.m23(-1);
         projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
         projectionMatrix.m33(0);
-        System.out.println(projectionMatrix);
     }
 
     private void updateViewMatrix() {

@@ -46,7 +46,7 @@ public class AssimpLoader {
         for (int i = 0; i < numMeshes; i++) {
 
             AIMesh aiMesh = AIMesh.create(aiMeshes.get(i));
-            Model model = processMesh(aiMesh, materials, loader);
+            Model model = processMesh(aiMesh, loader);
             entities[i] = new ModeledEntity(model);
             int materialIDx = aiMesh.mMaterialIndex();
             if(materialIDx >= 0 && materialIDx < materials.size()){
@@ -91,7 +91,7 @@ public class AssimpLoader {
         materials.add(material);
     }
 
-    private static Model processMesh(AIMesh aiMesh, List<Material> materials, ModelLoader loader) {
+    private static Model processMesh(AIMesh aiMesh, ModelLoader loader) {
         float [] tangents = processTangents(aiMesh);
         float[] vertices = processVertices(aiMesh);
         float[] textures = processTextCoords(aiMesh);

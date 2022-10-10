@@ -36,7 +36,7 @@ public class ViewFrustrum implements Camera{
         this.window = window;
         Keyboard keyboard = new Keyboard();
         GLFW.glfwSetKeyCallback(window, keyboard::invoke);
-        GLFW.glfwSetCursorPos(window, 0, 0);
+        GLFW.glfwSetCursorPos(window, 0.5, 0.5);
         this.center = center;
         createProjectionMatrix();
         updateViewMatrix();

@@ -44,6 +44,7 @@
       for(int i = 0; i < numberOfLights; i ++){
               toLightVector[i] = lightPosition[i] - worldPosition.xyz;
       }
+
       toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
       vec3 viewVector = normalize(worldPosition.xyz - cameraPosition);
       vec3 unitNormal = normalize(normal);
