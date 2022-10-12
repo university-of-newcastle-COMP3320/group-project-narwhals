@@ -48,7 +48,7 @@ public class Scene{
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture");
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
         ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
@@ -63,6 +63,7 @@ public class Scene{
         narwhal[0].setPosition(new Vector3f(0, 40, -20));
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
+        entities.add(narwhal[0]);
 
         //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
@@ -208,7 +209,6 @@ public class Scene{
         for(int j = 0; j < 10; j ++){
             float x = rand.nextFloat()* 200 + 50;
             float z = rand.nextFloat()* 200 + 50;
-            float ry = rand.nextFloat() * 720 - 360;
             float scale = rand.nextInt(6) + 3;
             ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
             cubes.setMaterial(cube[0].getMaterial());
