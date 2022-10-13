@@ -13,6 +13,7 @@ public class ModeledEntity {
     private Vector3f position;
     private float rX, rY, rZ, scale;
     private Texture environmentMap;
+    private float alpha;
 
     //Creates a modeledEntity with no rotation and origin positioning
     public ModeledEntity(Model model){
@@ -22,6 +23,7 @@ public class ModeledEntity {
         rY = 0;
         rZ = 0;
         scale = 1;
+        alpha = 1.0f;
     }
 
     //Creates a modeled entity with a position, rotation and scale
@@ -32,6 +34,7 @@ public class ModeledEntity {
         this.rY = rY;
         this.rZ = rZ;
         this.scale = scale;
+        alpha = 1.0f;
     }
 
     //increases a models postion on one of the axes
@@ -122,4 +125,8 @@ public class ModeledEntity {
     public Texture getEnvironmentMap() {
         return environmentMap;
     }
+
+    public void setAlpha(float alpha) { this.alpha = alpha; }
+
+    public float getAlpha() { return alpha; }
 }

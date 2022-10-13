@@ -7,7 +7,6 @@ import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.Reflections.EnvironmentMapRenderer;
-import SimulationEngine.Skybox.CubeMap;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
@@ -236,13 +235,12 @@ public class Scene{
         //must use same coordinates and scale as diving bell
         divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
         divingBellWater[0].setScale(3);
-        divingBellWater[0].setRY(270);
-        divingBellWater[0].getMaterial().setReflectivity(new Vector4f(0.0f));
-        divingBellWater[0].setEnvironmentMap(this.getEnvironmentMap());
+        divingBellWater[0].setAlpha(0.3f);
         entities.add(divingBellWater[0]);
 
-        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 0, 0, 3);
         divingBellWater2.setMaterial(divingBellWater[0].getMaterial());
+        divingBellWater2.setAlpha(0.3f);
         entities.add(divingBellWater2);
     }
 
