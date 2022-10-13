@@ -7,8 +7,8 @@ in vec3 toCameraVector;
 in float visibility;
 in float NumberOfLights;
 in vec4 shadowCoords;
-in vec3 reflectedVector;
-in vec3 refractedVector;
+in vec3 viewVector;
+in vec3 normalizedNormal;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor[10];
@@ -71,9 +71,11 @@ void main(){
    totalDiffuse = max(totalDiffuse, 0.1);
    totalSpecular = totalSpecular;
 
+    vec3 reflectedVector = reflect(viewVector, normalizedNormal);
+    vec3 refractedVector = refract(viewVector, normalizedNormal, 1.0/1.33);
     vec4 reflectedColor = texture(enviroMap, reflectedVector);
     vec4 refractedColor = texture(enviroMap, refractedVector);
-    vec4 enviroColor = mix(reflectedColor, refractedColor, 0.65);
+    vec4 enviroColor = mix(reflectedColor, refractedColor, 0.75);
 
     outColor = vec4(totalDiffuse,1.0) * texture(textureSampler, TextureCoords) + vec4(totalSpecular, 1.0);
     outColor = mix(outColor, enviroColor, reflectivity);
