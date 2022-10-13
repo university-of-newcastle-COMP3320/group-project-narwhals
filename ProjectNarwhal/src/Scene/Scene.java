@@ -55,6 +55,7 @@ public class Scene{
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor");
+        ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "WaterTextures/placeholder");
 
         //Set the initial position and orientation of models
         narwhal[0].setPosition(new Vector3f(0, 10, -50));
@@ -231,6 +232,18 @@ public class Scene{
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
+
+        //must use same coordinates and scale as diving bell
+        divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
+        divingBellWater[0].setScale(3);
+        divingBellWater[0].setRY(270);
+        divingBellWater[0].getMaterial().setReflectivity(new Vector4f(0.0f));
+        divingBellWater[0].setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(divingBellWater[0]);
+
+        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        divingBellWater2.setMaterial(divingBellWater[0].getMaterial());
+        entities.add(divingBellWater2);
     }
 
     public List<ModeledEntity> getEntities(){
