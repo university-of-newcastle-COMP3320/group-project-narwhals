@@ -11,6 +11,7 @@ import SimulationEngine.Skybox.CubeMap;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
+import TerrainGeneration.TerrainGeneration;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import Water.WaterTexture;
@@ -182,13 +183,25 @@ public class Scene{
         waters.add(new WaterSurface(1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
+        new TerrainGeneration();
         terrains = new ArrayList<>();
         //Load ground surface tiles
-        terrains.add(new BaseTerrain(0, 0, loader, texturePack, blendMap, "TerrainTextures/heightmap"));
-        terrains.add(new BaseTerrain(0, -1, loader, texturePack, blendMap, "TerrainTextures/heightmap"));
-        terrains.add(new BaseTerrain(-1, -1, loader, texturePack, blendMap, "TerrainTextures/heightmap"));
-        terrains.add(new BaseTerrain(-1, 0, loader, texturePack, blendMap, "TerrainTextures/heightmap"));
-
+        terrains.add(new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap4"));
+        terrains.add(new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap3"));
+        terrains.add(new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap1"));
+        terrains.add(new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap2"));
+        terrains.add(new BaseTerrain(-2,0,loader, texturePack, blendMap, "TerrainTextures/heightmap12"));
+        terrains.add(new BaseTerrain(-2,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap11"));
+        terrains.add(new BaseTerrain(-3,0,loader, texturePack, blendMap, "TerrainTextures/heightmap9"));
+        terrains.add(new BaseTerrain(-3,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap10"));
+        terrains.add(new BaseTerrain(0,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap8"));
+        terrains.add(new BaseTerrain(0,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap7"));
+        terrains.add(new BaseTerrain(-1,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap5"));
+        terrains.add(new BaseTerrain(-1,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap6"));
+        terrains.add(new BaseTerrain(-2,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap16"));
+        terrains.add(new BaseTerrain(-2,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap15"));
+        terrains.add(new BaseTerrain(-3,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap13"));
+        terrains.add(new BaseTerrain(-3,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap14"));
 
         sun = new LightSource(new Vector3f(100000, 100000, 100000), new Vector3f(1f, 1f, 1f));
         //Sun light source
