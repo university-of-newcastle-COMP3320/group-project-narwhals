@@ -9,27 +9,25 @@ import java.lang.Math;
 import java.util.Random;
 
 public class TerrainGeneration {
-	static double lastX = 0;
-	static double lastY = 0;
-	static double lastZ = 0;
 	public static void main(String[] args){
 		Random seed = new Random();
 		TerrainGeneration tg = new TerrainGeneration();
-		Color[][] pixelSheet = new Color[1024][1024];
+		Color[][] pixelSheet = new Color[2048][2048];
 
-		pixelSheet = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 1024, 1024));
+		pixelSheet = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 2048, 2048));
 
-		String path1 = "ProjectResources/TerrainTextures/" + "heightmap1" + ".png";
-		String path2 = "ProjectResources/TerrainTextures/" + "heightmap2" + ".png";
-		String path3 = "ProjectResources/TerrainTextures/" + "heightmap3" + ".png";
-		String path4 = "ProjectResources/TerrainTextures/" + "heightmap4" + ".png";
+		String path[] = new String[16];
+		for(int i = 0; i<16; i++){
+			int inc = i+1;
+			path[i] = "ProjectResources/TerrainTextures/" + "heightmap" + inc + ".png";
+		}
 
-		BufferedImage[] imageForPngFile = new BufferedImage[4];
-		for(int i = 0; i<4; i++){
+		BufferedImage[] imageForPngFile = new BufferedImage[16];
+		for(int i = 0; i<16; i++){
 			imageForPngFile[i] = new BufferedImage (512, 512, BufferedImage.TYPE_INT_RGB);
 		}
 
-		for(int z = 0; z < 4; z++){
+		for(int z = 0; z < 16; z++){
 			for (int x = 0; x < 512; x++) {
 				for (int y = 0; y < 512; y++) {
 					if(z == 0){
@@ -41,23 +39,57 @@ public class TerrainGeneration {
 					else if(z == 2){
 						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y].getRGB());
 					}
-					else {
+					else if(z == 3){
 						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y + 511].getRGB());
+					}
+					else if(z == 4){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1023][y].getRGB());
+					}
+					else if(z == 5){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1023][y + 511].getRGB());
+					}
+					else if(z == 6){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1535][y].getRGB());
+					}
+					else if(z == 7){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1535][y + 511].getRGB());
+					}
+					else if(z == 8){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x][y+ 1023].getRGB());
+					}
+					else if(z == 9){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x][y + 1535].getRGB());
+					}
+					else if(z == 10){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y + 1023].getRGB());
+					}
+					else if(z == 11){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y + 1535].getRGB());
+					}
+					else if(z == 12){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1023][y + 1023].getRGB());
+					}
+					else if(z == 13){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1023][y + 1535].getRGB());
+					}
+					else if(z == 14){
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1535][y + 1023].getRGB());
+					}
+					else{
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 1535][y + 1535].getRGB());
 					}
 				}
 			}
 		}
+		File[] imageFiles = new File[16];
+		for(int i = 0; i<16; i ++){
+			imageFiles[i] = new File(path[i]);
+		}
 
-		File ImageFile1 = new File(path1);
-		System.out.println(ImageFile1.getAbsolutePath());
-		File ImageFile2 = new File(path2);
-		File ImageFile3 = new File(path3);
-		File ImageFile4 = new File(path4);
 		try {
-			ImageIO.write(imageForPngFile[0], "png", ImageFile1);
-			ImageIO.write(imageForPngFile[1], "png", ImageFile2);
-			ImageIO.write(imageForPngFile[2], "png", ImageFile3);
-			ImageIO.write(imageForPngFile[3], "png", ImageFile4);
+			for(int i = 0; i<16; i++){
+				ImageIO.write(imageForPngFile[i], "png", imageFiles[i]);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +107,7 @@ public class TerrainGeneration {
 	}
 
 	public Color[][] drawMap(double[][] map) {
-		Color pixelSheet[][] = new Color[1024][1024];
+		Color pixelSheet[][] = new Color[2048][2048];
 		for(int x = 0; x < map.length; x++) {
 			for(int y = 0; y < map[0].length; y++) {
 				pixelSheet[x][y] = new Color((float) map[x][y], (float) map[x][y], (float) map[x][y]);

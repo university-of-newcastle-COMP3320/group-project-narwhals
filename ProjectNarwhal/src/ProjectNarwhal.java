@@ -17,6 +17,10 @@ import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,12 +33,12 @@ public class ProjectNarwhal {
     //stores the window handle
     private long window;
     public static int pngNum = 1;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ProjectNarwhal simulation = new ProjectNarwhal();
         simulation.start();
     }
 
-    public void start(){
+    public void start() throws IOException {
         Display disp = new Display();
         window = disp.run();
 
@@ -42,7 +46,8 @@ public class ProjectNarwhal {
         loop();
     }
 
-    private void loop() {
+
+    private void loop() throws IOException {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
@@ -125,7 +130,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x, getHeight((int)x, (int)z, "heightmap4"),z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -136,7 +141,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x, getHeight((int)x, (int)z, "heightmap4"),z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -147,7 +152,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x, getHeight((int)x, (int)z, "heightmap4"),z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -158,7 +163,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z)); //Need to alter y coordinate use x and z location
+            newEntity.setPosition(new Vector3f(x, getHeight((int)x, (int)z, "heightmap4"),z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -169,7 +174,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x, 0, z));
+            newEntity.setPosition(new Vector3f(x, getHeight((int)x, (int)z, "heightmap4"),z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
@@ -194,6 +199,18 @@ public class ProjectNarwhal {
         BaseTerrain terrain2 = new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap3");
         BaseTerrain terrain3 = new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap1");
         BaseTerrain terrain4 = new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap2");
+        BaseTerrain terrain5 = new BaseTerrain(-2,0,loader, texturePack, blendMap, "TerrainTextures/heightmap12");
+        BaseTerrain terrain6 = new BaseTerrain(-2,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap11");
+        BaseTerrain terrain7 = new BaseTerrain(-3,0,loader, texturePack, blendMap, "TerrainTextures/heightmap9");
+        BaseTerrain terrain8 = new BaseTerrain(-3,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap10");
+        BaseTerrain terrain9 = new BaseTerrain(0,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap8");
+        BaseTerrain terrain10 = new BaseTerrain(0,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap7");
+        BaseTerrain terrain11 = new BaseTerrain(-1,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap5");
+        BaseTerrain terrain12 = new BaseTerrain(-1,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap6");
+        BaseTerrain terrain13 = new BaseTerrain(-2,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap16");
+        BaseTerrain terrain14 = new BaseTerrain(-2,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap15");
+        BaseTerrain terrain15 = new BaseTerrain(-3,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap13");
+        BaseTerrain terrain16 = new BaseTerrain(-3,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap14");
 
         LightSource sun = new LightSource(new Vector3f(100000,100000,100000), new Vector3f(1f,1f,1f));
         //Sun light source
@@ -237,6 +254,18 @@ public class ProjectNarwhal {
             renderer.processTerrain(terrain2);
             renderer.processTerrain(terrain3);
             renderer.processTerrain(terrain4);
+            renderer.processTerrain(terrain5);
+            renderer.processTerrain(terrain6);
+            renderer.processTerrain(terrain7);
+            renderer.processTerrain(terrain8);
+            renderer.processTerrain(terrain9);
+            renderer.processTerrain(terrain10);
+            renderer.processTerrain(terrain11);
+            renderer.processTerrain(terrain12);
+            renderer.processTerrain(terrain13);
+            renderer.processTerrain(terrain14);
+            renderer.processTerrain(terrain15);
+            renderer.processTerrain(terrain16);
             renderer.processWater(water);
             renderer.processWater(water2);
             renderer.processWater(water3);
@@ -256,6 +285,24 @@ public class ProjectNarwhal {
 
     public long getWindow() {
         return window;
+    }
+
+    public float getHeight(int x, int z, String heightmap) throws IOException {
+        BufferedImage image = null;
+        image = ImageIO.read(new File("ProjectResources/TerrainTextures/" + heightmap + ".png"));
+
+
+        float MAX_HEIGHT = 40;
+        float MAX_PIXEL_COLOUR = 256*256*256;
+
+        if(x< 0 || x>= image.getHeight() || z<0 || z>=image.getHeight()){
+            return 0;
+        }
+        float height = image.getRGB(x,z);
+        height += MAX_PIXEL_COLOUR / 2f;
+        height /= MAX_PIXEL_COLOUR/ 2f;
+        height *= MAX_HEIGHT;
+        return height;
     }
 
 }

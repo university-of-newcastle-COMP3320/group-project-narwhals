@@ -23,12 +23,14 @@ public class BaseTerrain {
     private Model model;
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
+    private String heightMap;
 
     public BaseTerrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap){
         this.texturePack = texturePack;
         this.blendMap = blendMap;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
+        this.heightMap = heightMap;
         this.model = generateTerrain(loader, heightMap);
     }
 
@@ -100,15 +102,26 @@ public class BaseTerrain {
         return blendMap;
     }
 
-    private float getHeight(int x, int y, BufferedImage image){
-        if(x< 0 || x>= image.getHeight() || y<0 || y>=image.getHeight()){
+    public float getHeight(int x, int z, BufferedImage image){
+        if(x< 0 || x>= image.getHeight() || z<0 || z>=image.getHeight()){
             return 0;
         }
-        float height = image.getRGB(x,y);
+        float height = image.getRGB(x,z);
         height += MAX_PIXEL_COLOUR / 2f;
         height /= MAX_PIXEL_COLOUR/ 2f;
         height *= MAX_HEIGHT;
         return height;
+    }
+
+    public BufferedImage getHeightMap(){
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("ProjectResources/" + heightMap + ".png"));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return image;
     }
 
     private Vector3f calculateNormal(int x, int y, BufferedImage image){
