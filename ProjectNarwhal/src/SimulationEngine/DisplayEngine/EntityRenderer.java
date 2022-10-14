@@ -78,6 +78,7 @@ public class EntityRenderer {
         else{
             shader.loadReflectivity(0);
         }
+        shader.loadAlpha(entity.getAlpha());
     }
 
     private void bindEnvironmentMap(Texture entityMap){
