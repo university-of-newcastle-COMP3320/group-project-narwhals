@@ -7,6 +7,7 @@ import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.Reflections.EnvironmentMapRenderer;
+import SimulationEngine.Skybox.CubeMap;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
@@ -54,7 +55,6 @@ public class Scene{
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor");
-        ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "WaterTextures/placeholder");
 
 
         Random rand = new Random();
@@ -247,21 +247,7 @@ public class Scene{
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
-        
-        ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
-        divingBell2.setMaterial(divingBell[0].getMaterial());
-        entities.add(divingBell2);
 
-        //must use same coordinates and scale as diving bell
-        divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
-        divingBellWater[0].setScale(3);
-        divingBellWater[0].setAlpha(0.3f);
-        entities.add(divingBellWater[0]);
-
-        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 0, 0, 3);
-        divingBellWater2.setMaterial(divingBellWater[0].getMaterial());
-        divingBellWater2.setAlpha(0.3f);
-        entities.add(divingBellWater2);
     }
 
     public List<ModeledEntity> getEntities(){

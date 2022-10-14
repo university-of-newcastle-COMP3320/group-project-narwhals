@@ -33,7 +33,6 @@ public class StaticShader extends ShaderProgram{
     private int location_enviroMap;
     private int location_cameraPositon;
     private int location_reflectivity;
-    private int location_alpha;
 
     //Constructor
     public StaticShader() {
@@ -68,7 +67,6 @@ public class StaticShader extends ShaderProgram{
         location_enviroMap = super.getUniformLocation("enviroMap");
         location_cameraPositon = super.getUniformLocation("cameraPosition");
         location_reflectivity = super.getUniformLocation("reflectivity");
-        location_alpha = super.getUniformLocation("alpha");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -143,7 +141,4 @@ public class StaticShader extends ShaderProgram{
         }
     }
 
-    public void loadAlpha(float alpha){
-        super.loadFloat(location_alpha, alpha);
-    }
 }
