@@ -47,7 +47,7 @@ public class Scene{
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture");
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
         ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture");
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
@@ -56,13 +56,8 @@ public class Scene{
         ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor");
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "WaterTextures/placeholder");
 
-        //Set the initial position and orientation of models
-        narwhal[0].setPosition(new Vector3f(0, 10, -50));
 
         Random rand = new Random();
-        narwhal[0].setPosition(new Vector3f(0, 40, -20));
-        narwhal[0].setRY(270);
-        narwhal[0].setScale(3);
 
         //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
@@ -166,10 +161,26 @@ public class Scene{
 
         waters = new ArrayList<>();
         //Load water surface tiles
+        //middle 4
         waters.add(new WaterSurface(0, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(0, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //top
+        waters.add(new WaterSurface(-2, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //sides
+        waters.add(new WaterSurface(-1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(0, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(0, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //bottom
+        waters.add(new WaterSurface(1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
         terrains = new ArrayList<>();
         //Load ground surface tiles
@@ -196,6 +207,34 @@ public class Scene{
             i++;
         }
 
+        divingBell[0].setPosition(new Vector3f(45, 40, -220));
+        divingBell[0].setScale(3);
+        divingBell[0].setRY(270);
+        divingBell[0].getMaterial().setReflectivity(new Vector4f(0.0f));
+        divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(divingBell[0]);
+
+        ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        divingBell2.setMaterial(divingBell[0].getMaterial());
+        entities.add(divingBell2);
+
+        renderer.renderShadowMap(this.getEntities(), this.getSun());
+        //glass cubes
+        for(int j = 0; j < 10; j ++){
+            float x = rand.nextFloat()* 200 + 50;
+            float z = rand.nextFloat()* 200 + 50;
+            float scale = rand.nextInt(6) + 3;
+            ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
+            cubes.setMaterial(cube[0].getMaterial());
+            cubes.getMaterial().setReflectance(1f);
+            cubes.getMaterial().setShineDamper(10f);
+            cubes.getMaterial().setReflectivity(new Vector4f(1f, 0.1f, 0.1f, 1f));
+            environmentMap = Texture.newEmptyCubeMap(1024);
+            EnvironmentMapRenderer.renderEnvironmentMap(environmentMap, this, new Vector3f(x, 20, z), renderer);
+            cubes.setEnvironmentMap(environmentMap);
+            entities.add(cubes);
+        }
+
         ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
         orca1.setMaterial(orca[0].getMaterial());
         orca1.getMaterial().setReflectance(1f);
@@ -204,30 +243,11 @@ public class Scene{
         orca1.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(orca1);
 
-        //glass cubes
-        for(int j = 0; j < 10; j ++){
-            float x = rand.nextFloat()* 200 + 50;
-            float z = rand.nextFloat()* 200 + 50;
-            float ry = rand.nextFloat() * 720 - 360;
-            float scale = rand.nextInt(6) + 3;
-            ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
-            cubes.setMaterial(cube[0].getMaterial());
-            cubes.getMaterial().setReflectance(1f);
-            cubes.getMaterial().setShineDamper(10f);
-            cubes.getMaterial().setReflectivity(new Vector4f(0.9f, 0.1f, 0.1f, 1f));
-            environmentMap = Texture.newEmptyCubeMap(512);
-            EnvironmentMapRenderer.renderEnvironmentMap(environmentMap, this, new Vector3f(x, 20, z), renderer);
-            cubes.setEnvironmentMap(environmentMap);
-            entities.add(cubes);
-        }
-
-        divingBell[0].setPosition(new Vector3f(45, 40, -220));
-        divingBell[0].setScale(3);
-        divingBell[0].setRY(270);
-        divingBell[0].getMaterial().setReflectivity(new Vector4f(0.0f));
-        divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
-        entities.add(divingBell[0]);
-
+        narwhal[0].setPosition(new Vector3f(0, 40, -20));
+        narwhal[0].setRY(270);
+        narwhal[0].setScale(3);
+        entities.add(narwhal[0]);
+        
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);

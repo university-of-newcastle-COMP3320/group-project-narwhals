@@ -13,8 +13,8 @@
   out float visibility;
   out float NumberOfLights;
   out vec4 shadowCoords;
-  out vec3 reflectedVector;
-  out vec3 refractedVector;
+  out vec3 normalizedNormal;
+  out vec3 viewVector;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -46,10 +46,8 @@
       }
 
       toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
-      vec3 viewVector = normalize(worldPosition.xyz - cameraPosition);
-      vec3 unitNormal = normalize(normal);
-      reflectedVector = reflect(viewVector, unitNormal);
-      refractedVector = refract(viewVector, unitNormal, 1.0/1.33);
+      viewVector = normalize(worldPosition.xyz - cameraPosition);
+      normalizedNormal = normalize(normal);
 
       float distance = length(positionRelativeToCam.xyz);
       visibility = exp(-pow((distance*density),gradient));
