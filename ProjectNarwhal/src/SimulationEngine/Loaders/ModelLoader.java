@@ -54,6 +54,13 @@ public class ModelLoader {
         return new Model(vaoID, positions.length / 3);
     }
 
+    public Model loadToVAO(float[] positions, int size) {
+        int vaoID = createVAO();
+        this.storeDataInAttributeList(0, size, positions);
+        unbindVAO();
+        return new Model(vaoID, positions.length / 3);
+    }
+
 
     public int loadCubeMap(String [] textureFiles){
         int texID = GL11.glGenTextures();
