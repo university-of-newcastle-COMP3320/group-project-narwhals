@@ -10,6 +10,7 @@ The external libraries for LWJGL will not be loaded. The required libraries are 
 found here: https://github.com/LWJGL/lwjgl3/releases
 You will also require JOML for vectors and matrixs and the associated math functions for transforms.
 JOML can be found here: https://github.com/JOML-CI/JOML/releases
+PNGDecoder can be found here: https://drive.google.com/file/d/0B4_SgVGfVtFWMVlXSnkyeXIwdWs/view?resourcekey=0-m2YXuBFtDqiW9gI7NFhiQA
 Download all required libraries and store in a safe place.
 
 Libraries currently required are:
@@ -19,6 +20,7 @@ lwjgl-gflw
 lwjgl-openal
 lwjgl-opengl
 joml 1.10.4
+PNGDecoder
 
 To load the required libraries, go to intellj IDEA File > Project Structure > Libraries and select the
 + sign and select java.

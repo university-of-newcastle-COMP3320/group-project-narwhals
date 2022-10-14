@@ -3,6 +3,8 @@
   in vec3 position;
   in vec2 textureCoords;
   in vec3 normal;
+  //these should be the tangents
+  in vec3 tangent;
 
   out vec2 TextureCoords;
   out vec3 surfaceNormal;
@@ -11,6 +13,8 @@
   out float visibility;
   out float NumberOfLights;
   out vec4 shadowCoords;
+  out vec3 normalizedNormal;
+  out vec3 viewVector;
 
   uniform float numberOfLights;
   uniform mat4 transformationMatrix;
@@ -19,8 +23,10 @@
   uniform vec3 lightPosition[10];
   uniform mat4 toShadowMapSpace;
   uniform float shadowDistance;
+  uniform vec4 plane;
+  uniform vec3 cameraPosition;
 
-  const float density = 0.005;
+  const float density = 0.003;
   const float gradient = 1.5;
   const float transitionDistance = 10.0;
 
@@ -32,11 +38,16 @@
       gl_Position = projectionMatrix * positionRelativeToCam;
       TextureCoords = textureCoords;
 
+      gl_ClipDistance[0] = dot(worldPosition, plane);
+
       surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
       for(int i = 0; i < numberOfLights; i ++){
               toLightVector[i] = lightPosition[i] - worldPosition.xyz;
       }
+
       toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+      viewVector = normalize(worldPosition.xyz - cameraPosition);
+      normalizedNormal = normalize(normal);
 
       float distance = length(positionRelativeToCam.xyz);
       visibility = exp(-pow((distance*density),gradient));

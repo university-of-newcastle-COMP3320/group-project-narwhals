@@ -1,7 +1,6 @@
 package SimulationEngine.DisplayEngine;
 
-import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.Shaders.TerrainShader;
+import Terrain.TerrainShader;
 import SimulationEngine.Tools.ProjectMaths;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexturePack;

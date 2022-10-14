@@ -1,22 +1,21 @@
+import Scene.Scene;
 import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.AssimpLoader;
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
-import SimulationEngine.Models.Model;
-import SimulationEngine.Models.ModelTexture;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
-import SimulationEngine.Shaders.StaticShader;
+import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
+import Water.WaterFrameBuffers;
 import Water.WaterSurface;
-import Water.WaterTexture;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,9 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glGetError;
 
 public class ProjectNarwhal {
 
@@ -46,19 +45,21 @@ public class ProjectNarwhal {
         loop();
     }
 
-
     private void loop() throws IOException {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
+        //Very important following line
         GL.createCapabilities();
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
-        ViewFrustrum camera = new ViewFrustrum(window);
+        ViewFrustrum camera = new ViewFrustrum(window, new Vector3f(1f,1f,1f));
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
-        RenderController renderer = new RenderController(camera);
+        WaterFrameBuffers fbos = new WaterFrameBuffers();
+        RenderController renderer = new RenderController(loader, camera, fbos);
 
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
@@ -222,33 +223,30 @@ public class ProjectNarwhal {
 
         boolean circle = false;
         boolean circle2 = false;
+        Scene scene = new Scene(loader, fbos, renderer);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
-            renderer.renderShadowMap(entities, sun);
+            renderer.renderShadowMap(scene.getEntities(), scene.getSun());
             camera.move();
 
-            for(ModeledEntity model: entities){
-                renderer.processEntity(model);
-            }
-            renderer.processEntity(narwhal[0]);
-            if(narwhal[0].getPosition().z <= -100 && !circle){
-                circle = true;
-                narwhal[0].increaseRotation(0,180,0);
-            }
-            if(narwhal[0].getPosition().z >= 100 && circle){
-                circle = false;
-                narwhal[0].increaseRotation(0,180,0);
-            }
-            if(narwhal[0].getPosition().x > -100 && !circle){
-                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z - 0.05f));
-            }
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-            if(narwhal[0].getPosition().x < 100 && circle){
-                narwhal[0].setPosition(new Vector3f(narwhal[0].getPosition().x, narwhal[0].getPosition().y, narwhal[0].getPosition().z  + 0.05f));
-            }
+            //Reflections
+            fbos.bindReflectionFrameBuffer();
+            float distance = 2 * (camera.getLocation().y - scene.getWaters().get(0).getY());
+            camera.getLocation().y -= distance;
+            camera.invertPitch();
+            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , scene.getWaters().get(0).getY() - 25));
+            camera.getLocation().y += distance;
+            camera.invertPitch();
+            fbos.unbindCurrentFrameBuffer();
 
+            //Refractions
+            fbos.bindRefractionFrameBuffer();
+            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , -scene.getWaters().get(0).getY() + 5));
+            fbos.unbindCurrentFrameBuffer();
 
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
@@ -272,6 +270,12 @@ public class ProjectNarwhal {
             renderer.processWater(water4);
 
             renderer.render(lights, camera);
+            for(WaterSurface water:scene.getWaters()){
+                renderer.processWater(water);
+            }
+            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+            //clip distance set to 130 to cull polygons
+            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
 
             glfwSwapBuffers(window); // swap the buffers
 
@@ -279,6 +283,8 @@ public class ProjectNarwhal {
             // invoked during this call.
             glfwPollEvents();
         }
+        loader.cleanUp();
+        fbos.cleanUp();
         renderer.cleanUp();
         shader.cleanUp();
     }

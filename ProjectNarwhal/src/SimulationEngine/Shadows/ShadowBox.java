@@ -13,10 +13,10 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class ShadowBox {
 
-	private static final float OFFSET = 200;
+	private static final float OFFSET = 300;
 	private static final Vector4f UP = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f FORWARD = new Vector4f(0, 0, -1, 0);
-	private static final float SHADOW_DISTANCE = 300;
+	private static final float SHADOW_DISTANCE = 400;
 
 	private float minX, maxX;
 	private float minY, maxY;
@@ -40,7 +40,7 @@ public class ShadowBox {
 		Vector3f toFar = new Vector3f(forwardVector);
 		toFar.mul(SHADOW_DISTANCE);
 		Vector3f toNear = new Vector3f(forwardVector);
-		toNear.mul(RenderController.NEAR_PLANE);
+		toNear.mul(ViewFrustrum.NEAR_PLANE);
 
 		Vector3f centerNear = new Vector3f();
 		toNear.add(cam.getLocation(), centerNear);
@@ -152,9 +152,9 @@ public class ShadowBox {
 	}
 
 	private void calculateWidthsAndHeights() {
-		farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(RenderController.FOV_ANGLE)));
-		nearWidth = (float) (RenderController.FOV_ANGLE
-				* Math.tan(Math.toRadians(RenderController.FOV_ANGLE)));
+		farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(ViewFrustrum.FOV_ANGLE)));
+		nearWidth = (float) (ViewFrustrum.FOV_ANGLE
+				* Math.tan(Math.toRadians(ViewFrustrum.FOV_ANGLE)));
 		farHeight = farWidth / getAspectRatio();
 		nearHeight = nearWidth / getAspectRatio();
 	}

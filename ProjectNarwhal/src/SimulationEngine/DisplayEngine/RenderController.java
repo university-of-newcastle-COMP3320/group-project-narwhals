@@ -1,21 +1,28 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Models.Texture;
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
-import SimulationEngine.Shaders.StaticShader;
-import SimulationEngine.Shaders.TerrainShader;
-import SimulationEngine.Shaders.WaterShader;
+import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
+import SimulationEngine.Skybox.CubeMap;
+import SimulationEngine.Tools.ProjectMaths;
+import Terrain.TerrainShader;
+import Water.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
 import Terrain.BaseTerrain;
+import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -24,9 +31,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RenderController {
 
-    public static final float FOV_ANGLE = 70.0f;
-    public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 500f;
     private static final Vector3f DEFAULT_WATER_COLOR = new Vector3f(0.004f,0.65f, 0.87f);
     private Matrix4f projectionMatrix;
     private StaticShader eShader = new StaticShader();
@@ -35,26 +39,43 @@ public class RenderController {
     private EntityRenderer eRenderer;
     private TerrainRenderer tRenderer;
     private WaterRenderer wRenderer;
+    private SkyboxRenderer sRenderer;
     private Map<ModeledEntity, List<ModeledEntity>> entities = new HashMap<>();
     private List<BaseTerrain> terrains = new ArrayList<>();
     private List<WaterSurface> waters = new ArrayList<>();
 
     private ShadowMapRenderController shadowMapRenderer;
+    private CubeMap enviroMap;
+    private static final String[] SKYBOX = {"SkyboxTextures/right", "SkyboxTextures/left" , "SkyboxTextures/top", "SkyboxTextures/bottom", "SkyboxTextures/back", "SkyboxTextures/front"};
 
-    public RenderController(ViewFrustrum camera) {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
-        createProjectionMatrix();
+    public RenderController(ModelLoader loader, ViewFrustrum camera, WaterFrameBuffers fbos) {
+        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
+        projectionMatrix = camera.getProjectionMatrix();
+
+        enviroMap = new CubeMap(SKYBOX, loader);
         eRenderer = new EntityRenderer(eShader, projectionMatrix);
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
-        wRenderer = new WaterRenderer(wShader, projectionMatrix);
+        wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
+        sRenderer = new SkyboxRenderer(enviroMap, projectionMatrix);
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
-    public void render(List<LightSource> lights, ViewFrustrum camera){
-        glClearColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z,1);
-        GL11.glEnable(GL_DEPTH_TEST); //this is our z buffer
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT); // clear the framebuffer and the depthbuffer
+    public void renderScene(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, Camera camera, Vector4f clipPlane){
+        for(ModeledEntity model: entityBatch){
+            processEntity(model);
+        }
+        for(BaseTerrain terrain: terrainBatch){
+            processTerrain(terrain);
+        }
+        render(lights, camera, clipPlane);
+    }
+
+
+    public void render(List<LightSource> lights, Camera camera, Vector4f clipPlane){
+        GL11.glEnable(GL11.GL_DEPTH_TEST);//Zbuffer
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);//Clear Color and depth buffers
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
         GL13.glActiveTexture(GL13.GL_TEXTURE5);
         GL11.glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
 
@@ -62,6 +83,7 @@ public class RenderController {
         eShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         eShader.loadLights(lights);
         eShader.loadViewMatrix(camera);
+        eShader.loadClippingPlane(clipPlane);
         eShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
         eShader.bindShadowMap();
         eRenderer.render(entities, shadowMapRenderer.getToShadowMapSpaceMatrix());
@@ -72,6 +94,7 @@ public class RenderController {
         tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         tShader.loadLights(lights);
         tShader.loadViewMatrix(camera);
+        tShader.loadClippingPlane(clipPlane);
         tShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
         tRenderer.render(terrains, shadowMapRenderer.getToShadowMapSpaceMatrix());
 
@@ -85,7 +108,10 @@ public class RenderController {
         wRenderer.render(waters);
 
         wShader.stop();
+
+//        sRenderer.render(camera);
         GL11.glEnable(GL11.GL_CULL_FACE);
+
 
         terrains.clear();
         entities.clear();
@@ -115,7 +141,6 @@ public class RenderController {
             processEntity(entity);
         }
         shadowMapRenderer.render(entities, sun);
-//        entities.clear();
     }
 
     public int getShadowMapTexture(){
@@ -126,24 +151,7 @@ public class RenderController {
         eShader.cleanUp();
         tShader.cleanUp();
         wShader.cleanUp();
+        sRenderer.cleanUp();
         shadowMapRenderer.cleanUp();
-    }
-
-    //creates a projection matrix representing a frustrum using static variables
-    private void createProjectionMatrix(){
-        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        projectionMatrix = new Matrix4f();
-        float aspectRatio = (float) vidmode.width()  / (float) vidmode.height() ;
-        float y_scale = (float) ((1.0f / Math.tan(Math.toRadians(FOV_ANGLE / 2.0f))));
-        float x_scale = y_scale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-        projectionMatrix = new Matrix4f();
-        projectionMatrix.m00(x_scale);
-        projectionMatrix.m11(y_scale);
-        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
-        projectionMatrix.m23(-1);
-        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
-        projectionMatrix.m33(0);
     }
 }

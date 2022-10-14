@@ -1,18 +1,20 @@
 package SimulationEngine.Loaders;
 
 import SimulationEngine.Models.Model;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import SimulationEngine.Models.TextureData;
+import de.matthiasmann.twl.utils.PNGDecoder.Format;
+import de.matthiasmann.twl.utils.PNGDecoder;
+import org.lwjgl.opengl.*;
 
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 
 
 public class ModelLoader {
@@ -31,6 +33,64 @@ public class ModelLoader {
         storeDataInAttributeList(2,3, normals);
         unbindVAO();
         return new Model(vaoID, indicies.length);
+    }
+
+    //for models that need tangent space vectors
+    public Model loadToVAO(float[] positions,float[] textureCoords,float[] normals,float[] tangents, int[] indicies) {
+        int vaoID = createVAO();
+        bindIndicesBuffer(indicies);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1,2, textureCoords);
+        storeDataInAttributeList(2,3, normals);
+        storeDataInAttributeList(3,3, tangents);
+        unbindVAO();
+        return new Model(vaoID, indicies.length);
+    }
+
+    public Model loadToVAO(float[] positions) {
+        int vaoID = createVAO();
+        this.storeDataInAttributeList(0, 3, positions);
+        unbindVAO();
+        return new Model(vaoID, positions.length / 3);
+    }
+
+
+    public int loadCubeMap(String [] textureFiles){
+        int texID = GL11.glGenTextures();
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
+        for(int i = 0; i < textureFiles.length; i++){
+            TextureData data = decodeTextureFile("ProjectResources/"+textureFiles[i]+".png");
+            GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
+        }
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL13.GL_TEXTURE_WRAP_R, GL12.GL_CLAMP_TO_EDGE);
+        textures.add(texID);
+        return texID;
+    }
+
+    private TextureData decodeTextureFile(String fileName) {
+        int width = 0;
+        int height = 0;
+        ByteBuffer buffer = null;
+        try {
+            FileInputStream in = new FileInputStream(fileName);
+            PNGDecoder decoder = new PNGDecoder(in);
+            width = decoder.getWidth();
+            height = decoder.getHeight();
+            buffer = ByteBuffer.allocateDirect(4 * width * height);
+            decoder.decode(buffer, width * 4, Format.RGBA);
+            buffer.flip();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Tried to load texture " + fileName + ", didn't work");
+            System.exit(-1);
+        }
+        return new TextureData(buffer, width, height);
     }
 
     //loads a texture from an image and returns its id

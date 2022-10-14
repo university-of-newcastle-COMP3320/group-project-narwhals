@@ -14,5 +14,6 @@
     <orderEntry type="library" name="lwjgl-opengl" level="project" />
     <orderEntry type="library" name="lwjgl-assimp" level="project" />
     <orderEntry type="library" name="OpenSimplexNoise" level="project" />
+    <orderEntry type="library" name="PNGDecoder" level="project" />
   </component>
 </module>

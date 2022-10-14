@@ -1,15 +1,12 @@
 package Water;
 
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
-import SimulationEngine.Models.ModelTexture;
-import org.joml.Vector4f;
 
 public class WaterSurface {
 
     private static final float SIZE = 800;
-    private static final int VERTEX_COUNT = 128;
+    private static final int VERTEX_COUNT = 256;
 
     private float x;
     private float y;
@@ -82,5 +79,9 @@ public class WaterSurface {
 
     public WaterTexture getTexture(){
         return texture;
+    }
+
+    public void setTexture(WaterTexture texture){
+        this.texture = texture;
     }
 }
