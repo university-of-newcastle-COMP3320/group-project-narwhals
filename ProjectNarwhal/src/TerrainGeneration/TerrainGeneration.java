@@ -49,6 +49,7 @@ public class TerrainGeneration {
 		}
 
 		File ImageFile1 = new File(path1);
+		System.out.println(ImageFile1.getAbsolutePath());
 		File ImageFile2 = new File(path2);
 		File ImageFile3 = new File(path3);
 		File ImageFile4 = new File(path4);
