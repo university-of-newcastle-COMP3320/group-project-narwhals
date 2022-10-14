@@ -161,10 +161,26 @@ public class Scene{
 
         waters = new ArrayList<>();
         //Load water surface tiles
+        //middle 4
         waters.add(new WaterSurface(0, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(0, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //top
+        waters.add(new WaterSurface(-2, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-2, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //sides
+        waters.add(new WaterSurface(-1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(0, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(-1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(0, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        //bottom
+        waters.add(new WaterSurface(1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
+        waters.add(new WaterSurface(1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
         terrains = new ArrayList<>();
         //Load ground surface tiles
