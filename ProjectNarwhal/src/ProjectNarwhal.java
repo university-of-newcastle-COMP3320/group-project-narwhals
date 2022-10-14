@@ -158,7 +158,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x,0,z)); //Need to alter y coordinate use x and z location
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -169,7 +169,7 @@ public class ProjectNarwhal {
             float z = rand.nextFloat()* 1000 - 500;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setPosition(new Vector3f(x, 0, z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);

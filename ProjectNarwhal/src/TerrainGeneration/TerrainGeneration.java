@@ -19,10 +19,10 @@ public class TerrainGeneration {
 
 		pixelSheet = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 1024, 1024));
 
-		String path1 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap1" + ".png";
-		String path2 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap2" + ".png";
-		String path3 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap3" + ".png";
-		String path4 = "C:/Users/Tom/IdeaProjects/group-project-narwhals/ProjectNarwhal/ProjectResources/TerrainTextures/" + "heightmap4" + ".png";
+		String path1 = "ProjectResources/TerrainTextures/" + "heightmap1" + ".png";
+		String path2 = "ProjectResources/TerrainTextures/" + "heightmap2" + ".png";
+		String path3 = "ProjectResources/TerrainTextures/" + "heightmap3" + ".png";
+		String path4 = "ProjectResources/TerrainTextures/" + "heightmap4" + ".png";
 
 		BufferedImage[] imageForPngFile = new BufferedImage[4];
 		for(int i = 0; i<4; i++){
@@ -36,13 +36,13 @@ public class TerrainGeneration {
 						imageForPngFile[z].setRGB(x, y, pixelSheet[x][y].getRGB());
 					}
 					else if(z == 1){
-						imageForPngFile[z].setRGB(x, y, pixelSheet[x][y + 512].getRGB());
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x][y + 511].getRGB());
 					}
 					else if(z == 2){
-						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 512][y].getRGB());
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y].getRGB());
 					}
 					else {
-						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 512][y + 512].getRGB());
+						imageForPngFile[z].setRGB(x, y, pixelSheet[x + 511][y + 511].getRGB());
 					}
 				}
 			}
