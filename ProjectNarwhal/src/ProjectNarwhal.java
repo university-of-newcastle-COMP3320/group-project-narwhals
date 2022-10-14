@@ -13,6 +13,7 @@ import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
+import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
@@ -269,10 +270,10 @@ public class ProjectNarwhal {
             renderer.processWater(water3);
             renderer.processWater(water4);
 
-            renderer.render(lights, camera);
-            for(WaterSurface water:scene.getWaters()){
-                renderer.processWater(water);
-            }
+//            renderer.render(lights, camera);
+//            for(WaterSurface water:scene.getWaters()){
+//                renderer.processWater(water);
+//            }
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
             //clip distance set to 130 to cull polygons
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
