@@ -54,25 +54,25 @@ public class ProjectNarwhal {
 
             GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-            //Reflections
-            fbos.bindReflectionFrameBuffer();
-            float distance = 2 * (camera.getLocation().y - scene.getWaters().get(0).getY());
-            camera.getLocation().y -= distance;
-            camera.invertPitch();
-            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , scene.getWaters().get(0).getY() - 25));
-            camera.getLocation().y += distance;
-            camera.invertPitch();
-            fbos.unbindCurrentFrameBuffer();
+//            //Reflections
+//            fbos.bindReflectionFrameBuffer();
+//            float distance = 2 * (camera.getLocation().y - scene.getWaters().get(0).getY());
+//            camera.getLocation().y -= distance;
+//            camera.invertPitch();
+//            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , scene.getWaters().get(0).getY() - 25));
+//            camera.getLocation().y += distance;
+//            camera.invertPitch();
+//            fbos.unbindCurrentFrameBuffer();
+//
+//            //Refractions
+//            fbos.bindRefractionFrameBuffer();
+//            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , -scene.getWaters().get(0).getY() + 5));
+//            fbos.unbindCurrentFrameBuffer();
 
-            //Refractions
-            fbos.bindRefractionFrameBuffer();
-            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , -scene.getWaters().get(0).getY() + 5));
-            fbos.unbindCurrentFrameBuffer();
 
-
-            for(WaterSurface water:scene.getWaters()){
-                renderer.processWater(water);
-            }
+//            for(WaterSurface water:scene.getWaters()){
+//                renderer.processWater(water);
+//            }
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
             //clip distance set to 130 to cull polygons
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
