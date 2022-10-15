@@ -19,7 +19,7 @@ public class ViewFrustrum implements Camera{
     private double[] y = new double[2];
     public static final float FOV_ANGLE = 70.0f;
     public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 100000f;
+    public static final float FAR_PLANE = 700f;
     private Matrix4f projectionMatrix = new Matrix4f();
     private Matrix4f viewMatrix = new Matrix4f();
     private Matrix4f projectionViewMatrix = new Matrix4f();

@@ -11,7 +11,6 @@ import SimulationEngine.Skybox.CubeMap;
 import Terrain.BaseTerrain;
 import Terrain.TerrainTexture;
 import Terrain.TerrainTexturePack;
-import TerrainGeneration.TerrainGeneration;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import Water.WaterTexture;
@@ -94,61 +93,61 @@ public class Scene{
         }
 
         //Random positioning of coral
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
-            newEntity.setMaterial(models3[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-            newEntity.setMaterial(models2[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-            newEntity.setMaterial(models4[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-            newEntity.setMaterial(models5[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
-
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-            newEntity.setMaterial(models[0].getMaterial());
-            newEntity.setPosition(new Vector3f(x,0,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat());
-            entities.add(newEntity);
-        }
+//        for(int i=0; i<40; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
+//            newEntity.setMaterial(models3[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//
+//        for(int i=0; i<40; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+//            newEntity.setMaterial(models2[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<40; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+//            newEntity.setMaterial(models4[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<40; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+//            newEntity.setMaterial(models5[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat() * 3);
+//            entities.add(newEntity);
+//        }
+//
+//        for(int i=0; i<40; i++){
+//            float x = rand.nextFloat()* 1000 - 500;
+//            float z = rand.nextFloat()* 1000 - 500;
+//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+//            newEntity.setMaterial(models[0].getMaterial());
+//            newEntity.setPosition(new Vector3f(x,0,z));
+//            newEntity.setScale(rand.nextInt(10) + 1);
+//            newEntity.setScale(rand.nextFloat());
+//            entities.add(newEntity);
+//        }
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
@@ -162,46 +161,15 @@ public class Scene{
 
         waters = new ArrayList<>();
         //Load water surface tiles
-        //middle 4
         waters.add(new WaterSurface(0, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(0, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        //top
-        waters.add(new WaterSurface(-2, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(-2, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(-2, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(-2, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        //sides
-        waters.add(new WaterSurface(-1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(0, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(-1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(0, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        //bottom
-        waters.add(new WaterSurface(1, 125, -2, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
-        waters.add(new WaterSurface(1, 125, 1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
-        new TerrainGeneration();
         terrains = new ArrayList<>();
         //Load ground surface tiles
-        terrains.add(new BaseTerrain(0,0,loader, texturePack, blendMap, "TerrainTextures/heightmap4"));
-        terrains.add(new BaseTerrain(0,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap3"));
-        terrains.add(new BaseTerrain(-1,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap1"));
-        terrains.add(new BaseTerrain(-1,0,loader, texturePack, blendMap, "TerrainTextures/heightmap2"));
-        terrains.add(new BaseTerrain(-2,0,loader, texturePack, blendMap, "TerrainTextures/heightmap12"));
-        terrains.add(new BaseTerrain(-2,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap11"));
-        terrains.add(new BaseTerrain(-3,0,loader, texturePack, blendMap, "TerrainTextures/heightmap9"));
-        terrains.add(new BaseTerrain(-3,-1,loader, texturePack, blendMap, "TerrainTextures/heightmap10"));
-        terrains.add(new BaseTerrain(0,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap8"));
-        terrains.add(new BaseTerrain(0,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap7"));
-        terrains.add(new BaseTerrain(-1,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap5"));
-        terrains.add(new BaseTerrain(-1,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap6"));
-        terrains.add(new BaseTerrain(-2,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap16"));
-        terrains.add(new BaseTerrain(-2,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap15"));
-        terrains.add(new BaseTerrain(-3,-2,loader, texturePack, blendMap, "TerrainTextures/heightmap13"));
-        terrains.add(new BaseTerrain(-3,-3,loader, texturePack, blendMap, "TerrainTextures/heightmap14"));
+        terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
+
 
         sun = new LightSource(new Vector3f(100000, 100000, 100000), new Vector3f(1f, 1f, 1f));
         //Sun light source
