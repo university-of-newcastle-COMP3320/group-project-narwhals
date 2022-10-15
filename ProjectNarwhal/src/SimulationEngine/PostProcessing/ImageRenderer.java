@@ -10,7 +10,7 @@ public class ImageRenderer {
 		this.fbo = new Fbo(Fbo.NONE);
 	}
 
-	protected ImageRenderer() {}
+	public ImageRenderer() {}
 
 	public void renderQuad() {
 		if (fbo != null) {

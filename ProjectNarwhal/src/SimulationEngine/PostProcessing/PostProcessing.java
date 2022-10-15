@@ -1,6 +1,8 @@
 package SimulationEngine.PostProcessing;
 
 import SimulationEngine.DisplayEngine.Display;
+import SimulationEngine.PostProcessing.BloomEffect.BrightFilter;
+import SimulationEngine.PostProcessing.BloomEffect.CombineFilter;
 import SimulationEngine.PostProcessing.GaussianBlur.HorizontalBlur;
 import SimulationEngine.PostProcessing.GaussianBlur.VerticalBlur;
 import org.lwjgl.opengl.GL11;
@@ -22,18 +24,31 @@ public class PostProcessing {
 	private static HorizontalBlur horizontalBlur;
 	private static VerticalBlur verticalBlur;
 
+	private static HorizontalBlur horizontalBlur2;
+	private static VerticalBlur verticalBlur2;
+	private static BrightFilter brightFilter;
+	private static CombineFilter combineFilter;
+
 	public static void init(ModelLoader loader){
 		quad = loader.loadToVAO(POSITIONS, 2);
 		contrastChanger = new ContrastChanger();
-		horizontalBlur = new HorizontalBlur(width, height);
-		verticalBlur = new VerticalBlur(width, height);
+		horizontalBlur = new HorizontalBlur(width/4, height/4);
+		verticalBlur = new VerticalBlur(width/4, height/4);
+		horizontalBlur2 = new HorizontalBlur(width/2, height/2);
+		verticalBlur2 = new VerticalBlur(width/2, height/2);
+		brightFilter = new BrightFilter(width/2, height/2);
+		combineFilter = new CombineFilter();
 	}
 	
 	public static void doPostProcessing(int colourTexture){
 		start();
-		//horizontalBlur.render(colourTexture);
-		//verticalBlur.render(horizontalBlur.getOutputTexture());
-		contrastChanger.render(colourTexture);
+		brightFilter.render(colourTexture);
+		horizontalBlur2.render(brightFilter.getOutputTexture());
+		verticalBlur2.render(horizontalBlur2.getOutputTexture());
+		horizontalBlur.render(verticalBlur2.getOutputTexture());
+		verticalBlur.render(horizontalBlur.getOutputTexture());
+		combineFilter.render(colourTexture, verticalBlur.getOutputTexture());
+		//contrastChanger.render(colourTexture);
 		end();
 	}
 	
@@ -41,6 +56,10 @@ public class PostProcessing {
 		contrastChanger.cleanUp();
 		horizontalBlur.cleanUp();
 		verticalBlur.cleanUp();
+		brightFilter.cleanUp();
+		combineFilter.cleanUp();
+		horizontalBlur2.cleanUp();
+		verticalBlur2.cleanUp();
 	}
 	
 	private static void start(){
