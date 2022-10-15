@@ -8,6 +8,6 @@ uniform sampler2D colourTexture;
 
 void main(void){
 
-	out_Colour = texture(colourTexture, textureCoords).rbga;
+	out_Colour = texture(colourTexture, textureCoords).rgba;
 
 }

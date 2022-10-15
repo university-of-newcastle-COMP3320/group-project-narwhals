@@ -45,7 +45,8 @@ public class ProjectNarwhal {
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         WaterFrameBuffers fbos = new WaterFrameBuffers();
-        Fbo fbo = new Fbo(Fbo.DEPTH_RENDER_BUFFER);
+        Fbo multisampleFbo = new Fbo();
+        Fbo outputFbo = new Fbo(Fbo.DEPTH_RENDER_BUFFER);
         PostProcessing.init(loader);
         RenderController renderer = new RenderController(loader, camera, fbos);
 
@@ -80,10 +81,11 @@ public class ProjectNarwhal {
             fbos.unbindCurrentFrameBuffer();
 
             //Post Processing
-            fbo.bindFrameBuffer();
+            multisampleFbo.bindFrameBuffer();
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
-            fbo.unbindFrameBuffer();
-            PostProcessing.doPostProcessing(fbo.getColourTexture());
+            multisampleFbo.unbindFrameBuffer();
+            multisampleFbo.resolveToFbo(outputFbo);
+            PostProcessing.doPostProcessing(outputFbo.getColourTexture());
 
             glfwSwapBuffers(window); // swap the buffers
 
@@ -92,7 +94,8 @@ public class ProjectNarwhal {
             glfwPollEvents();
         }
         PostProcessing.cleanUp();
-        fbo.cleanUp();
+        outputFbo.cleanUp();
+        multisampleFbo.cleanUp();
         loader.cleanUp();
         fbos.cleanUp();
         renderer.cleanUp();
