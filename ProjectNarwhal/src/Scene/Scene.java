@@ -93,62 +93,7 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        //Random positioning of coral
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
-//            newEntity.setMaterial(models3[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-//            newEntity.setMaterial(models2[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-//            newEntity.setMaterial(models4[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-//            newEntity.setMaterial(models5[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-//            newEntity.setMaterial(models[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat());
-//            entities.add(newEntity);
-//        }
+
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
@@ -172,6 +117,66 @@ public class Scene{
         //Load ground surface tiles
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
+        //Random positioning of coral
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
+            newEntity.setMaterial(models3[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+            newEntity.setMaterial(models2[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+            newEntity.setMaterial(models4[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+            newEntity.setMaterial(models5[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+            newEntity.setMaterial(models[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat());
+            entities.add(newEntity);
+        }
 
         sun = new LightSource(new Vector3f(100000, 100000, 100000), new Vector3f(1f, 1f, 1f));
         //Sun light source
