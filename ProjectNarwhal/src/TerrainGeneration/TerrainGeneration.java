@@ -9,12 +9,11 @@ import java.lang.Math;
 import java.util.Random;
 
 public class TerrainGeneration {
-    public static void main(String[] args){
+    public TerrainGeneration(){
         Random seed = new Random();
-        TerrainGeneration tg = new TerrainGeneration();
         Color[][] pixelSheet = new Color[2048][2048];
 
-        pixelSheet = tg.drawMap(tg.generateMap(seed.nextInt(10, 20), 2048, 2048));
+        pixelSheet = drawMap(generateMap(seed.nextInt(10, 15), 2048, 2048));
 
         BufferedImage imageForPngFile = new BufferedImage(2048, 2048, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < 2048; x++) {
@@ -36,7 +35,7 @@ public class TerrainGeneration {
         double doubleSeed = seed;
         for(int x=0; x<width; x++){
             for(int y=0; y<height; y++){
-                map[x][y] = Math.abs(ImprovedNoise.noise(x*(doubleSeed)/width, y*(doubleSeed-5)/height, 0.0)); //make maths scale from 0 to 1
+                map[x][y] = Math.abs(ImprovedNoise.noise(x*(doubleSeed)/width, y*(doubleSeed-7)/height, 0)); //make maths scale from 0 to 1
             }
         }
         return map;

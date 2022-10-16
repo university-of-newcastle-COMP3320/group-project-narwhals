@@ -16,6 +16,7 @@ import Water.WaterSurface;
 import Water.WaterTexture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import TerrainGeneration.TerrainGeneration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,6 +167,7 @@ public class Scene{
         waters.add(new WaterSurface(-1, 125, -1, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
         waters.add(new WaterSurface(-1, 125, 0, loader, new WaterTexture(loader.loadTexture("WaterTextures/placeholder"))));
 
+        new TerrainGeneration();
         terrains = new ArrayList<>();
         //Load ground surface tiles
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
