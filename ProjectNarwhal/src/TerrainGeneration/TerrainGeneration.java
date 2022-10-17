@@ -11,7 +11,7 @@ import java.util.Random;
 public class TerrainGeneration {
     public TerrainGeneration(){
         Random seed = new Random();
-        Color[][] pixelSheet = new Color[2048][2048];
+        Color[][] pixelSheet;
 
         pixelSheet = drawMap(generateMap(seed.nextInt(10, 15), 2048, 2048));
 

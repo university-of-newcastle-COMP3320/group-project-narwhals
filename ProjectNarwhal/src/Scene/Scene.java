@@ -124,7 +124,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
             newEntity.setMaterial(models3[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -136,7 +136,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -148,7 +148,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -160,7 +160,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -172,7 +172,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
