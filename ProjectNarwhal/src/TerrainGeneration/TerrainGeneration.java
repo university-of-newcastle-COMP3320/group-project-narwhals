@@ -13,7 +13,7 @@ public class TerrainGeneration {
         Random seed = new Random();
         Color[][] pixelSheet = new Color[2048][2048];
 
-        pixelSheet = drawMap(generateMap(seed.nextInt(10, 15), 2048, 2048));
+        pixelSheet = drawMap(generateMap(seed.nextInt( 256), 2048, 2048));
 
         BufferedImage imageForPngFile = new BufferedImage(2048, 2048, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < 2048; x++) {

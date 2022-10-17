@@ -86,10 +86,10 @@ public class ViewFrustrum implements Camera{
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE )){
             glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) && location.y - 0.6f > 0){
             location.y -= 0.6f;
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y + 0.6f < 120){
             location.y  += 0.6f;
         }
     }
