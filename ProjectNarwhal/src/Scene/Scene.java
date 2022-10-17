@@ -43,7 +43,6 @@ public class Scene{
 
         //Create the scene
         //Load models
-
         ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
         ModeledEntity[] barrel = AssimpLoader.loadModel("ProjectResources/Barrel/barrel.obj", loader, "Barrel/barrel", "Barrel/barrelNormal");
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", "Narwhal/defaultNormal");
@@ -57,9 +56,7 @@ public class Scene{
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
-
-
-
+        
         Random rand = new Random();
 
 //        //Random Positioning of IceChunks
@@ -108,7 +105,7 @@ public class Scene{
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
-        
+
         barrel[0].setPosition(new Vector3f(0, 20, 0));
         entities.add(barrel[0]);
 
@@ -225,7 +222,6 @@ public class Scene{
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
-
     }
 
     public List<ModeledEntity> getEntities(){
