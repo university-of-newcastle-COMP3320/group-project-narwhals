@@ -44,8 +44,7 @@ public class Scene{
         //Create the scene
         //Load models
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
-        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2");
-        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral3/3a.obj", loader, "/Coral3/coral3");
+        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/coral2.obj", loader, "/Coral2/coral2");
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
@@ -61,94 +60,84 @@ public class Scene{
         Random rand = new Random();
 
         //Random Positioning of IceChunks
-        for(int i=0; i<200; i++){
-            float x = rand.nextFloat()* 800 - 400;
-            float z = rand.nextFloat()* 800 - 400;
-            float scale = rand.nextInt(11) + 4;
-            int rotation = (int) (x+z % 360);
-            ModeledEntity newEntity;
-            switch ((int) (rand.nextFloat()*4+1)) {
-                case 1:
-                    newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-                    newEntity.setMaterial(iceChunk1[0].getMaterial());
-                    newEntity.setScale(scale);
-                    break;
-                case 2:
-                    newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-                    newEntity.setMaterial(iceChunk2[0].getMaterial());
-                    newEntity.setScale(scale);
-                    break;
-                case 3:
-                    newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
-                    newEntity.setMaterial(iceChunk3[0].getMaterial());
-                    newEntity.setScale(scale);
-                    break;
-                default:
-                    newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-                    newEntity.setMaterial(iceChunk4[0].getMaterial());
-                    newEntity.setScale(scale);
-                    break;
+//        for(int i=0; i<200; i++){
+//            float x = rand.nextFloat()* 800 - 400;
+//            float z = rand.nextFloat()* 800 - 400;
+//            float scale = rand.nextInt(11) + 4;
+//            int rotation = (int) (x+z % 360);
+//            ModeledEntity newEntity;
+//            switch ((int) (rand.nextFloat()*4+1)) {
+//                case 1:
+//                    newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+//                    newEntity.setMaterial(iceChunk1[0].getMaterial());
+//                    newEntity.setScale(scale);
+//                    break;
+//                case 2:
+//                    newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+//                    newEntity.setMaterial(iceChunk2[0].getMaterial());
+//                    newEntity.setScale(scale);
+//                    break;
+//                case 3:
+//                    newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
+//                    newEntity.setMaterial(iceChunk3[0].getMaterial());
+//                    newEntity.setScale(scale);
+//                    break;
+//                default:
+//                    newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+//                    newEntity.setMaterial(iceChunk4[0].getMaterial());
+//                    newEntity.setScale(scale);
+//                    break;
+//
+//            }
+//            entities.add(newEntity);
+//        }
 
-            }
+        //Random positioning of coral
+
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
+            newEntity.setMaterial(models2[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
-        //Random positioning of coral
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
-//            newEntity.setMaterial(models3[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
-//            newEntity.setMaterial(models2[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
-//            newEntity.setMaterial(models4[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
-//            newEntity.setMaterial(models5[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat() * 3);
-//            entities.add(newEntity);
-//        }
-//
-//        for(int i=0; i<40; i++){
-//            float x = rand.nextFloat()* 1000 - 500;
-//            float z = rand.nextFloat()* 1000 - 500;
-//            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
-//            newEntity.setMaterial(models[0].getMaterial());
-//            newEntity.setPosition(new Vector3f(x,0,z));
-//            newEntity.setScale(rand.nextInt(10) + 1);
-//            newEntity.setScale(rand.nextFloat());
-//            entities.add(newEntity);
-//        }
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
+            newEntity.setMaterial(models4[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
+            newEntity.setMaterial(models5[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat() * 3);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<40; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
+            newEntity.setMaterial(models[0].getMaterial());
+            newEntity.setPosition(new Vector3f(x,0,z));
+            newEntity.setScale(rand.nextInt(10) + 1);
+            newEntity.setScale(rand.nextFloat());
+            entities.add(newEntity);
+        }
 
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
