@@ -13,7 +13,7 @@ public class TerrainGeneration {
         Random seed = new Random();
         Color[][] pixelSheet;
 
-        pixelSheet = drawMap(generateMap(seed.nextInt(10, 15), 2048, 2048));
+        pixelSheet = drawMap(generateMap(seed.nextInt( 5) + 10, 2048, 2048));
 
         BufferedImage imageForPngFile = new BufferedImage(2048, 2048, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < 2048; x++) {
@@ -35,7 +35,7 @@ public class TerrainGeneration {
         double doubleSeed = seed;
         for(int x=0; x<width; x++){
             for(int y=0; y<height; y++){
-                map[x][y] = Math.abs(ImprovedNoise.noise(x*(doubleSeed)/width, y*(doubleSeed-7)/height, 0)); //make maths scale from 0 to 1
+                map[x][y] = Math.abs(ImprovedNoise.noise(x*(doubleSeed)/width, y*(doubleSeed-4)/height, 0)); //make maths scale from 0 to 1
             }
         }
         return map;
