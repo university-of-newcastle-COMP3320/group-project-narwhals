@@ -57,8 +57,8 @@
       }
 
       toCameraVector = toTangentSpace * ((inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz);
-      vec3 viewVector = normalize(worldPosition.xyz - cameraPosition);
-      vec3 unitNormal = normalize(normal);
+      viewVector = normalize(worldPosition.xyz - cameraPosition);
+      normalizedNormal = normalize(normal);
 
       float distance = length(positionRelativeToCam.xyz);
       visibility = exp(-pow((distance*density),gradient));
