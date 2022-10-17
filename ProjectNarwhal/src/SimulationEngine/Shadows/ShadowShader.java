@@ -1,6 +1,6 @@
 package SimulationEngine.Shadows;
 
-import SimulationEngine.Shaders.ShaderProgram;
+import SimulationEngine.BaseShaders.ShaderProgram;
 import org.joml.Matrix4f;
 
 public class ShadowShader extends ShaderProgram {

@@ -3,7 +3,6 @@ package Terrain;
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
-import SimulationEngine.Models.ModelTexture;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 public class BaseTerrain {
 
-    private static final float SIZE = 800;
+    private static final float SIZE = 4096;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256*256*256;
 
@@ -23,12 +22,14 @@ public class BaseTerrain {
     private Model model;
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
+    private String heightMap;
 
-    public BaseTerrain(int gridX, int gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap){
+    public BaseTerrain(float gridX, float gridZ, ModelLoader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap){
         this.texturePack = texturePack;
         this.blendMap = blendMap;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
+        this.heightMap = heightMap;
         this.model = generateTerrain(loader, heightMap);
     }
 
@@ -50,9 +51,9 @@ public class BaseTerrain {
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3] = ((float)j/((float)VERTEX_COUNT - 1) * SIZE) + 2048;
                 vertices[vertexPointer*3+1] = getHeight(j,i,image);
-                vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3+2] = ((float)i/((float)VERTEX_COUNT - 1) * SIZE) + 2048;
                 Vector3f normal = calculateNormal(j,i,image);
                 normals[vertexPointer*3] = normal.x;
                 normals[vertexPointer*3+1] = normal.y;
@@ -100,15 +101,26 @@ public class BaseTerrain {
         return blendMap;
     }
 
-    private float getHeight(int x, int y, BufferedImage image){
-        if(x< 0 || x>= image.getHeight() || y<0 || y>=image.getHeight()){
+    public float getHeight(int x, int z, BufferedImage image){
+        if(x< 0 || x>= image.getHeight() || z<0 || z>=image.getHeight()){
             return 0;
         }
-        float height = image.getRGB(x,y);
+        float height = image.getRGB(x,z);
         height += MAX_PIXEL_COLOUR / 2f;
         height /= MAX_PIXEL_COLOUR/ 2f;
         height *= MAX_HEIGHT;
         return height;
+    }
+
+    public BufferedImage getHeightMap(){
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("ProjectResources/" + heightMap + ".png"));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return image;
     }
 
     private Vector3f calculateNormal(int x, int y, BufferedImage image){

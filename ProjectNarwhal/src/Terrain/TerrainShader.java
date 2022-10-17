@@ -1,5 +1,7 @@
-package SimulationEngine.Shaders;
+package Terrain;
 
+import SimulationEngine.BaseShaders.ShaderProgram;
+import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
@@ -9,10 +11,10 @@ import org.joml.Vector4f;
 
 import java.util.List;
 
-public class TerrainShader extends ShaderProgram{
+public class TerrainShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/SimulationEngine/Shaders/TerrainVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/SimulationEngine/Shaders/TerrainFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/Terrain/TerrainVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/Terrain/TerrainFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -127,7 +129,7 @@ public class TerrainShader extends ShaderProgram{
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
-    public void loadViewMatrix(ViewFrustrum camera){
+    public void loadViewMatrix(Camera camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }

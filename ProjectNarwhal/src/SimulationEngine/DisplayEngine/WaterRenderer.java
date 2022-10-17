@@ -1,11 +1,8 @@
 package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.Shaders.TerrainShader;
-import SimulationEngine.Shaders.WaterShader;
+import Water.WaterShader;
 import SimulationEngine.Tools.ProjectMaths;
-import Terrain.BaseTerrain;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Matrix4f;

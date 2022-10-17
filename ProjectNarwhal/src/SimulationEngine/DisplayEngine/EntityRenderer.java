@@ -1,10 +1,15 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.Shaders.StaticShader;
+import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Reflections.EnvironmentMapRenderer;
+import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Tools.ProjectMaths;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -12,11 +17,13 @@ import org.lwjgl.opengl.GL30;
 
 import java.util.*;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class EntityRenderer {
 
     private StaticShader shader;
+    private CubeMap entityMap;
 
     //Constructor, creates the view frustrum matrix and loads it
     public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
@@ -29,6 +36,7 @@ public class EntityRenderer {
     //handles rendering each batch of models
     public void render(Map<ModeledEntity, List<ModeledEntity>> entities, Matrix4f toShadowSpace){
         shader.loadToShadowSpaceMatrix(toShadowSpace);
+        shader.connectTextureUnits();
         for(ModeledEntity model:entities.keySet()){
             prepareModel(model);
             List<ModeledEntity> batch = entities.get(model);
@@ -45,6 +53,7 @@ public class EntityRenderer {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
+        GL20.glEnableVertexAttribArray(3);
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMaterial().getTexture().getID());
@@ -54,6 +63,7 @@ public class EntityRenderer {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
+        GL20.glDisableVertexAttribArray(3);
         GL30.glBindVertexArray(0);
     }
 
@@ -61,6 +71,18 @@ public class EntityRenderer {
         Matrix4f transformationMatrix = ProjectMaths.createTransformationMatrix(entity.getPosition(), entity.getRX(), entity.getRY(), entity.getRZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
+        if(entity.hasReflection()){
+            shader.loadReflectivity(entity.getMaterial().getReflectivity().x);
+            bindEnvironmentMap(entity.getEnvironmentMap());
+        }
+        else{
+            shader.loadReflectivity(0);
+        }
+    }
+
+    private void bindEnvironmentMap(Texture entityMap){
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, entityMap.getID());
     }
 
 }
