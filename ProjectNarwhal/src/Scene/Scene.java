@@ -48,7 +48,6 @@ public class Scene{
         ModeledEntity[] barrel = AssimpLoader.loadModel("ProjectResources/Barrel/barrel.obj", loader, "Barrel/barrel", "Barrel/barrelNormal");
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", "Narwhal/defaultNormal");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2", "Narwhal/defaultNormal");
-        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral3/3a.obj", loader, "/Coral3/coral3", "Narwhal/defaultNormal");
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", "Narwhal/defaultNormal");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", "Narwhal/defaultNormal");
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "Narwhal/defaultNormal");
