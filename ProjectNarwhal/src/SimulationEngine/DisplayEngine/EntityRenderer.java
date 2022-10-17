@@ -57,6 +57,8 @@ public class EntityRenderer {
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMaterial().getTexture().getID());
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMaterial().getNormalMap().getID());
     }
 
     private void unbindEntity(){

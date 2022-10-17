@@ -43,23 +43,27 @@ public class Scene{
 
         //Create the scene
         //Load models
-        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1");
-        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/coral2.obj", loader, "/Coral2/coral2");
-        ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4");
-        ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5");
-        ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture");
-        ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor");
-        ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture");
-        ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture");
-        ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture");
-        ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture");
-        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor");
+
+        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
+        ModeledEntity[] barrel = AssimpLoader.loadModel("ProjectResources/Barrel/barrel.obj", loader, "Barrel/barrel", "Barrel/barrelNormal");
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", "Narwhal/defaultNormal");
+        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2", "Narwhal/defaultNormal");
+        ModeledEntity[] models3 = AssimpLoader.loadModel("ProjectResources/Coral3/3a.obj", loader, "/Coral3/coral3", "Narwhal/defaultNormal");
+        ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", "Narwhal/defaultNormal");
+        ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", "Narwhal/defaultNormal");
+        ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "Narwhal/defaultNormal");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor", "Narwhal/defaultNormal");
+        ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor", "Narwhal/defaultNormal");
+        ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+
 
 
         Random rand = new Random();
 
-        //Random Positioning of IceChunks
+//        //Random Positioning of IceChunks
 //        for(int i=0; i<200; i++){
 //            float x = rand.nextFloat()* 800 - 400;
 //            float z = rand.nextFloat()* 800 - 400;
@@ -105,6 +109,9 @@ public class Scene{
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
+        
+        barrel[0].setPosition(new Vector3f(0, 20, 0));
+        entities.add(barrel[0]);
 
         for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
