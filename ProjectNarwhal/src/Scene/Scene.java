@@ -43,19 +43,20 @@ public class Scene{
 
         //Create the scene
         //Load models
-        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
         ModeledEntity[] barrel = AssimpLoader.loadModel("ProjectResources/Barrel/barrel.obj", loader, "Barrel/barrel", "Barrel/barrelNormal");
         ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", "Narwhal/defaultNormal");
         ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2", "Narwhal/defaultNormal");
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", "Narwhal/defaultNormal");
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", "Narwhal/defaultNormal");
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "Narwhal/defaultNormal");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor", "Narwhal/defaultNormal");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture", "Narwhal/defaultNormal");
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
+
 
         Random rand = new Random();
 
@@ -117,17 +118,6 @@ public class Scene{
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
         //Random positioning of coral
-        for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
-            ModeledEntity newEntity = new ModeledEntity(models3[0].getModel());
-            newEntity.setMaterial(models3[0].getMaterial());
-            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
-            newEntity.setScale(rand.nextInt(10) + 1);
-            newEntity.setScale(rand.nextFloat() * 3);
-            entities.add(newEntity);
-        }
 
         for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
@@ -135,7 +125,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -147,7 +137,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-5,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -159,7 +149,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -171,7 +161,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
@@ -234,6 +224,7 @@ public class Scene{
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
+
     }
 
     public List<ModeledEntity> getEntities(){
