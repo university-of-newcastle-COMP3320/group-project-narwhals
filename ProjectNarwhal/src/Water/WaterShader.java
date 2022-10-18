@@ -3,7 +3,6 @@ package Water;
 import SimulationEngine.BaseShaders.ShaderProgram;
 import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
-import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -12,8 +11,8 @@ import java.util.List;
 
 public class WaterShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/Water/WaterVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/Water/WaterFragmentShader.glsl";
+    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/WaterVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/WaterFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;

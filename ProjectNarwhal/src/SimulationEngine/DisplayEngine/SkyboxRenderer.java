@@ -1,7 +1,6 @@
 package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.ProjectEntities.Camera;
-import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Skybox.SkyboxShader;
 import SimulationEngine.Tools.ProjectMaths;

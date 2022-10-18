@@ -3,7 +3,6 @@
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;
-//these should be the tangents
 in vec3 tangent;
 
 out vec2 TextureCoords;
@@ -35,17 +34,29 @@ void main()
     vec4 worldPosition = transformationMatrix * vec4(position,1.0);
     shadowCoords = toShadowMapSpace * worldPosition;
     vec4 positionRelativeToCam = viewMatrix * worldPosition;
+    mat4 modelViewMatrix = viewMatrix * transformationMatrix;
     gl_Position = projectionMatrix * positionRelativeToCam;
     TextureCoords = textureCoords;
 
     gl_ClipDistance[0] = dot(worldPosition, plane);
 
     surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
+    vec3 norm = normalize(surfaceNormal);
+    vec3 tang = (modelViewMatrix * vec4(tangent, 0.0)).xyz;
+    vec3 unitTang = normalize(tang);
+    vec3 bitang = normalize(cross(norm, unitTang));
+
+    mat3 toTangentSpace = mat3 (
+        unitTang.x, bitang.x, norm.x,
+        unitTang.y, bitang.y, norm.y,
+        unitTang.z, bitang.z, norm.z
+    );
+
     for(int i = 0; i < numberOfLights; i ++){
-        toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+        toLightVector[i] = toTangentSpace * (lightPosition[i] - worldPosition.xyz);
     }
 
-    toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+    toCameraVector = toTangentSpace * ((inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz);
     viewVector = normalize(worldPosition.xyz - cameraPosition);
     normalizedNormal = normalize(normal);
 

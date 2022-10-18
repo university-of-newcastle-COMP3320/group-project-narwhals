@@ -43,21 +43,21 @@ public class Scene{
 
         //Create the scene
         //Load models
-        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
+        ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", null);
         ModeledEntity[] barrel = AssimpLoader.loadModel("ProjectResources/Barrel/barrel.obj", loader, "Barrel/barrel", "Barrel/barrelNormal");
-        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", "Narwhal/defaultNormal");
-        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2", "Narwhal/defaultNormal");
-        ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", "Narwhal/defaultNormal");
-        ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", "Narwhal/defaultNormal");
-        ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "Narwhal/defaultNormal");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/narwhal.obj", loader, "Narwhal/whiteColor", "Narwhal/defaultNormal");
-        ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor", "Narwhal/defaultNormal");
-        ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
-        ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
-        ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
-        ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] models = AssimpLoader.loadModel("ProjectResources/Coral1/1a.obj", loader, "/Coral1/coral1", null);
+        ModeledEntity[] models2 = AssimpLoader.loadModel("ProjectResources/Coral2/Coral2.obj", loader, "/Coral2/coral2", null);
+        ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", null);
+        ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", null);
+        ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "DivingBell/Copper_Normal");
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture", null);
+        ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor", null);
+        ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture", null);
+        ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", null);
+        ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", null);
+        ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", null);
+        ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-texture", "Fish/fish-texture_n");
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", "Narwhal/defaultNormal");
-
 
         Random rand = new Random();
 
@@ -123,7 +123,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -135,7 +135,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-5,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -147,7 +147,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
@@ -159,7 +159,7 @@ public class Scene{
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-1,z));
+            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
@@ -169,8 +169,8 @@ public class Scene{
         //Sun light source
         lights = new ArrayList<>();
         lights.add(sun);
-        lights.add(new LightSource(new Vector3f(46, 21, -221), new Vector3f(1f, 1f, 0.8235f), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new LightSource(new Vector3f(-56, 21, -31), new Vector3f(1f, 1f, 0.8235f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(46, 23, -221), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-56, 23, -31), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         boolean circle = false;
@@ -185,12 +185,16 @@ public class Scene{
         divingBell[0].setPosition(new Vector3f(45, 40, -220));
         divingBell[0].setScale(3);
         divingBell[0].setRY(270);
+        divingBell[0].getMaterial().setReflectance(1f);
+        divingBell[0].getMaterial().setShineDamper(10f);
         divingBell[0].getMaterial().setReflectivity(new Vector4f(0.0f));
         divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBell[0]);
 
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
+        divingBell2.getMaterial().setReflectance(1f);
+        divingBell2.getMaterial().setShineDamper(10f);
         entities.add(divingBell2);
 
         divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
@@ -223,8 +227,6 @@ public class Scene{
 
         ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
         orca1.setMaterial(orca[0].getMaterial());
-        orca1.getMaterial().setReflectance(1f);
-        orca1.getMaterial().setShineDamper(10f);
         orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
         orca1.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(orca1);
@@ -233,6 +235,16 @@ public class Scene{
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
+
+        //school of fish
+        for (int j = 0; j<80; j++) {
+            int randX = rand.nextInt(100);
+            int randZ = rand.nextInt(30);
+            int randY = rand.nextInt(30);
+            ModeledEntity fish1 = new ModeledEntity(fish[0].getModel(), new Vector3f(-20 + randX,50 + randY, -80+randZ), 0 ,0, 0, 2);
+            fish1.setMaterial(fish[0].getMaterial());
+            entities.add(fish1);
+        }
 
     }
 
