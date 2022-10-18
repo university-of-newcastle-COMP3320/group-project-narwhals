@@ -61,6 +61,8 @@ public class Scene{
         ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-scale", "Fish/fish-scale-normal");
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", null);
         ModeledEntity[] kelp = AssimpLoader.loadModel("ProjectResources/Kelp/kelp.obj", loader, "/Kelp/kelp", null);
+        ModeledEntity[] tallKelp = AssimpLoader.loadModel("ProjectResources/Kelp/tallKelp.obj", loader, "/Kelp/kelp", null);
+        ModeledEntity[] seaweed = AssimpLoader.loadModel("ProjectResources/Seaweed/seaweed.obj", loader, "/Seaweed/seaweed_diffuse", null);
 
         Random rand = new Random();
 
@@ -194,8 +196,8 @@ public class Scene{
             entities.add(newEntity);
         }
 
-        //Random positioning and rotation of kelp
-        for(int i=0; i<120; i++){
+        //Random positioning and rotation of kelp and seaweed
+        for(int i=0; i<100; i++){
             x = rand.nextFloat()* 1000 - 500;
             z = rand.nextFloat()* 1000 - 500;
             float rotation = rand.nextFloat()* 360;
@@ -203,8 +205,50 @@ public class Scene{
             newEntity.setMaterial(kelp[0].getMaterial());
             float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
             newEntity.setPosition(new Vector3f(x,terrainHeight,z));
-            newEntity.setScale(rand.nextFloat() * 5);
+            newEntity.setScale(rand.nextFloat() * 5 + 1);
             newEntity.setRY(rotation);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<100; i++){
+            x = rand.nextFloat()* 1000 - 500;
+            z = rand.nextFloat()* 1000 - 500;
+            float rotation = rand.nextFloat()* 360;
+            ModeledEntity newEntity = new ModeledEntity(tallKelp[0].getModel());
+            newEntity.setMaterial(tallKelp[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5 + 1);
+            newEntity.setRY(rotation);
+            entities.add(newEntity);
+        }
+
+        for(int i=0; i<100; i++){
+            x = rand.nextFloat()* 1000 - 500;
+            z = rand.nextFloat()* 1000 - 500;
+            float rotation = rand.nextFloat()* 360;
+            ModeledEntity newEntity = new ModeledEntity(seaweed[0].getModel());
+            newEntity.setMaterial(seaweed[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5 + 1);
+            newEntity.setRY(rotation+360);
+            entities.add(newEntity);
+            //2nd strand
+            newEntity = new ModeledEntity(seaweed[0].getModel());
+            newEntity.setMaterial(seaweed[0].getMaterial());
+            terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5 + 1);
+            newEntity.setRY(rotation+120);
+            entities.add(newEntity);
+            //3rd strand
+            newEntity = new ModeledEntity(seaweed[0].getModel());
+            newEntity.setMaterial(seaweed[0].getMaterial());
+            terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5 + 1);
+            newEntity.setRY(rotation+240);
             entities.add(newEntity);
         }
 
