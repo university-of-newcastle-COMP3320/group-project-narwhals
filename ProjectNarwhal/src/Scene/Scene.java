@@ -198,8 +198,8 @@ public class Scene{
 
         //Random positioning and rotation of kelp and seaweed
         for(int i=0; i<100; i++){
-            x = rand.nextFloat()* 1000 - 500;
-            z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             float rotation = rand.nextFloat()* 360;
             ModeledEntity newEntity = new ModeledEntity(kelp[0].getModel());
             newEntity.setMaterial(kelp[0].getMaterial());
@@ -211,8 +211,8 @@ public class Scene{
         }
 
         for(int i=0; i<100; i++){
-            x = rand.nextFloat()* 1000 - 500;
-            z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             float rotation = rand.nextFloat()* 360;
             ModeledEntity newEntity = new ModeledEntity(tallKelp[0].getModel());
             newEntity.setMaterial(tallKelp[0].getMaterial());
@@ -224,8 +224,8 @@ public class Scene{
         }
 
         for(int i=0; i<100; i++){
-            x = rand.nextFloat()* 1000 - 500;
-            z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             float rotation = rand.nextFloat()* 360;
             ModeledEntity newEntity = new ModeledEntity(seaweed[0].getModel());
             newEntity.setMaterial(seaweed[0].getMaterial());
