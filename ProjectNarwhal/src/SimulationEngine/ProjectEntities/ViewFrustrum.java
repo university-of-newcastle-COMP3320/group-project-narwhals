@@ -10,7 +10,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 
 public class ViewFrustrum implements Camera{
-    private Vector3f location = new Vector3f(0,25,40);
+    private Vector3f location = new Vector3f(-55,25,-30);
 
     private final float CONTROL_OFFSET = 10.5f;
     private float pitch;
@@ -53,6 +53,7 @@ public class ViewFrustrum implements Camera{
         float dz = (float) (currentSpeed * Math.cos(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
         location.x += dx;
         location.z += dz;
+
     }
 
     public void checkInputs(){
@@ -91,6 +92,12 @@ public class ViewFrustrum implements Camera{
         }
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y + 0.6f < 120){
             location.y  += 0.6f;
+        }
+
+        System.out.println("Location x: " + location.x + " Location z: " + location.z);
+
+        if ((location.x > 40 && location.x < 47) && (location.z > -222 && location.z < -216)) {
+            glfwSetWindowShouldClose(window, true);
         }
     }
 
