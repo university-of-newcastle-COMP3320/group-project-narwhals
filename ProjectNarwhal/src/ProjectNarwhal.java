@@ -4,6 +4,8 @@ import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.PostProcessing.Fbo;
 import SimulationEngine.PostProcessing.PostProcessing;
+import SimulationEngine.Models.Model;
+import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
 import Water.WaterFrameBuffers;
@@ -51,6 +53,9 @@ public class ProjectNarwhal {
 
         Scene scene = new Scene(loader, fbos, fbos2, renderer);
 
+        boolean orcaLeft = true;
+        boolean narwhalForward = true;
+
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
@@ -82,6 +87,40 @@ public class ProjectNarwhal {
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , -scene.getWaters().get(0).getY() + 5));
             fbos.unbindCurrentFrameBuffer();
 
+            ModeledEntity orcaMovement = scene.getEntities().get(200);
+
+            if (orcaMovement.getPosition().x <= -120 && orcaLeft) {
+                orcaLeft = false;
+                orcaMovement.increaseRotation(0,180,0);
+            }
+            if(orcaMovement.getPosition().x >= 20 && !orcaLeft){
+                orcaLeft = true;
+                orcaMovement.increaseRotation(0,180,0);
+            }
+            if (orcaLeft) {
+                orcaMovement.setPosition(new Vector3f(orcaMovement.getPosition().x - 0.20f, orcaMovement.getPosition().y, orcaMovement.getPosition().z));
+            }
+            if(!orcaLeft){
+                orcaMovement.setPosition(new Vector3f(orcaMovement.getPosition().x + 0.20f, orcaMovement.getPosition().y, orcaMovement.getPosition().z));
+            }
+
+            ModeledEntity narwhalMovement = scene.getEntities().get(201);
+
+            if (narwhalMovement.getPosition().z <= -220 && narwhalForward) {
+                narwhalForward = false;
+                narwhalMovement.increaseRotation(0,180,0);
+            }
+            if(narwhalMovement.getPosition().z >= -20 && !narwhalForward){
+                narwhalForward = true;
+                narwhalMovement.increaseRotation(0,180,0);
+            }
+            if (narwhalForward) {
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z - 0.20f));
+            }
+            if(!narwhalForward){
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z + 0.20f));
+            }
+            
             for(WaterSurface water:scene.getWaters()){
                 renderer.processWater(water);
             }
