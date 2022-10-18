@@ -56,7 +56,7 @@ public class Scene{
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", null);
-
+        ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-texture", "Fish/fish-texture_n");
 
         Random rand = new Random();
 
@@ -225,6 +225,16 @@ public class Scene{
         narwhal[0].setRY(270);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
+
+        //school of fish
+        for (int j = 0; j<80; j++) {
+            int randX = rand.nextInt(100);
+            int randZ = rand.nextInt(30);
+            int randY = rand.nextInt(30);
+            ModeledEntity fish1 = new ModeledEntity(fish[0].getModel(), new Vector3f(-20 + randX,50 + randY, -80+randZ), 0 ,0, 0, 2);
+            fish1.setMaterial(fish[0].getMaterial());
+            entities.add(fish1);
+        }
 
     }
 
