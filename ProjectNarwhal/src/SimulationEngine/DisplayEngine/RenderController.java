@@ -2,6 +2,8 @@ package SimulationEngine.DisplayEngine;
 
 import SimulationEngine.BaseShaders.NormalMapShader;
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.Models.Texture;
+//import SimulationEngine.PostProcessing.Fbo;
 import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;

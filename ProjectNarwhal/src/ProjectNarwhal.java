@@ -2,6 +2,8 @@ import Scene.Scene;
 import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.ModelLoader;
+import SimulationEngine.PostProcessing.Fbo;
+import SimulationEngine.PostProcessing.PostProcessing;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
 import Water.WaterFrameBuffers;
@@ -42,6 +44,9 @@ public class ProjectNarwhal {
         StaticShader shader = new StaticShader();
         WaterFrameBuffers fbos = new WaterFrameBuffers();
         WaterFrameBuffers fbos2 = new WaterFrameBuffers();
+        Fbo multisampleFbo = new Fbo();
+        Fbo outputFbo = new Fbo(Fbo.DEPTH_RENDER_BUFFER);
+        PostProcessing.init(loader);
         RenderController renderer = new RenderController(loader, camera, fbos);
 
         Scene scene = new Scene(loader, fbos, fbos2, renderer);
@@ -51,7 +56,6 @@ public class ProjectNarwhal {
         while ( !glfwWindowShouldClose(window) ) {
             renderer.renderShadowMap(scene.getEntities(), scene.getSun());
             camera.move();
-
             GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
             //Reflections
@@ -78,13 +82,18 @@ public class ProjectNarwhal {
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , -scene.getWaters().get(0).getY() + 5));
             fbos.unbindCurrentFrameBuffer();
 
-
             for(WaterSurface water:scene.getWaters()){
                 renderer.processWater(water);
             }
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
-            //clip distance set to 130 to cull polygons
+            fbos.unbindCurrentFrameBuffer();
+
+            //Post Processing
+            multisampleFbo.bindFrameBuffer();
             renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
+            multisampleFbo.unbindFrameBuffer();
+            multisampleFbo.resolveToFbo(outputFbo);
+            PostProcessing.doPostProcessing(outputFbo.getColourTexture());
 
             glfwSwapBuffers(window); // swap the buffers
 
@@ -92,6 +101,9 @@ public class ProjectNarwhal {
             // invoked during this call.
             glfwPollEvents();
         }
+        PostProcessing.cleanUp();
+        outputFbo.cleanUp();
+        multisampleFbo.cleanUp();
         loader.cleanUp();
         fbos.cleanUp();
         fbos2.cleanUp();
