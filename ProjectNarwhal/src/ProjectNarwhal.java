@@ -7,7 +7,6 @@ import SimulationEngine.PostProcessing.Fbo;
 import SimulationEngine.PostProcessing.PostProcessing;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
-import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Vector3f;

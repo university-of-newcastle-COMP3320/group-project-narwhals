@@ -19,6 +19,7 @@ uniform vec3 waterColor;
 uniform sampler2D shadowMap;
 uniform samplerCube enviroMap;
 uniform float reflectivity;
+uniform sampler2D normalMap;
 
 out vec4 outColor;
 
@@ -26,6 +27,8 @@ const int pcfCount = 3;
 const float totalTexels = (pcfCount *2.0 + 1.0) * (pcfCount *2.0 + 1.0);
 
 void main(){
+
+    vec4 normalMapValue = 2.0 * texture(normalMap, TextureCoords) - 1.0;
 
     float mapSize = 4096.0;
     float texelSize = 1.0/mapSize;
@@ -42,7 +45,7 @@ void main(){
     total /= totalTexels;
     float lightFactor = 1.0 - (total * shadowCoords.w);
 
-    vec3 unitNormal = normalize(surfaceNormal);
+    vec3 unitNormal = normalize(normalMapValue.rgb);
     vec3 totalDiffuse = vec3(0.0);
     vec3 totalSpecular = vec3(0.0);
     vec3 unitVectorToCamera = normalize(toCameraVector);

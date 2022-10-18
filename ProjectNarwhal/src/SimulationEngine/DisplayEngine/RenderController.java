@@ -1,5 +1,6 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.BaseShaders.NormalMapShader;
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.Models.Texture;
 //import SimulationEngine.PostProcessing.Fbo;
@@ -8,9 +9,7 @@ import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
-import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import SimulationEngine.Skybox.CubeMap;
-import SimulationEngine.Tools.ProjectMaths;
 import Terrain.TerrainShader;
 import Water.WaterShader;
 import SimulationEngine.Shadows.ShadowMapRenderController;
@@ -20,14 +19,11 @@ import Water.WaterSurface;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import java.util.*;
 
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderController {
@@ -37,11 +33,14 @@ public class RenderController {
     private StaticShader eShader = new StaticShader();
     private TerrainShader tShader = new TerrainShader();
     private WaterShader wShader = new WaterShader();
+    private NormalMapShader nShader = new NormalMapShader();
     private EntityRenderer eRenderer;
     private TerrainRenderer tRenderer;
     private WaterRenderer wRenderer;
     private SkyboxRenderer sRenderer;
+    private NormalMapRenderer nRenderer;
     private Map<ModeledEntity, List<ModeledEntity>> entities = new HashMap<>();
+    private Map<ModeledEntity, List<ModeledEntity>> normalEntities = new HashMap<>();
     private List<BaseTerrain> terrains = new ArrayList<>();
     private List<WaterSurface> waters = new ArrayList<>();
 
@@ -58,12 +57,18 @@ public class RenderController {
         tRenderer = new TerrainRenderer(tShader,projectionMatrix);
         wRenderer = new WaterRenderer(wShader, projectionMatrix, fbos);
         sRenderer = new SkyboxRenderer(enviroMap, projectionMatrix);
+        nRenderer = new NormalMapRenderer(nShader, projectionMatrix);
         this.shadowMapRenderer = new ShadowMapRenderController(camera);
     }
 
     public void renderScene(List<ModeledEntity> entityBatch, List<BaseTerrain> terrainBatch, List<LightSource> lights, Camera camera, Vector4f clipPlane){
         for(ModeledEntity model: entityBatch){
-            processEntity(model);
+            if(model.getMaterial().hasNormalMapping()){
+                processNormalEntities(model);
+            }
+            else{
+                processEntity(model);
+            }
         }
         for(BaseTerrain terrain: terrainBatch){
             processTerrain(terrain);
@@ -91,6 +96,15 @@ public class RenderController {
 
         eShader.stop(); //stop the shaders
 
+        nShader.start();
+        nShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
+        nShader.loadLights(lights);
+        nShader.loadViewMatrix(camera);
+        nShader.loadClippingPlane(clipPlane);
+        nShader.loadShadowDistance(shadowMapRenderer.getShadowDistance());
+        nShader.bindShadowMap();
+        nRenderer.render(normalEntities, shadowMapRenderer.getToShadowMapSpaceMatrix());
+
         tShader.start();
         tShader.loadWaterColor(DEFAULT_WATER_COLOR.x,DEFAULT_WATER_COLOR.y,DEFAULT_WATER_COLOR.z);
         tShader.loadLights(lights);
@@ -110,7 +124,8 @@ public class RenderController {
 
         wShader.stop();
 
-//      sRenderer.render(camera);
+        //For the skybox, necessary
+//        sRenderer.render(camera);
         GL11.glEnable(GL11.GL_CULL_FACE);
 
 
@@ -128,6 +143,18 @@ public class RenderController {
             List<ModeledEntity> newBatch = new ArrayList<>();
             newBatch.add(entity);
             entities.put(entity, newBatch);
+        }
+    }
+
+    public void processNormalEntities(ModeledEntity entity){
+        List<ModeledEntity> batch = entities.get(entity);
+        if(batch != null){
+            batch.add(entity);
+        }
+        else{
+            List<ModeledEntity> newBatch = new ArrayList<>();
+            newBatch.add(entity);
+            normalEntities.put(entity, newBatch);
         }
     }
 

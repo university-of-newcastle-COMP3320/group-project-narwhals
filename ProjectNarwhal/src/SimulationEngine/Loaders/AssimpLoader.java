@@ -21,12 +21,12 @@ import static org.lwjgl.assimp.Assimp.*;
 public class AssimpLoader {
     //import a scene using assimp and then use that scene to get the relevant information about the meshes etc.
 
-    public static ModeledEntity[] loadModel(String filePath, ModelLoader loader, String texturePath) {
-        return loadModel(filePath, loader, texturePath, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_CalcTangentSpace
+    public static ModeledEntity[] loadModel(String filePath, ModelLoader loader, String texturePath, String normalMapPath) {
+        return loadModel(filePath, loader, texturePath, normalMapPath, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_CalcTangentSpace
         );
     }
 
-    public static ModeledEntity[] loadModel (String filePath, ModelLoader loader, String texturePath, int flags){
+    public static ModeledEntity[] loadModel (String filePath, ModelLoader loader, String texturePath, String normalMapPath, int flags){
         AIScene aiScene = aiImportFile(filePath, flags);
         if(aiScene == null) {
             System.out.println("ERROR LOADING FILE");
@@ -37,7 +37,7 @@ public class AssimpLoader {
         List<Material> materials = new ArrayList<Material>();
         for (int i = 0; i < numMaterials; i++) {
             AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));
-            processMaterial(aiMaterial, materials, texturePath);
+            processMaterial(aiMaterial, materials, texturePath, normalMapPath);
         }
 
         int numMeshes = aiScene.mNumMeshes();
@@ -56,7 +56,7 @@ public class AssimpLoader {
         return entities;
     }
 
-    private static void processMaterial(AIMaterial aiMaterial, List<Material> materials, String texturePath){
+    private static void processMaterial(AIMaterial aiMaterial, List<Material> materials, String texturePath, String normalMapPath){
         AIColor4D colour = AIColor4D.create();
 
         Vector4f ambient = Material.DEFAULT_COLOUR;
@@ -85,9 +85,18 @@ public class AssimpLoader {
 
         ModelLoader loader = new ModelLoader();
         Texture texture =  new Texture(loader.loadTexture(texturePath));
-        //will need to find a way to include the normal map here later
+        boolean hasNormalMap;
+        Texture normalMap;
+        if(normalMapPath == null){
+            normalMap = null;
+            hasNormalMap = false;
+        }
+        else{
+            normalMap = new Texture(loader.loadTexture(normalMapPath));
+            hasNormalMap = true;
+        }
 
-        Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture);
+        Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture, normalMap, hasNormalMap);
         materials.add(material);
     }
 

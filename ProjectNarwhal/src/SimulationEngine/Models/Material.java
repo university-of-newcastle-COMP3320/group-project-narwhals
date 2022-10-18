@@ -15,9 +15,11 @@ public class Material {
     private Texture texture;
     private Texture normalMap;
 
+    boolean hasNormalMap = false;
+
     public Material(){}
 
-    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, Vector4f reflectivity, float reflectance, float shineDamper, Texture texture) {
+    public Material(Vector4f ambientColor, Vector4f diffuseColor, Vector4f specularColor, Vector4f reflectivity, float reflectance, float shineDamper, Texture texture, Texture normalMap, boolean hasNormalMap) {
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
@@ -25,6 +27,8 @@ public class Material {
         this.reflectivity = reflectivity;
         this.shineDamper = shineDamper;
         this.texture = texture;
+        this.normalMap = normalMap;
+        this.hasNormalMap = hasNormalMap;
     }
 
     public Vector4f getAmbientColor() {
@@ -89,5 +93,9 @@ public class Material {
 
     public void setReflectivity(Vector4f reflectivity){
         this.reflectivity = reflectivity;
+    }
+
+    public boolean hasNormalMapping(){
+        return hasNormalMap;
     }
 }

@@ -1,15 +1,22 @@
 package SimulationEngine.Tools;
 
 import SimulationEngine.ProjectEntities.Camera;
-import SimulationEngine.ProjectEntities.ViewFrustrum;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
-
 
 //Is a class containing the majority of the mathematical operations we are going to be calling on regularly.
 //JOML also contains classes for quaternions and vector translations which will be very useful in the future for simulation design.
 //JOML will handle the maths and where it is not able to do the math LWJGL should have functions to cover it.
 public class ProjectMaths {
+
+    public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
+        float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+        float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
+        float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
+        float l3 = 1.0f - l1 - l2;
+        return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+    }
 
     //Takes a vector, adds the rotation values shown by rX,rY,rY and applies scale to them.
     //returns the transformation matrix

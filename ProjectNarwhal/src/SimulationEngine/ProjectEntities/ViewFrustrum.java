@@ -10,7 +10,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 
 public class ViewFrustrum implements Camera{
-    private Vector3f location = new Vector3f(0,25,40);
+    private Vector3f location = new Vector3f(-55,25,-30);
 
     private final float CONTROL_OFFSET = 10.5f;
     private float pitch;
@@ -19,7 +19,7 @@ public class ViewFrustrum implements Camera{
     private double[] y = new double[2];
     public static final float FOV_ANGLE = 70.0f;
     public static final float NEAR_PLANE = 0.01f;
-    public static final float FAR_PLANE = 100000f;
+    public static final float FAR_PLANE = 700f;
     private Matrix4f projectionMatrix = new Matrix4f();
     private Matrix4f viewMatrix = new Matrix4f();
     private Matrix4f projectionViewMatrix = new Matrix4f();
@@ -53,6 +53,7 @@ public class ViewFrustrum implements Camera{
         float dz = (float) (currentSpeed * Math.cos(Math.toRadians(-getYaw() + CONTROL_OFFSET)));
         location.x += dx;
         location.z += dz;
+
     }
 
     public void checkInputs(){
@@ -86,11 +87,15 @@ public class ViewFrustrum implements Camera{
         if (Keyboard.isKeyDown(GLFW_KEY_ESCAPE )){
             glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) && location.y - 0.6f > 0){
             location.y -= 0.6f;
         }
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)){
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y + 0.6f < 120){
             location.y  += 0.6f;
+        }
+
+        if ((location.x > 40 && location.x < 47) && (location.z > -222 && location.z < -216)) {
+            glfwSetWindowShouldClose(window, true);
         }
     }
 

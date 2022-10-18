@@ -1,8 +1,8 @@
-# Blender 3.1.0 MTL File: 'None'
-# www.blender.org
+# Blender MTL File: 'None'
+# Material Count: 1
 
 newmtl material_0.001
-Ns 495.313721
+Ns 495.313707
 Ka 1.000000 1.000000 1.000000
 Kd 1.000000 1.000000 1.000000
 Ks 1.000000 1.000000 1.000000
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd  C:\Users\Abhishek\Desktop\coral\New folder\source\52.19 coral_0.png
+map_Kd coral1.png

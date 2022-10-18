@@ -5,8 +5,8 @@ import org.joml.Matrix4f;
 
 public class ShadowShader extends ShaderProgram {
 	
-	private static final String VERTEX_FILE = "src/SimulationEngine/Shadows/shadowVertexShader.glsl";
-	private static final String FRAGMENT_FILE = "src/SimulationEngine/Shadows/shadowFragmentShader.glsl";
+	private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/shadowVertexShader.glsl";
+	private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/shadowFragmentShader.glsl";
 	
 	private int location_mvpMatrix;
 
