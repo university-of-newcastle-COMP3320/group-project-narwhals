@@ -56,6 +56,8 @@ public class Scene{
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
+        ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", "Narwhal/defaultNormal");
+
 
         Random rand = new Random();
 
@@ -190,6 +192,17 @@ public class Scene{
         ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         entities.add(divingBell2);
+
+        divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
+        divingBellWater[0].setScale(3);
+        divingBellWater[0].setRY(270);
+        divingBellWater[0].getMaterial().setReflectivity(new Vector4f(0.0f));
+        divingBellWater[0].setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(divingBellWater[0]);
+
+        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        divingBellWater2.setMaterial(divingBellWater[0].getMaterial());
+        entities.add(divingBellWater2);
 
         renderer.renderShadowMap(this.getEntities(), this.getSun());
         //glass cubes
