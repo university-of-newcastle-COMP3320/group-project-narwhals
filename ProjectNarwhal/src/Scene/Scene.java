@@ -295,6 +295,7 @@ public class Scene{
 
         for(int j = 0; j < 5; j++){
             x = rand.nextFloat()* -900 + 200;
+            float y = x + rand.nextInt(11) + -5;
             int ry = rand.nextInt(360);
             float scale = rand.nextInt(3) + 1;
             ModeledEntity barrels = new ModeledEntity(barrel[0].getModel(), new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, x) + 3, x), 0, 0, ry, scale);
