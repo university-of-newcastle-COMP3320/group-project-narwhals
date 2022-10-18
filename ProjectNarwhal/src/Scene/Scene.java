@@ -61,37 +61,37 @@ public class Scene{
         Random rand = new Random();
 
         //Random Positioning of IceChunks
-//        for(int i=0; i<200; i++){
-//            float x = rand.nextFloat()* 800 - 400;
-//            float z = rand.nextFloat()* 800 - 400;
-//            float scale = rand.nextInt(11) + 4;
-//            int rotation = (int) (x+z % 360);
-//            ModeledEntity newEntity;
-//            switch ((int) (rand.nextFloat()*4+1)) {
-//                case 1:
-//                    newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-//                    newEntity.setMaterial(iceChunk1[0].getMaterial());
-//                    newEntity.setScale(scale);
-//                    break;
-//                case 2:
-//                    newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-//                    newEntity.setMaterial(iceChunk2[0].getMaterial());
-//                    newEntity.setScale(scale);
-//                    break;
-//                case 3:
-//                    newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
-//                    newEntity.setMaterial(iceChunk3[0].getMaterial());
-//                    newEntity.setScale(scale);
-//                    break;
-//                default:
-//                    newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
-//                    newEntity.setMaterial(iceChunk4[0].getMaterial());
-//                    newEntity.setScale(scale);
-//                    break;
-//
-//            }
-//            entities.add(newEntity);
-//        }
+        for(int i=0; i<200; i++){
+            float x = rand.nextFloat()* 800 - 400;
+            float z = rand.nextFloat()* 800 - 400;
+            float scale = rand.nextInt(11) + 4;
+            int rotation = (int) (x+z % 360);
+            ModeledEntity newEntity;
+            switch ((int) (rand.nextFloat()*4+1)) {
+                case 1:
+                    newEntity = new ModeledEntity(iceChunk1[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk1[0].getMaterial());
+                    newEntity.setScale(scale);
+                    break;
+                case 2:
+                    newEntity = new ModeledEntity(iceChunk2[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk2[0].getMaterial());
+                    newEntity.setScale(scale);
+                    break;
+                case 3:
+                    newEntity = new ModeledEntity(iceChunk3[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 12);
+                    newEntity.setMaterial(iceChunk3[0].getMaterial());
+                    newEntity.setScale(scale);
+                    break;
+                default:
+                    newEntity = new ModeledEntity(iceChunk4[0].getModel(), new Vector3f(x,120,z), 0 ,rotation, 0, 6);
+                    newEntity.setMaterial(iceChunk4[0].getMaterial());
+                    newEntity.setScale(scale);
+                    break;
+
+            }
+            entities.add(newEntity);
+        }
 
 
         //Load Terrain Textures
@@ -168,8 +168,8 @@ public class Scene{
         //Sun light source
         lights = new ArrayList<>();
         lights.add(sun);
-        lights.add(new LightSource(new Vector3f(46, 21, -221), new Vector3f(1f, 1f, 0.8235f), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new LightSource(new Vector3f(-56, 21, -31), new Vector3f(1f, 1f, 0.8235f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(46, 23, -221), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-56, 23, -31), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         boolean circle = false;
@@ -215,8 +215,6 @@ public class Scene{
 
         ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
         orca1.setMaterial(orca[0].getMaterial());
-        orca1.getMaterial().setReflectance(1f);
-        orca1.getMaterial().setShineDamper(10f);
         orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
         orca1.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(orca1);
