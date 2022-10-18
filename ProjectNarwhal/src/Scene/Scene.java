@@ -57,7 +57,6 @@ public class Scene{
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", "Narwhal/defaultNormal");
         ModeledEntity[] cube = AssimpLoader.loadModel("ProjectResources/Cube/cube.obj", loader, "/Narwhal/whiteColor", "Narwhal/defaultNormal");
 
-
         Random rand = new Random();
 
         //Random Positioning of IceChunks
@@ -94,7 +93,6 @@ public class Scene{
         }
 
 
-
         //Load Terrain Textures
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/seabed"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("TerrainTextures/coralBase"));
@@ -103,7 +101,6 @@ public class Scene{
 
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("TerrainTextures/blendMap"));
-
 
         waters = new ArrayList<>();
         //Load water surface tiles
@@ -118,7 +115,6 @@ public class Scene{
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
         //Random positioning of coral
-
         for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
             float z = rand.nextFloat()* 1000 - 500;
