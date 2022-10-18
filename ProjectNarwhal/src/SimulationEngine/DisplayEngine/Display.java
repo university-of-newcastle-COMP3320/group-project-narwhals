@@ -46,7 +46,6 @@ public class Display {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
         glfwWindowHint(GLFW_REFRESH_RATE, GLFW_TRUE);//window refresh rate
         glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
-        glfwWindowHint(GLFW_SAMPLES, 9); //Allows multiple samples per pixel
 
         // Create the window
         window = glfwCreateWindow(1920, 1080, "Secret Project Narwhal", NULL, NULL);
