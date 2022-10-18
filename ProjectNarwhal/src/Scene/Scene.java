@@ -26,6 +26,7 @@ public class Scene{
 
     private ModelLoader loader;
     private WaterFrameBuffers fbos;
+    private WaterFrameBuffers fbos2;
     private List<ModeledEntity> entities;
     private List<WaterSurface> waters;
     private List<BaseTerrain> terrains;
@@ -34,9 +35,10 @@ public class Scene{
 
     private Texture environmentMap;
 
-    public Scene(ModelLoader loader, WaterFrameBuffers fbos, RenderController renderer) {
+    public Scene(ModelLoader loader, WaterFrameBuffers fbos, WaterFrameBuffers fbos2, RenderController renderer) {
         this.loader = loader;
         this.fbos = fbos;
+        this.fbos2 = fbos2;
         entities = new ArrayList<>();
 
         environmentMap = Texture.newEmptyCubeMap(512);
@@ -201,6 +203,7 @@ public class Scene{
         divingBellWater[0].setScale(3);
         divingBellWater[0].setRY(270);
         divingBellWater[0].getMaterial().setReflectivity(new Vector4f(0.0f));
+        divingBellWater[0].getMaterial().setTexture(new Texture(fbos2.getReflectionTexture()));
         divingBellWater[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBellWater[0]);
 
