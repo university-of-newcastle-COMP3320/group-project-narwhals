@@ -60,6 +60,7 @@ public class Scene{
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-scale", "Fish/fish-scale-normal");
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", null);
+        ModeledEntity[] kelp = AssimpLoader.loadModel("ProjectResources/Kelp/kelp.obj", loader, "/Kelp/kelp", null);
 
         Random rand = new Random();
 
@@ -175,6 +176,20 @@ public class Scene{
             newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
+            entities.add(newEntity);
+        }
+
+        //Random positioning and rotation of kelp
+        for(int i=0; i<120; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            float rotation = rand.nextFloat()* 360;
+            ModeledEntity newEntity = new ModeledEntity(kelp[0].getModel());
+            newEntity.setMaterial(kelp[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5);
+            newEntity.setRY(rotation);
             entities.add(newEntity);
         }
 
