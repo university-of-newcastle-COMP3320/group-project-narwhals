@@ -106,19 +106,19 @@ public class ProjectNarwhal {
 
             ModeledEntity narwhalMovement = scene.getEntities().get(201);
 
-            if (narwhalMovement.getPosition().z <= -220 && narwhalForward) {
+            if (narwhalMovement.getPosition().x <= -700 && narwhalMovement.getPosition().z <= -720 && narwhalForward) {
                 narwhalForward = false;
                 narwhalMovement.increaseRotation(0,180,0);
             }
-            if(narwhalMovement.getPosition().z >= -20 && !narwhalForward){
+            if(narwhalMovement.getPosition().x >= 200 && narwhalMovement.getPosition().z >= 220 && !narwhalForward){
                 narwhalForward = true;
                 narwhalMovement.increaseRotation(0,180,0);
             }
             if (narwhalForward) {
-                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z - 0.20f));
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x -1.60f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z - 1.60f));
             }
             if(!narwhalForward){
-                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z + 0.20f));
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x + 1.60f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z + 1.60f));
             }
             
             for(WaterSurface water:scene.getWaters()){

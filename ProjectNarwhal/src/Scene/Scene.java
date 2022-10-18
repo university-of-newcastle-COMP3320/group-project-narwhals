@@ -144,8 +144,8 @@ public class Scene{
         orca1.setEnvironmentMap(this.getEnvironmentMap());
         entities.add(orca1);
 
-        narwhal[0].setPosition(new Vector3f(0, 40, -20));
-        narwhal[0].setRY(270);
+        narwhal[0].setPosition(new Vector3f(200, 40, 220));
+        narwhal[0].setRY(310);
         narwhal[0].setScale(3);
         entities.add(narwhal[0]);
 
