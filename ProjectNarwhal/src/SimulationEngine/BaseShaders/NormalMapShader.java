@@ -12,8 +12,8 @@ import java.util.List;
 
 public class NormalMapShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/VertexShader.glsl";
-    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/FragmentShader.glsl";
+    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/NormalVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/NormalFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
