@@ -56,8 +56,8 @@ public class Scene{
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] iceChunk3 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic3.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", null);
-        ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-texture", "Fish/fish-texture_n");
-        ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", "Narwhal/defaultNormal");
+        ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-scale", "Fish/fish-scale-normal");
+        ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", null);
 
         Random rand = new Random();
 
