@@ -4,8 +4,8 @@ import SimulationEngine.BaseShaders.ShaderProgram;
 
 public class CombineShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/SimulationEngine/PostProcessing/BloomEffect/simpleVertex.glsl";
-	private static final String FRAGMENT_FILE = "src/SimulationEngine/PostProcessing/BloomEffect/combineFragment.glsl";
+	private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/simpleVertex.glsl";
+	private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/combineFragment.glsl";
 	
 	private int location_colourTexture;
 	private int location_highlightTexture;

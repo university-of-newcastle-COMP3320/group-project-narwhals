@@ -3,8 +3,8 @@ package SimulationEngine.PostProcessing.GaussianBlur;
 import SimulationEngine.BaseShaders.ShaderProgram;
 public class VerticalBlurShader extends ShaderProgram{
 
-	private static final String VERTEX_FILE = "src/SimulationEngine/PostProcessing/GaussianBlur/verticalBlurVertex.glsl";
-	private static final String FRAGMENT_FILE = "src/SimulationEngine/PostProcessing/GaussianBlur/blurFragment.glsl";
+	private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/verticalBlurVertex.glsl";
+	private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/blurFragment.glsl";
 	
 	private int location_targetHeight;
 	

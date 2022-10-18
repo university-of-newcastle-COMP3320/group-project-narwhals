@@ -17,25 +17,25 @@ public class PostProcessing {
 	private static final float[] POSITIONS = { -1, 1, -1, -1, 1, 1, 1, -1 };	
 	private static Model quad;
 
-	private static final int width = 1280;
-	private static final int height = 720;
+	private static final int width = 1920;
+	private static final int height = 1080;
 
 	private static ContrastChanger contrastChanger;
-	private static HorizontalBlur horizontalBlur;
-	private static VerticalBlur verticalBlur;
-
-	private static HorizontalBlur horizontalBlur2;
-	private static VerticalBlur verticalBlur2;
+//	private static HorizontalBlur horizontalBlur;
+//	private static VerticalBlur verticalBlur;
+//
+//	private static HorizontalBlur horizontalBlur2;
+//	private static VerticalBlur verticalBlur2;
 	private static BrightFilter brightFilter;
 	private static CombineFilter combineFilter;
 
 	public static void init(ModelLoader loader){
 		quad = loader.loadToVAO(POSITIONS, 2);
 		contrastChanger = new ContrastChanger();
-		horizontalBlur = new HorizontalBlur(width/4, height/4);
-		verticalBlur = new VerticalBlur(width/4, height/4);
-		horizontalBlur2 = new HorizontalBlur(width/2, height/2);
-		verticalBlur2 = new VerticalBlur(width/2, height/2);
+//		horizontalBlur = new HorizontalBlur(width/4, height/4);
+//		verticalBlur = new VerticalBlur(width/4, height/4);
+//		horizontalBlur2 = new HorizontalBlur(width/2, height/2);
+//		verticalBlur2 = new VerticalBlur(width/2, height/2);
 		brightFilter = new BrightFilter(width/2, height/2);
 		combineFilter = new CombineFilter();
 	}
@@ -43,22 +43,22 @@ public class PostProcessing {
 	public static void doPostProcessing(int colourTexture){
 		start();
 		brightFilter.render(colourTexture);
-		horizontalBlur2.render(brightFilter.getOutputTexture());
-		verticalBlur2.render(horizontalBlur2.getOutputTexture());
-		horizontalBlur.render(verticalBlur2.getOutputTexture());
-		verticalBlur.render(horizontalBlur.getOutputTexture());
-		combineFilter.render(colourTexture, verticalBlur.getOutputTexture());
+//		horizontalBlur2.render(brightFilter.getOutputTexture());
+//		verticalBlur2.render(horizontalBlur2.getOutputTexture());
+//		horizontalBlur.render(verticalBlur2.getOutputTexture());
+//		verticalBlur.render(horizontalBlur.getOutputTexture());
+		combineFilter.render(colourTexture, brightFilter.getOutputTexture());
 		end();
 	}
 	
 	public static void cleanUp(){
 		contrastChanger.cleanUp();
-		horizontalBlur.cleanUp();
-		verticalBlur.cleanUp();
+//		horizontalBlur.cleanUp();
+//		verticalBlur.cleanUp();
 		brightFilter.cleanUp();
 		combineFilter.cleanUp();
-		horizontalBlur2.cleanUp();
-		verticalBlur2.cleanUp();
+//		horizontalBlur2.cleanUp();
+//		verticalBlur2.cleanUp();
 	}
 	
 	private static void start(){

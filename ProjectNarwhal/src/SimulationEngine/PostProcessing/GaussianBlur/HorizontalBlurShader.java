@@ -4,8 +4,8 @@ import SimulationEngine.BaseShaders.ShaderProgram;
 
 public class HorizontalBlurShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/SimulationEngine/PostProcessing/GaussianBlur/horizontalBlurVertex.glsl";
-	private static final String FRAGMENT_FILE = "src/SimulationEngine/PostProcessing/GaussianBlur/blurFragment.glsl";
+	private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/horizontalBlurVertex.glsl";
+	private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/blurFragment.glsl";
 	
 	private int location_targetWidth;
 	

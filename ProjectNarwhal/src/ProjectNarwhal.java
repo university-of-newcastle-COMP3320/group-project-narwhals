@@ -129,7 +129,7 @@ public class ProjectNarwhal {
 
             //Post Processing
             multisampleFbo.bindFrameBuffer();
-            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -1 , 0 , 130));
+            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , 130));
             multisampleFbo.unbindFrameBuffer();
             multisampleFbo.resolveToFbo(outputFbo);
             PostProcessing.doPostProcessing(outputFbo.getColourTexture());
