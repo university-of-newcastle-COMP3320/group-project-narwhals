@@ -94,8 +94,6 @@ public class ViewFrustrum implements Camera{
             location.y  += 0.6f;
         }
 
-        System.out.println("Location x: " + location.x + " Location z: " + location.z);
-
         if ((location.x > 40 && location.x < 47) && (location.z > -222 && location.z < -216)) {
             glfwSetWindowShouldClose(window, true);
         }
