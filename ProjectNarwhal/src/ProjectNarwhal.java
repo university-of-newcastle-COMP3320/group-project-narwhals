@@ -115,10 +115,10 @@ public class ProjectNarwhal {
                 narwhalMovement.increaseRotation(0,180,0);
             }
             if (narwhalForward) {
-                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x -1.60f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z - 1.60f));
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x -0.20f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z - 0.20f));
             }
             if(!narwhalForward){
-                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x + 1.60f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z + 1.60f));
+                narwhalMovement.setPosition(new Vector3f(narwhalMovement.getPosition().x + 0.20f, narwhalMovement.getPosition().y, narwhalMovement.getPosition().z + 0.20f));
             }
             
             for(WaterSurface water:scene.getWaters()){
