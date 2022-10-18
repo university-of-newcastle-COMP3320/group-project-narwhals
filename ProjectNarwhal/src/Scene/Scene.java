@@ -60,6 +60,7 @@ public class Scene{
         ModeledEntity[] iceChunk4 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic4.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] fish = AssimpLoader.loadModel("ProjectResources/Fish/fish5.obj", loader, "/Fish/fish-scale", "Fish/fish-scale-normal");
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", null);
+        ModeledEntity[] kelp = AssimpLoader.loadModel("ProjectResources/Kelp/kelp.obj", loader, "/Kelp/kelp", null);
 
         Random rand = new Random();
 
@@ -134,6 +135,17 @@ public class Scene{
         //Load ground surface tiles
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
+        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
+        orca1.setMaterial(orca[0].getMaterial());
+        orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
+        orca1.setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(orca1);
+
+        narwhal[0].setPosition(new Vector3f(0, 40, -20));
+        narwhal[0].setRY(270);
+        narwhal[0].setScale(3);
+        entities.add(narwhal[0]);
+
         //Random positioning of coral
         for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
@@ -183,6 +195,20 @@ public class Scene{
             entities.add(newEntity);
         }
 
+        //Random positioning and rotation of kelp
+        for(int i=0; i<120; i++){
+            float x = rand.nextFloat()* 1000 - 500;
+            float z = rand.nextFloat()* 1000 - 500;
+            float rotation = rand.nextFloat()* 360;
+            ModeledEntity newEntity = new ModeledEntity(kelp[0].getModel());
+            newEntity.setMaterial(kelp[0].getMaterial());
+            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
+            newEntity.setPosition(new Vector3f(x,terrainHeight,z));
+            newEntity.setScale(rand.nextFloat() * 5);
+            newEntity.setRY(rotation);
+            entities.add(newEntity);
+        }
+
         sun = new LightSource(new Vector3f(100000, 100000, 100000), new Vector3f(1f, 1f, 1f));
         //Sun light source
         lights = new ArrayList<>();
@@ -190,9 +216,6 @@ public class Scene{
         lights.add(new LightSource(new Vector3f(46, 23, -221), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new LightSource(new Vector3f(-56, 23, -31), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
-
-        boolean circle = false;
-        boolean circle2 = false;
 
         int i = 0;
         for (WaterSurface water : waters) {
@@ -229,9 +252,9 @@ public class Scene{
 
         renderer.renderShadowMap(this.getEntities(), this.getSun());
         //glass cubes
-        for(int j = 0; j < 10; j ++){
-            float x = rand.nextFloat()* 200 + 50;
-            float z = rand.nextFloat()* 200 + 50;
+        for(int j = 0; j < 10; j ++) {
+            float x = rand.nextFloat() * 200 + 50;
+            float z = rand.nextFloat() * 200 + 50;
             float scale = rand.nextInt(6) + 3;
             ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
             cubes.setMaterial(cube[0].getMaterial());
@@ -243,17 +266,6 @@ public class Scene{
             cubes.setEnvironmentMap(environmentMap);
             entities.add(cubes);
         }
-
-        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
-        orca1.setMaterial(orca[0].getMaterial());
-        orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
-        orca1.setEnvironmentMap(this.getEnvironmentMap());
-        entities.add(orca1);
-
-        narwhal[0].setPosition(new Vector3f(0, 40, -20));
-        narwhal[0].setRY(270);
-        narwhal[0].setScale(3);
-        entities.add(narwhal[0]);
 
         //school of fish
         for (int j = 0; j<80; j++) {
