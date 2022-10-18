@@ -64,10 +64,13 @@ public class Scene{
 
         Random rand = new Random();
 
+        float x;
+        float z;
+
         //Random Positioning of IceChunks
         for(int i=0; i<200; i++){
-            float x = rand.nextFloat()* 800 - 400;
-            float z = rand.nextFloat()* 800 - 400;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             float scale = rand.nextInt(11) + 4;
             int rotation = (int) (x+z % 360);
             ModeledEntity newEntity;
@@ -132,48 +135,44 @@ public class Scene{
 
         //Random positioning of coral
         for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             ModeledEntity newEntity = new ModeledEntity(models2[0].getModel());
             newEntity.setMaterial(models2[0].getMaterial());
-            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
+            newEntity.setPosition(new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z)-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
         for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             ModeledEntity newEntity = new ModeledEntity(models4[0].getModel());
             newEntity.setMaterial(models4[0].getMaterial());
-            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-5,z));
+            newEntity.setPosition(new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z)-5,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
         for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             ModeledEntity newEntity = new ModeledEntity(models5[0].getModel());
             newEntity.setMaterial(models5[0].getMaterial());
-            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
+            newEntity.setPosition(new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z)-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat() * 3);
             entities.add(newEntity);
         }
 
         for(int i=0; i<40; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
             ModeledEntity newEntity = new ModeledEntity(models[0].getModel());
             newEntity.setMaterial(models[0].getMaterial());
-            float terrainHeight = terrains.get(0).getHeightOfTerrain(x, z);
-            newEntity.setPosition(new Vector3f(x,terrainHeight-3,z));
+            newEntity.setPosition(new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z)-3,z));
             newEntity.setScale(rand.nextInt(10) + 1);
             newEntity.setScale(rand.nextFloat());
             entities.add(newEntity);
@@ -181,8 +180,8 @@ public class Scene{
 
         //Random positioning and rotation of kelp
         for(int i=0; i<120; i++){
-            float x = rand.nextFloat()* 1000 - 500;
-            float z = rand.nextFloat()* 1000 - 500;
+            x = rand.nextFloat()* 1000 - 500;
+            z = rand.nextFloat()* 1000 - 500;
             float rotation = rand.nextFloat()* 360;
             ModeledEntity newEntity = new ModeledEntity(kelp[0].getModel());
             newEntity.setMaterial(kelp[0].getMaterial());
@@ -197,8 +196,8 @@ public class Scene{
         //Sun light source
         lights = new ArrayList<>();
         lights.add(sun);
-        lights.add(new LightSource(new Vector3f(46, 23, -221), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new LightSource(new Vector3f(-56, 23, -31), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-700, 40, -720), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(200, 40, 220), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         int i = 0;
@@ -207,7 +206,7 @@ public class Scene{
             i++;
         }
 
-        divingBell[0].setPosition(new Vector3f(45, 40, -220));
+        divingBell[0].setPosition(new Vector3f(200, 40, 220));
         divingBell[0].setScale(3);
         divingBell[0].setRY(270);
         divingBell[0].getMaterial().setReflectance(1f);
@@ -216,13 +215,13 @@ public class Scene{
         divingBell[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBell[0]);
 
-        ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        ModeledEntity divingBell2 = new ModeledEntity(divingBell[0].getModel(), new Vector3f(-700, 40, -720), 0, 270, 0, 3);
         divingBell2.setMaterial(divingBell[0].getMaterial());
         divingBell2.getMaterial().setReflectance(1f);
         divingBell2.getMaterial().setShineDamper(10f);
         entities.add(divingBell2);
 
-        divingBellWater[0].setPosition(new Vector3f(45, 40, -220));
+        divingBellWater[0].setPosition(new Vector3f(200, 40, 220));
         divingBellWater[0].setScale(3);
         divingBellWater[0].setRY(270);
         divingBellWater[0].getMaterial().setReflectivity(new Vector4f(0.0f));
@@ -230,23 +229,33 @@ public class Scene{
         divingBellWater[0].setEnvironmentMap(this.getEnvironmentMap());
         entities.add(divingBellWater[0]);
 
-        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-55, 40, -30), 0, 270, 0, 3);
+        ModeledEntity divingBellWater2 = new ModeledEntity(divingBellWater[0].getModel(), new Vector3f(-700, 40, -720), 0, 270, 0, 3);
         divingBellWater2.setMaterial(divingBellWater[0].getMaterial());
         entities.add(divingBellWater2);
 
+        for(int j = 0; j < 5; j++){
+            x = rand.nextFloat()* 2000 - 1000;
+            z = rand.nextFloat()* 2000 - 1000;
+            int ry = rand.nextInt(360);
+            float scale = rand.nextInt(3) + 1;
+            ModeledEntity barrels = new ModeledEntity(barrel[0].getModel(), new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z) + 3, z), 0, 0, ry, scale);
+            barrels.setMaterial(barrel[0].getMaterial());
+            entities.add(barrels);
+        }
+
         renderer.renderShadowMap(this.getEntities(), this.getSun());
         //glass cubes
-        for(int j = 0; j < 10; j ++) {
-            float x = rand.nextFloat() * 200 + 50;
-            float z = rand.nextFloat() * 200 + 50;
+        for(int j = 0; j < 10; j ++){
+            x = rand.nextFloat()* -200 + 50;
+            z = rand.nextFloat()* -200 + 50;
             float scale = rand.nextInt(6) + 3;
-            ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
+            ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, terrains.get(0).getHeightOfTerrain(x, z) + 5, z), 0, 0, 0, scale);
             cubes.setMaterial(cube[0].getMaterial());
             cubes.getMaterial().setReflectance(1f);
             cubes.getMaterial().setShineDamper(10f);
             cubes.getMaterial().setReflectivity(new Vector4f(1f, 0.1f, 0.1f, 1f));
             environmentMap = Texture.newEmptyCubeMap(1024);
-            EnvironmentMapRenderer.renderEnvironmentMap(environmentMap, this, new Vector3f(x, 20, z), renderer);
+            EnvironmentMapRenderer.renderEnvironmentMap(environmentMap, this, new Vector3f(x, terrains.get(0).getHeightOfTerrain(x, z) + 5, z), renderer);
             cubes.setEnvironmentMap(environmentMap);
             entities.add(cubes);
         }

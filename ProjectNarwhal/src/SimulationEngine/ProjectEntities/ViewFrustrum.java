@@ -10,7 +10,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 
 public class ViewFrustrum implements Camera{
-    private Vector3f location = new Vector3f(-55,25,-30);
+    private Vector3f location = new Vector3f(200,25,220);
 
     private final float CONTROL_OFFSET = 10.5f;
     private float pitch;
@@ -57,23 +57,23 @@ public class ViewFrustrum implements Camera{
     }
 
     public void checkInputs(){
-        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W) && location.x >= -800 && location.x <=800 && location.z >= -800 && location.z <= 800){
-            currentSpeed = -0.6f;
+        if(Keyboard.isKeyDown(GLFW.GLFW_KEY_W) && location.x >= -1000 && location.x <=1000 && location.z >= -1000 && location.z <= 1000){
+            currentSpeed = -2f;
         }
-        else if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S) && location.x >= -800 && location.x <=800 && location.z >= -800 && location.z <= 800){
-            currentSpeed = 0.6f;
+        else if(Keyboard.isKeyDown(GLFW.GLFW_KEY_S) && location.x >= -1000 && location.x <=1000 && location.z >= -1000 && location.z <= 1000){
+            currentSpeed = 2f;
         }
-        else if(location.x <= -800){
-            location.x += 1;
+        else if(location.x <= -1000){
+            location.x += 2;
         }
-        else if(location.z <= -800){
-            location.z += 1;
+        else if(location.z <= -1000){
+            location.z += 2;
         }
-        else if(location.x >= 800) {
-            location.x -= 1;
+        else if(location.x >= 1000) {
+            location.x -= 2;
         }
-        else if(location.z >= 800){
-            location.z -= 1;
+        else if(location.z >= 1000){
+            location.z -= 2;
         }
         else{
             currentSpeed = 0;
@@ -93,8 +93,7 @@ public class ViewFrustrum implements Camera{
         if(Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && location.y + 0.6f < 120){
             location.y  += 0.6f;
         }
-
-        if ((location.x > 40 && location.x < 47) && (location.z > -222 && location.z < -216)) {
+        if ((location.x < -698 && location.x > -702) && (location.z < -718 && location.z > -722)) {
             glfwSetWindowShouldClose(window, true);
         }
     }
