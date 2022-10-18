@@ -62,7 +62,7 @@ public class Scene{
         ModeledEntity[] divingBellWater = AssimpLoader.loadModel("ProjectResources/DivingBellWater/divingBellWater.obj", loader, "/WaterTextures/placeholder", null);
         ModeledEntity[] kelp = AssimpLoader.loadModel("ProjectResources/Kelp/kelp.obj", loader, "/Kelp/kelp", null);
         ModeledEntity[] tallKelp = AssimpLoader.loadModel("ProjectResources/Kelp/tallKelp.obj", loader, "/Kelp/kelp", null);
-        ModeledEntity[] seaweed = AssimpLoader.loadModel("ProjectResources/Seaweed/seaweed.obj", loader, "/Seaweed/seaweed_diffuse", null);
+        ModeledEntity[] seaweed = AssimpLoader.loadModel("ProjectResources/Seaweed/seaweed.obj", loader, "/Seaweed/seaweed_diffuse", "/Seaweed/seaweed_normals");
 
         Random rand = new Random();
 
