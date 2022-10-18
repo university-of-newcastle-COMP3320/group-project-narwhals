@@ -2,7 +2,6 @@ import Scene.Scene;
 import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.ModelLoader;
-//import SimulationEngine.PostProcessing.Fbo;
 import SimulationEngine.PostProcessing.Fbo;
 import SimulationEngine.PostProcessing.PostProcessing;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
