@@ -1,5 +1,6 @@
-package SimulationEngine.PostProcessing;
+package SimulationEngine.PostProcessing.ContrastChanger;
 
+import SimulationEngine.PostProcessing.ImageRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 

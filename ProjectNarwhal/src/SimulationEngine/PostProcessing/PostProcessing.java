@@ -1,8 +1,8 @@
 package SimulationEngine.PostProcessing;
 
-import SimulationEngine.DisplayEngine.Display;
 import SimulationEngine.PostProcessing.BloomEffect.BrightFilter;
 import SimulationEngine.PostProcessing.BloomEffect.CombineFilter;
+import SimulationEngine.PostProcessing.ContrastChanger.ContrastChanger;
 import SimulationEngine.PostProcessing.GaussianBlur.HorizontalBlur;
 import SimulationEngine.PostProcessing.GaussianBlur.VerticalBlur;
 import org.lwjgl.opengl.GL11;
@@ -48,7 +48,6 @@ public class PostProcessing {
 		horizontalBlur.render(verticalBlur2.getOutputTexture());
 		verticalBlur.render(horizontalBlur.getOutputTexture());
 		combineFilter.render(colourTexture, verticalBlur.getOutputTexture());
-		//contrastChanger.render(colourTexture);
 		end();
 	}
 	
