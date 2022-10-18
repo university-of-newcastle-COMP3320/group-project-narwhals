@@ -6,8 +6,8 @@ import org.joml.Matrix4f;
 
 	public class SkyboxShader extends ShaderProgram{
 
-		private static final String VERTEX_FILE = "src/SimulationEngine/Skybox/skyboxVertexShader.glsl";
-		private static final String FRAGMENT_FILE = "src/SimulationEngine/Skybox/skyboxFragmentShader.glsl";
+		private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/skyboxVertexShader.glsl";
+		private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/skyboxFragmentShader.glsl";
 
 		private int location_projectionViewMatrix;
 		private int location_cubeMap;

@@ -4,7 +4,6 @@ import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.Loaders.ModelLoader;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
-import SimulationEngine.Reflections.EnvironmentMapRenderer;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Vector3f;

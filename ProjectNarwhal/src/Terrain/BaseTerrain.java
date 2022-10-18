@@ -1,12 +1,10 @@
 package Terrain;
 
 import SimulationEngine.Loaders.ModelLoader;
-import SimulationEngine.Models.Material;
 import SimulationEngine.Models.Model;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -2,7 +2,6 @@ package SimulationEngine.BaseShaders;
 
 import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
-import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -10,10 +9,11 @@ import org.joml.Vector4f;
 
 import java.util.List;
 
-public class StaticShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/VertexShader.glsl";
-    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/FragmentShader.glsl";
+public class NormalMapShader extends ShaderProgram{
+
+    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/NormalVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/NormalFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -33,9 +33,10 @@ public class StaticShader extends ShaderProgram{
     private int location_enviroMap;
     private int location_cameraPositon;
     private int location_reflectivity;
+    private int location_normalMap;
 
     //Constructor
-    public StaticShader() {
+    public NormalMapShader(){
         super(VERTEX_FILE, FRAGMENT_FILE);
         //uniforms will not work if this is not called
         getAllUniformLocations();
@@ -67,6 +68,7 @@ public class StaticShader extends ShaderProgram{
         location_enviroMap = super.getUniformLocation("enviroMap");
         location_cameraPositon = super.getUniformLocation("cameraPosition");
         location_reflectivity = super.getUniformLocation("reflectivity");
+        location_normalMap = super.getUniformLocation("normalMap");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -85,6 +87,7 @@ public class StaticShader extends ShaderProgram{
 
     public void connectTextureUnits(){
         super.loadInt(location_enviroMap, 1);
+        super.loadInt(location_normalMap, 2);
     }
 
     public void loadShineVariables(float damper, float reflectance){
@@ -140,5 +143,4 @@ public class StaticShader extends ShaderProgram{
             super.loadVec3(location_attenuation[i], lights.get(i).getAttenuation());
         }
     }
-
 }
