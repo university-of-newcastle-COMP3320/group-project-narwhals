@@ -8,10 +8,12 @@ import SimulationEngine.Models.Model;
 import SimulationEngine.ProjectEntities.ModeledEntity;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import SimulationEngine.BaseShaders.StaticShader;
+import SimulationEngine.Tools.Keyboard;
 import Water.WaterFrameBuffers;
 import Water.WaterSurface;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -128,11 +130,16 @@ public class ProjectNarwhal {
             fbos.unbindCurrentFrameBuffer();
 
             //Post Processing
-            multisampleFbo.bindFrameBuffer();
-            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , 130));
-            multisampleFbo.unbindFrameBuffer();
-            multisampleFbo.resolveToFbo(outputFbo);
-            PostProcessing.doPostProcessing(outputFbo.getColourTexture());
+            if (Keyboard.isKeyDown(org.lwjgl.glfw.GLFW.GLFW_KEY_Q)){
+                multisampleFbo.bindFrameBuffer();
+                renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , 130));
+                multisampleFbo.unbindFrameBuffer();
+                multisampleFbo.resolveToFbo(outputFbo);
+                PostProcessing.doPostProcessing(outputFbo.getColourTexture());
+            }
+            else{
+                renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, 1 , 0 , 130));
+            }
 
             glfwSwapBuffers(window); // swap the buffers
 

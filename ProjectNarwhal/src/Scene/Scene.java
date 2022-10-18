@@ -294,11 +294,10 @@ public class Scene{
         entities.add(divingBellWater2);
 
         for(int j = 0; j < 5; j++){
-            x = rand.nextFloat()* 2000 - 1000;
-            z = rand.nextFloat()* 2000 - 1000;
+            x = rand.nextFloat()* -900 + 200;
             int ry = rand.nextInt(360);
             float scale = rand.nextInt(3) + 1;
-            ModeledEntity barrels = new ModeledEntity(barrel[0].getModel(), new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, z) + 3, z), 0, 0, ry, scale);
+            ModeledEntity barrels = new ModeledEntity(barrel[0].getModel(), new Vector3f(x,terrains.get(0).getHeightOfTerrain(x, x) + 3, x), 0, 0, ry, scale);
             barrels.setMaterial(barrel[0].getMaterial());
             entities.add(barrels);
         }
