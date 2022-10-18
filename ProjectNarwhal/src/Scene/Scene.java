@@ -116,6 +116,17 @@ public class Scene{
         //Load ground surface tiles
         terrains.add(new BaseTerrain(-1f,-1f,loader, texturePack, blendMap, "TerrainTextures/heightmap"));
 
+        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
+        orca1.setMaterial(orca[0].getMaterial());
+        orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
+        orca1.setEnvironmentMap(this.getEnvironmentMap());
+        entities.add(orca1);
+
+        narwhal[0].setPosition(new Vector3f(0, 40, -20));
+        narwhal[0].setRY(270);
+        narwhal[0].setScale(3);
+        entities.add(narwhal[0]);
+
         //Random positioning of coral
         for(int i=0; i<40; i++){
             float x = rand.nextFloat()* 1000 - 500;
@@ -173,9 +184,6 @@ public class Scene{
         lights.add(new LightSource(new Vector3f(-56, 23, -31), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
 
-        boolean circle = false;
-        boolean circle2 = false;
-
         int i = 0;
         for (WaterSurface water : waters) {
             waters.get(i).setTexture(new WaterTexture(fbos.getReflectionTexture()));
@@ -210,9 +218,9 @@ public class Scene{
 
         renderer.renderShadowMap(this.getEntities(), this.getSun());
         //glass cubes
-        for(int j = 0; j < 10; j ++){
-            float x = rand.nextFloat()* 200 + 50;
-            float z = rand.nextFloat()* 200 + 50;
+        for(int j = 0; j < 10; j ++) {
+            float x = rand.nextFloat() * 200 + 50;
+            float z = rand.nextFloat() * 200 + 50;
             float scale = rand.nextInt(6) + 3;
             ModeledEntity cubes = new ModeledEntity(cube[0].getModel(), new Vector3f(x, 20, z), 0, 0, 0, scale);
             cubes.setMaterial(cube[0].getMaterial());
@@ -224,17 +232,6 @@ public class Scene{
             cubes.setEnvironmentMap(environmentMap);
             entities.add(cubes);
         }
-
-        ModeledEntity orca1 = new ModeledEntity(orca[0].getModel(), new Vector3f(-60, 60, -220), 0, 270, 0, 6);
-        orca1.setMaterial(orca[0].getMaterial());
-        orca1.getMaterial().setReflectivity(new Vector4f(0.0f));
-        orca1.setEnvironmentMap(this.getEnvironmentMap());
-        entities.add(orca1);
-
-        narwhal[0].setPosition(new Vector3f(0, 40, -20));
-        narwhal[0].setRY(270);
-        narwhal[0].setScale(3);
-        entities.add(narwhal[0]);
 
         //school of fish
         for (int j = 0; j<80; j++) {
