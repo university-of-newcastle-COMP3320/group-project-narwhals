@@ -1,7 +1,5 @@
 package SimulationEngine.Shadows;
 
-
-import SimulationEngine.DisplayEngine.RenderController;
 import SimulationEngine.ProjectEntities.ViewFrustrum;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

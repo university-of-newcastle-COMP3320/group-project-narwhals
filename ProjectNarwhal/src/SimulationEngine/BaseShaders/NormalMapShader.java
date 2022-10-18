@@ -1,18 +1,19 @@
-package Water;
+package SimulationEngine.BaseShaders;
 
-import SimulationEngine.BaseShaders.ShaderProgram;
 import SimulationEngine.ProjectEntities.Camera;
 import SimulationEngine.ProjectEntities.LightSource;
 import SimulationEngine.Tools.ProjectMaths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
-public class WaterShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/WaterVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/WaterFragmentShader.glsl";
+public class NormalMapShader extends ShaderProgram{
+
+    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/VertexShader.glsl";
+    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/FragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -23,17 +24,19 @@ public class WaterShader extends ShaderProgram {
     private int location_reflectance;
     private int location_waterColor;
     private int location_numberOfLights;
-    private int location_waveTime;
-    private int numberOfLights = 100;
-    private int location_reflectionTexture;
-    private int location_refractionTexture;
-    private int location_baseTexture;
-    private int location_dudvMap;
-    private int location_moveFactor;
-    private int location_cameraLocation;
+
+    private int numberOfLights = 10;
+    private int location_toShadowMapSpace;
+    private int location_shadowMap;
+    private int location_shadowDistance;
+    private int location_plane;
+    private int location_enviroMap;
+    private int location_cameraPositon;
+    private int location_reflectivity;
+    private int location_normalMap;
 
     //Constructor
-    public WaterShader() {
+    public NormalMapShader(){
         super(VERTEX_FILE, FRAGMENT_FILE);
         //uniforms will not work if this is not called
         getAllUniformLocations();
@@ -58,13 +61,14 @@ public class WaterShader extends ShaderProgram {
         location_reflectance = super.getUniformLocation("reflectance");
         location_waterColor = super.getUniformLocation("waterColor");
         location_numberOfLights = super.getUniformLocation("numberOfLights");
-        location_waveTime = super.getUniformLocation("waveTime");
-        location_reflectionTexture = super.getUniformLocation("reflectionTexture");
-        location_refractionTexture = super.getUniformLocation("refractionTexture");
-        location_baseTexture = super.getUniformLocation("baseTexture");
-        location_dudvMap = super.getUniformLocation("dudvMap");
-        location_moveFactor = super.getUniformLocation("moveFactor");
-        location_cameraLocation = super.getUniformLocation("cameraLocation");
+        location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
+        location_shadowMap = super.getUniformLocation("shadowMap");
+        location_shadowDistance = super.getUniformLocation("shadowDistance");
+        location_plane = super.getUniformLocation("plane");
+        location_enviroMap = super.getUniformLocation("enviroMap");
+        location_cameraPositon = super.getUniformLocation("cameraPosition");
+        location_reflectivity = super.getUniformLocation("reflectivity");
+        location_normalMap = super.getUniformLocation("normalMap");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -73,18 +77,7 @@ public class WaterShader extends ShaderProgram {
             location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
             location_lightColor[i] = super.getUniformLocation("lightColor["+i+"]");
             location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
-
         }
-    }
-
-    public void connectTextureUnits(){
-        super.loadInt(location_reflectionTexture, 0);
-        super.loadInt(location_refractionTexture, 1);
-        super.loadInt(location_dudvMap, 2);
-    }
-
-    public void loadMoveFactor(float moveFactor){
-        super.loadFloat(location_moveFactor, moveFactor);
     }
 
     public void loadNumberOfLights(int number){
@@ -92,9 +85,30 @@ public class WaterShader extends ShaderProgram {
         super.loadFloat(location_numberOfLights, (float)number);
     }
 
+    public void connectTextureUnits(){
+        super.loadInt(location_enviroMap, 1);
+        super.loadInt(location_normalMap, 2);
+    }
+
     public void loadShineVariables(float damper, float reflectance){
         super.loadFloat(location_shineDamper, damper);
         super.loadFloat(location_reflectance, reflectance);
+    }
+
+    public void bindShadowMap(){
+        super.loadInt(location_shadowMap, 5);
+    }
+
+    public void loadShadowDistance(float dist){
+        super.loadFloat(location_shadowDistance, dist);
+    }
+
+    public void loadToShadowSpaceMatrix(Matrix4f matrix){
+        super.loadMatrix(location_toShadowMapSpace, matrix);
+    }
+
+    public void loadClippingPlane(Vector4f plane){
+        super.loadVec4(location_plane, plane);
     }
 
     public void loadWaterColor(float r, float g, float b){
@@ -112,8 +126,13 @@ public class WaterShader extends ShaderProgram {
 
     public void loadViewMatrix(Camera camera){
         Matrix4f viewMatrix = ProjectMaths.createViewMatrix(camera);
+        super.loadVec3(location_cameraPositon, camera.getLocation());
         super.loadMatrix(location_viewMatrix, viewMatrix);
-        super.loadVec3(location_cameraLocation, camera.getLocation());
+    }
+
+    //if models change the color of the reflection, this will also need to change to take in a vec4
+    public void loadReflectivity(float reflectivity){
+        super.loadFloat(location_reflectivity, reflectivity);
     }
 
     public void loadLights(List<LightSource> lights){
@@ -123,10 +142,5 @@ public class WaterShader extends ShaderProgram {
             super.loadVec3(location_lightColor[i], lights.get(i).getColour());
             super.loadVec3(location_attenuation[i], lights.get(i).getAttenuation());
         }
-    }
-
-    public void loadWaveTime(float waveTime)
-    {
-        super.loadFloat(location_waveTime, waveTime);
     }
 }

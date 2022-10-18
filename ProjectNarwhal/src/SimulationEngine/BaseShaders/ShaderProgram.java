@@ -11,8 +11,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public abstract class ShaderProgram {
 

@@ -12,8 +12,8 @@ import java.util.List;
 
 public class StaticShader extends ShaderProgram{
 
-    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/VertexShader.glsl";
-    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/FragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/SimulationEngine/BaseShaders/VertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/SimulationEngine/BaseShaders/FragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
@@ -33,7 +33,6 @@ public class StaticShader extends ShaderProgram{
     private int location_enviroMap;
     private int location_cameraPositon;
     private int location_reflectivity;
-    private int location_normalMap;
 
     //Constructor
     public StaticShader() {
@@ -68,7 +67,6 @@ public class StaticShader extends ShaderProgram{
         location_enviroMap = super.getUniformLocation("enviroMap");
         location_cameraPositon = super.getUniformLocation("cameraPosition");
         location_reflectivity = super.getUniformLocation("reflectivity");
-        location_normalMap = super.getUniformLocation("normalMap");
 
         location_lightColor = new int[numberOfLights];
         location_lightPosition = new int[numberOfLights];
@@ -87,7 +85,6 @@ public class StaticShader extends ShaderProgram{
 
     public void connectTextureUnits(){
         super.loadInt(location_enviroMap, 1);
-        super.loadInt(location_normalMap, 2);
     }
 
     public void loadShineVariables(float damper, float reflectance){

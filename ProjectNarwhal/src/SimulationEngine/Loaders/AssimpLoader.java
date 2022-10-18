@@ -85,9 +85,18 @@ public class AssimpLoader {
 
         ModelLoader loader = new ModelLoader();
         Texture texture =  new Texture(loader.loadTexture(texturePath));
-        Texture normalMap = new Texture(loader.loadTexture(normalMapPath));
+        boolean hasNormalMap;
+        Texture normalMap;
+        if(normalMapPath == null){
+            normalMap = null;
+            hasNormalMap = false;
+        }
+        else{
+            normalMap = new Texture(loader.loadTexture(normalMapPath));
+            hasNormalMap = true;
+        }
 
-        Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture, normalMap);
+        Material material = new Material(ambient, diffuse, specular, reflectivity, 0, 1, texture, normalMap, hasNormalMap);
         materials.add(material);
     }
 

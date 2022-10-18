@@ -1,26 +1,27 @@
 package SimulationEngine.DisplayEngine;
 
+import SimulationEngine.BaseShaders.NormalMapShader;
+import SimulationEngine.BaseShaders.StaticShader;
 import SimulationEngine.Models.Texture;
 import SimulationEngine.ProjectEntities.ModeledEntity;
-import SimulationEngine.BaseShaders.StaticShader;
 import SimulationEngine.Skybox.CubeMap;
 import SimulationEngine.Tools.ProjectMaths;
-
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-public class EntityRenderer {
+public class NormalMapRenderer {
 
-    private StaticShader shader;
+    private NormalMapShader shader;
     private CubeMap entityMap;
 
     //Constructor, creates the view frustrum matrix and loads it
-    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
+    public NormalMapRenderer(NormalMapShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
@@ -51,6 +52,8 @@ public class EntityRenderer {
         shader.loadShineVariables(entity.getMaterial().getShineDamper(), entity.getMaterial().getReflectance());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMaterial().getTexture().getID());
+        GL13.glActiveTexture(GL13.GL_TEXTURE2);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMaterial().getNormalMap().getID());
     }
 
     private void unbindEntity(){
@@ -78,5 +81,4 @@ public class EntityRenderer {
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
         GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, entityMap.getID());
     }
-
 }
