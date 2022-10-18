@@ -50,7 +50,7 @@ public class Scene{
         ModeledEntity[] models4 = AssimpLoader.loadModel("ProjectResources/Coral4/4.obj", loader, "/Coral4/coral4", null);
         ModeledEntity[] models5 = AssimpLoader.loadModel("ProjectResources/Coral5/coral5.obj", loader, "/Coral5/coral5", null);
         ModeledEntity[] divingBell = AssimpLoader.loadModel("ProjectResources/DivingBell/Diving_Bell.obj", loader, "/DivingBell/Copper", "DivingBell/Copper_Normal");
-        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/whiteColor", null);
+        ModeledEntity[] narwhal = AssimpLoader.loadModel("ProjectResources/Narwhal/new-narwhal.obj", loader, "Narwhal/new-narwhalTexture", null);
         ModeledEntity[] orca = AssimpLoader.loadModel("ProjectResources/Orca/orca.obj", loader, "/Orca/orcaColor", null);
         ModeledEntity[] iceChunk1 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic1.obj", loader, "/IceChunks/ice-texture", null);
         ModeledEntity[] iceChunk2 = AssimpLoader.loadModel("ProjectResources/IceChunks/ic2.obj", loader, "/IceChunks/ice-texture", null);
