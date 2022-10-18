@@ -212,8 +212,8 @@ public class Scene{
         //Sun light source
         lights = new ArrayList<>();
         lights.add(sun);
-        lights.add(new LightSource(new Vector3f(-700, 40, -720), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new LightSource(new Vector3f(200, 40, 220), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(-700, 23, -720), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new LightSource(new Vector3f(200, 23, 220), new Vector3f(2f, 2f, 1.646f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         int i = 0;
