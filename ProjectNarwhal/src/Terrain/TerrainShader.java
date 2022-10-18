@@ -13,8 +13,8 @@ import java.util.List;
 
 public class TerrainShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/Terrain/TerrainVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/Terrain/TerrainFragmentShader.glsl";
+    private static final String VERTEX_FILE = "ProjectResources/ExternalShaders/TerrainVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "ProjectResources/ExternalShaders/TerrainFragmentShader.glsl";
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
