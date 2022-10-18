@@ -43,12 +43,13 @@ public class ProjectNarwhal {
         ModelLoader loader = new ModelLoader();
         StaticShader shader = new StaticShader();
         WaterFrameBuffers fbos = new WaterFrameBuffers();
+        WaterFrameBuffers fbos2 = new WaterFrameBuffers();
         Fbo multisampleFbo = new Fbo();
         Fbo outputFbo = new Fbo(Fbo.DEPTH_RENDER_BUFFER);
         PostProcessing.init(loader);
         RenderController renderer = new RenderController(loader, camera, fbos);
 
-        Scene scene = new Scene(loader, fbos, renderer);
+        Scene scene = new Scene(loader, fbos, fbos2, renderer);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -66,6 +67,15 @@ public class ProjectNarwhal {
             camera.getLocation().y += distance;
             camera.invertPitch();
             fbos.unbindCurrentFrameBuffer();
+
+            fbos2.bindReflectionFrameBuffer();
+            distance = 2 * (camera.getLocation().y - scene.getWaters().get(0).getY());
+            camera.getLocation().y -= distance;
+            camera.invertPitch();
+            renderer.renderScene(scene.getEntities(), scene.getTerrains(), scene.getLights(), camera, new Vector4f(0, -10 , 0 , scene.getWaters().get(0).getY() - 25));
+            camera.getLocation().y += distance;
+            camera.invertPitch();
+            fbos2.unbindCurrentFrameBuffer();
 
             //Refractions
             fbos.bindRefractionFrameBuffer();
@@ -96,6 +106,7 @@ public class ProjectNarwhal {
         multisampleFbo.cleanUp();
         loader.cleanUp();
         fbos.cleanUp();
+        fbos2.cleanUp();
         renderer.cleanUp();
         shader.cleanUp();
     }
